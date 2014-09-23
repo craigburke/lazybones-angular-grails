@@ -1,0 +1,25 @@
+**/.DS_Store
+
+# IDEA
+*.iml
+*.ipr
+*.iws
+.idea
+
+# Eclipse (GGTS)
+.classpath
+.project
+.settings
+target-eclipse
+
+
+# Grails
+target
+out
+.sass-cache
+
+# Gradle
+.gradle
+node_modules
+build
+buildPlugins

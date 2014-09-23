@@ -1,0 +1,104 @@
+@import "compass";
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+
+$primary: #4e8908;
+$lightened_primary: lighten($primary, 10);
+$darkened_primary: darken($primary, 10);
+$background-color: #3b4145;
+
+$secondary: #3b4145;
+$lightened_secondary: lighten($secondary, 10);
+$darkened_secondary: darken($secondary, 15);
+
+html {
+  font-family: "Open Sans", sans-serif;
+  letter-spacing: .1em;
+}
+
+
+.navbar {
+  text-shadow: 2px 2px 5px $darkened_primary;
+  background: $primary;
+  @include background-image(linear_gradient($primary, $darkened_primary));
+  border-bottom: 2px solid $darkened_primary;
+
+  .navbar-brand {
+    font-size: 1.4em;
+    color: white;
+    text-shadow: 3px 3px 2px $darkened_primary;
+  }
+}
+
+.navbar-nav, .navbar-right {
+  >li >a {
+    color: white;
+  }
+
+  li a:hover {
+    background: $lightened_primary;
+  }
+}
+
+
+h1 {
+  color: $primary;
+}
+
+
+.btn {
+  @include background-image(linear_gradient($secondary 55%, $darkened_secondary));
+  color: white;
+  text-shadow: 1px 1px 2px $darkened_secondary;
+  border: 1px solid $darkened_secondary;
+  @include border-radius(5px);
+  &:hover {
+    color: white;
+    @include background-image(linear_gradient($lightened_secondary 55%, $secondary));
+    border: 1px solid $secondary;
+  }
+}
+
+.btn-primary {
+  @include background-image(linear_gradient($primary 55%, $darkened_primary));
+  color: white;
+  text-shadow: 1px 1px 2px $darkened_primary;
+  border: 1px solid $darkened_primary;
+  &:hover {
+    @include background-image(linear_gradient($lightened_primary 55%, $primary));
+    border: 1px solid $primary;
+  }
+}
+
+.dropdown-menu {
+
+  border: 2px solid transparentize($lightened_secondary, .5);
+  padding: 5px;
+
+  .btn {
+    font-size: .8em;
+    background: lightgrey;
+    color: $secondary;
+    border-color: darken(lightgrey, 10);
+    text-shadow: 1px 1px 2px white;
+  }
+  td, th {
+    padding: 1px;
+  }
+  table:focus {
+    outline: none;
+  }
+
+}
+
+.pagination>.active
+{
+  &>span:focus,
+  &>a:focus,
+  &>span:hover,
+  &>a:hover,
+  &>span,
+  &>a {
+    background-color: $primary;
+    border-color: $primary;
+  }
+}

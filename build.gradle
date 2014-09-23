@@ -1,0 +1,7 @@
+plugins {
+  id "uk.co.cacoethes.lazybones-templates" version "1.2.2"
+}
+
+lazybones {
+    repositoryName = "<account>/<templates-repo>"
+}
