@@ -27,5 +27,5 @@ What follows are the steps to scaffold a new angular CRUD module:
 	./gradlew create-domain-class -PgrailsArgs=Foo
 
 * Generate the angular module
-	./gradlew ngGenerate -PngModule=Foo
+	./gradlew ngGenerate -PdomainClass=Foo
 

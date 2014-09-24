@@ -45,7 +45,7 @@ You can generate a CRUD AngularJS application based on a domain class by followi
 
 **2. Generate an Angular module based on your domain object**
 ```bash
-./gradlew ngGenerate -PngModule=Foo
+./gradlew ngGenerate -PdomainClass=Foo
 ```
 
 This will create a module with views, services, controllers, routes, etc. In the example above you can access your app by visiting **/foo.**

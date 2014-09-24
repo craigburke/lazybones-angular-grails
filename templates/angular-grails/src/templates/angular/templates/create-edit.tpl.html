@@ -6,6 +6,11 @@
 <div flash-message ></div>
 
 <form name="form" class="form-horizontal" role="form" novalidate>
+<% domainProperties.each { property -> %>
+	<div field-container label="${property.label}" invalid="form.${property.name}.\$invalid">
+		<input name="${property.name}" ng-model="ctrl.item.${property.name}" />
+	</div>
+<% } %>
 
     <div>
         <button crud-button="save" item="ctrl.item" is-disabled="form.\$invalid"></button>

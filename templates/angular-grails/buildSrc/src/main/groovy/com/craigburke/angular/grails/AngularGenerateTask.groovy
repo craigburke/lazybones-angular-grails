@@ -2,31 +2,53 @@ package com.craigburke.angular.grails
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
+import java.lang.reflect.Modifier
 
 class AngularGenerateTask extends DefaultTask {	
 	private String fullModule
 	private String modulePath
 	private String resourceName
 	private String jsRoot
+	private String moduleName
+	private def domainProperties
 
 	String baseModule
-	String moduleName
+	String domainClass
 	String group
 
 	@TaskAction
 	void generate() {
-		moduleName = formatModuleName(moduleName)
+		moduleName = getModuleName(domainClass)
 		fullModule = "${baseModule}.${moduleName}"
 		modulePath = findModulePath(fullModule)
         resourceName = moduleName[0].toUpperCase() + moduleName.substring(1)
-
         jsRoot = "grails-app/assets/javascripts"
-
+		
+		domainProperties = getDomainProperties()
 		createModule()
 		createTemplates()		
 		createApp()
 		setUrlMappings()
 	}
+	
+	private def getDomainProperties() {
+		def classLoader = new GroovyClassLoader()
+		classLoader.addClasspath('grails-app/domain/')
+		
+		def domainObject = classLoader.loadClass("${group}.${domainClass}")
+			
+		def properties = []
+		def fields = domainObject.declaredFields.findAll { !Modifier.isStatic(it.modifiers) && it.name != 'metaClass' }
+		
+		fields.each { 
+			String propertyName = it.name
+			String label = propertyName[0].toUpperCase() + propertyName.substring(1).replaceAll(/([A-Z])/, / $1/)			
+			properties << [name: propertyName, label: label ]
+		}
+		
+		properties
+	}
+
 
 	private String findModulePath(module) {
 		String path = module.replace('.', '/')
@@ -34,8 +56,8 @@ class AngularGenerateTask extends DefaultTask {
 		path.replaceAll(/\/-/, '/') + '/'
 	}
 
-	private String formatModuleName(module) {
-		module ? module[0].toLowerCase() + module.substring(1) : ''
+	private String getModuleName(domainClass) {
+		domainClass ? domainClass[0].toLowerCase() + domainClass.substring(1) : ''
 	}
 
 	def createModule() {
@@ -62,7 +84,7 @@ class AngularGenerateTask extends DefaultTask {
 
 	def createTemplates() {
         String destination = "${jsRoot}/templates/${modulePath}"
-        def props = [resourceName: resourceName]
+        def props = [resourceName: resourceName, maxListItems: 4, domainProperties: domainProperties]
 
 		project.copy {
   			from 'src/templates/angular/templates'

@@ -88,7 +88,7 @@ test.dependsOn jasmineRun
 task ngGenerate(type: AngularGenerateTask) {
 	baseModule = project.angularModule
 	group = project.group
-	moduleName = project.hasProperty('ngModule') ? ngModule : null
+	domainClass = project.hasProperty('domainClass') ? project.domainClass : null
 }
 
 dependencies {
@@ -120,4 +120,6 @@ dependencies {
 	runtime('org.grails.plugins:hibernate4:4.1.11.7') {
     		exclude module: 'xml-apis'
 	}
+	
+	
 }

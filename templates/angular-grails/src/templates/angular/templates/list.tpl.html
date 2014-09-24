@@ -7,11 +7,17 @@
 
     <thead sort-header ng-model="ctrl.sort" on-sort="ctrl.reload()">
         <th sortable-column title="Id" property="id"></th>
+		<% domainProperties.eachWithIndex { property, index -> if (index <= maxListItems ) { %>
+		<th sortable-column title="${property.label}" property="${property.name}"></th>
+		<% }} %>
         <th>&nbsp;</th>
     </thead>
     <tbody>
         <tr ng-repeat="item in ctrl.items">
             <td><a href="#/show/{{item.id}}">{{item.id}}</a></td>
+			<% domainProperties.eachWithIndex { property, index -> if (index <= maxListItems ) { %>
+			<td>{{ item.${property.name} }}</td>
+			<% } } %>
             <td>
                 <button crud-button="edit" item="item" ></button>
                 <button crud-button="delete" item="item" after-action="ctrl.reload()"></button>
