@@ -15,8 +15,9 @@ Now that you have the template installed locally you can create a new Grails app
 lazybones create angular-grails 0.1 my-project
 ```
 
-## 
-This project makes use of the [Grails Gradle plugin](https://github.com/grails/grails-gradle-plugin). You can start the application like this:
+## Running your project
+Any new project makes use of the [Grails Gradle plugin](https://github.com/grails/grails-gradle-plugin). You can start the application like this:
+
 ```bash
 ./gradlew run
 ```
@@ -24,15 +25,30 @@ You can run all the tests (Groovy and Javascript) like this:
 ```bash
 ./gradlew test
 ```
-
 If you want to run just the Jasmine (JavaScript) tests use this command
 ```bash
 ./gradlew jasmineRun
 ```
+
 The following will run the Jasmine tests in watch mode (so that tests are rerun when your source changes):
 ```bash
 ./gradlew jasmineWatch
 ```
+
+## Generate Scaffolding
+You can generate a CRUD AngularJS application based on a domain class by following these steps:
+
+**1. Create a new domain class**
+```bash
+./gradlew grails-create-domain-class -PgrailsArgs=Foo
+```
+
+**2. Generate an Angular module based on your domain object**
+```bash
+./gradlew ngGenerate -PngModule=Foo
+```
+
+This will create a module with views, services, controllers, routes, etc. In the example above you can access your app by visiting **/foo.**
 
 ## The Grails AngularController
 This is a slightly modified version of the standard Grails RestfulController. It adds support for server side paging and can be used exactly the same way the RestfulController is used.
