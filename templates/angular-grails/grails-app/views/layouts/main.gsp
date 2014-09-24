@@ -30,8 +30,6 @@
         </div>
         <ul class="nav navbar-nav navbar-left">
             <li><g:link uri="/"><i class="fa fa-home"></i> Home</g:link></li>
-            <li><g:link uri="/author"><i class="fa fa-user"></i> Author List</g:link></li>
-            <li><g:link uri="/book"><i class="fa fa-book"></i> Book List</g:link></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="https://github.com/craigburke/angular-grails"><i class="fa fa-github"></i> Github</a></li>

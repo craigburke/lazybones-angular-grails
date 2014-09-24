@@ -1,4 +1,3 @@
-<%@ page import="com.craigburke.angular.Book" %>
 <!DOCTYPE html>
 <html>
 	<head>

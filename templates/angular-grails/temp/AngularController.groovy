@@ -1,4 +1,4 @@
-package com.craigburke.angular
+package ${group}
 
 import grails.rest.RestfulController
 
@@ -24,6 +24,6 @@ class AngularController<T> extends RestfulController<T> {
         int startRange = offset + 1;
         int endRange = Math.min(startRange + max, totalCount)
 
-        "${startRange}-${endRange}/${totalCount}"
+        "\${startRange}-\${endRange}/\${totalCount}"
     }
 }

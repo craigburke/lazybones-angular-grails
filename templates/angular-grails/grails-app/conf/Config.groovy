@@ -1,4 +1,4 @@
-grails.project.groupId = "com.craigburke.angular"
+grails.project.groupId = "${group}"
 
 grails.mime.disable.accept.header.userAgents = ['Gecko', 'WebKit', 'Presto', 'Trident']
 grails.mime.types = [
