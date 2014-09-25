@@ -1,7 +1,7 @@
-describe('angularGrails CrudResourceFactory: ', function() {
+describe('grailsCrud CrudResourceFactory: ', function() {
     var CrudResourceFactory;
 
-    beforeEach(module('angularGrails.services.crud'));
+    beforeEach(module('grailsCrud.services.crud'));
     beforeEach(module(function($provide) {
         $provide.value('rootUrl', '/');
     }));

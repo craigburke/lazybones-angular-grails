@@ -1,8 +1,8 @@
-describe('angularGrails flashDirective: ', function() {
+describe('grailsCrud flashDirective: ', function() {
     var $rootScope, mockFlashService, directiveScope;
     var message = {message: 'MESSAGE', title: 'TITLE', type: 'error'};
 
-    beforeEach(module('angularGrails.directives.flash'));
+    beforeEach(module('grailsCrud.directives.flash'));
     beforeEach(module(function($provide) {
         mockFlashService = {
             clear: function() {},

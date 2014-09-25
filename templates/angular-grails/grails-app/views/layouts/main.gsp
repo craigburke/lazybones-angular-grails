@@ -9,7 +9,7 @@
   		<asset:stylesheet src="application.css"/>
 
         <asset:script type="text/javascript">
-            angular.module('angularGrails.constants', [])
+            angular.module('grailsCrud.constants', [])
                 .constant('rootUrl', '${request.contextPath}')
                 .constant('pageSize', ${grailsApplication.config.angular.pageSize})
                 .constant('dateFormat', '${grailsApplication.config.angular.dateFormat}');
@@ -19,7 +19,7 @@
         <asset:deferredScripts />
 		<g:layoutHead/>
 	</head>
-	<body ng-app="${pageProperty(name: 'body.ng-app') ?: 'angularGrails'}">
+	<body ng-app="${pageProperty(name: 'body.ng-app') ?: 'grailsCrud'}">
 
     <div class="container-fluid">
 

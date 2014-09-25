@@ -1,3 +1,6 @@
+//= require_self
+//= require_tree /templates/grails-crud/directives
+
 'use strict';
 
 /* @ngInject */
@@ -59,7 +62,7 @@ function sortableColumn() {
     }
 }
 
-angular.module('angularGrails.directives.sort', [])
+angular.module('grailsCrud.directives.sort', [])
     .controller('SortHeaderController', SortHeaderController)
     .directive('sortHeader', sortHeader)
     .directive('sortableColumn', sortableColumn);

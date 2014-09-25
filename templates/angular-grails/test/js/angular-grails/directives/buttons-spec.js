@@ -1,12 +1,12 @@
-describe('angularGrails crudButton: ', function() {
+describe('grailsCrud crudButton: ', function() {
 
     var _message = null;
     var $rootScope, $compile, $location, $httpBackend, mockFlashService, DefaultResource;
     var item = {id: 1, name: 'Foo'};
     var afterFn = jasmine.createSpy('afterFn');
 
-    beforeEach(module('angularGrails.directives.buttons'));
-    beforeEach(module('angularGrails.services.crud'));
+    beforeEach(module('grailsCrud.directives.buttons'));
+    beforeEach(module('grailsCrud.services.crud'));
     beforeEach(module(function($provide) {
         mockFlashService = {
             clear: function() {

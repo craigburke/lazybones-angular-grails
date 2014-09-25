@@ -1,5 +1,5 @@
 //= require_self
-//= require_tree /template/angular-grails/directives/buttons
+//= require_tree /templates/grails-crud/directives/buttons
 
 'use strict';
 
@@ -130,6 +130,6 @@ function crudButton($location, $injector, defaultCrudResource, FlashService) {
     }
 }
 
-angular.module('angularGrails.directives.buttons', ['angularGrails.services'])
+angular.module('grailsCrud.directives.buttons', ['grailsCrud.services'])
     .directive('crudButton', crudButton);
 

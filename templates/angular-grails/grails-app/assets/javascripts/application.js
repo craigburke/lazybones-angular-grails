@@ -1,1 +1,1 @@
-//= require angular-grails/module
+//= require grails-crud/module

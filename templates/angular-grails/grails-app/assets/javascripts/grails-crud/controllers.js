@@ -34,7 +34,7 @@ function DefaultCreateEditCtrl(item) {
     self.item = item;
 }
 
-angular.module('angularGrails.controllers', [])
+angular.module('grailsCrud.controllers', [])
     .controller('DefaultListCtrl', DefaultListCtrl)
     .controller('DefaultShowCtrl', DefaultShowCtrl)
     .controller('DefaultCreateEditCtrl', DefaultCreateEditCtrl);

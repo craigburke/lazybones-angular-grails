@@ -1,9 +1,9 @@
-describe('angularGrails fields: ', function() {
+describe('grailsCrud fields: ', function() {
 
     var $rootScope, $compile, $httpBackend;
 
     beforeEach(module('ui.bootstrap'));
-    beforeEach(module('angularGrails.directives.fields'));
+    beforeEach(module('grailsCrud.directives.fields'));
 
     beforeEach(inject(function(_$rootScope_, _$compile_, _$httpBackend_) {
         $rootScope = _$rootScope_;
