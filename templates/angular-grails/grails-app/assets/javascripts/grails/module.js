@@ -7,12 +7,12 @@
 
 'use strict';
 
-angular.module('grailsCrud', [
+angular.module('grails', [
     'ngRoute',
     'ngResource',
     'ui.bootstrap',
-    'grailsCrud.directives',
-    'grailsCrud.services',
-    'grailsCrud.controllers',
-    'grailsCrud.constants'
+    'grails.directives',
+    'grails.services',
+    'grails.controllers',
+    'grails.constants'
 ]);

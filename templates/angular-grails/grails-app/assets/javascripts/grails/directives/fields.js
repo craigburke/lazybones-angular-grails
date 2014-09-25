@@ -1,5 +1,5 @@
 //= require_self
-//= require_tree /templates/grails-crud/directives/fields
+//= require_tree /templates/grails/directives/fields
 
 'use strict';
 
@@ -46,7 +46,7 @@ function dateField() {
     }
 }
 
-angular.module('grailsCrud.directives.fields', ['ui.bootstrap'])
+angular.module('grails.directives.fields', ['ui.bootstrap'])
     .directive("fieldContainer", fieldContainer)
     .directive("displayField", displayField)
     .directive("dateField", dateField);

@@ -68,8 +68,8 @@ This project makes use of the Asset Pipeline along with two AngularJs specific a
 * [Angular Template Asset Pipeline](https://github.com/craigburke/angular-template-asset-pipeline)
 * [Angular Annotate Asset Pipeline](https://github.com/craigburke/angular-annotate-asset-pipeline)
 
-## The AngularJS grailsCrud module
-This project includes an AngularJS module called **grailsCrud** that you can include as a dependency in your own angular modules.
+## The AngularJS grails module
+This project includes an AngularJS module called **grails** that you can include as a dependency in your own angular modules.
 
 ### Services
 

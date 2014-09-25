@@ -1,5 +1,5 @@
 //= require_self
-//= require_tree /templates/grails-crud/directives
+//= require_tree /templates/grails/directives
 
 'use strict';
 
@@ -44,5 +44,5 @@ function flashMessage(FlashService) {
     }
 }
 
-angular.module('grailsCrud.directives.flash', ['grailsCrud.services'])
+angular.module('grails.directives.flash', ['grails.services'])
     .directive('flashMessage', flashMessage);

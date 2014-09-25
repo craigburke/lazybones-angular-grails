@@ -1,9 +1,9 @@
-describe('grailsCrud sort: ', function() {
+describe('grails sort: ', function() {
 
     var $rootScope, $compile, $httpBackend;
     var onSort = jasmine.createSpy();
 
-    beforeEach(module('grailsCrud.directives.sort'));
+    beforeEach(module('grails.directives.sort'));
 
     beforeEach(inject(function (_$rootScope_, _$compile_, _$httpBackend_) {
         $rootScope = _$rootScope_;

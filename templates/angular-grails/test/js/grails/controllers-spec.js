@@ -1,8 +1,8 @@
-describe('grailsCrud Controllers: ', function() {
+describe('grails Controllers: ', function() {
 
     var item = {'foo': 'bar', 'count': 100};
 
-    beforeEach(module('grailsCrud.controllers'));
+    beforeEach(module('grails.controllers'));
 
     describe('DefaultShowCtrl', function() {
         var ctrl, scope;

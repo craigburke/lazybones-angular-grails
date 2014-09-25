@@ -3,7 +3,7 @@
 //= require_tree /templates/${modulePath}
 
 'use strict';
-angular.module('${moduleName}', ['grailsCrud', '${moduleName}.services'])
+angular.module('${moduleName}', ['grails', '${moduleName}.services'])
 .value('defaultCrudResource', '${defaultResource}')
 .config(function(<%='$routeProvider'%>) {
 <%='$routeProvider'%>

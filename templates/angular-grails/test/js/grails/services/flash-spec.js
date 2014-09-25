@@ -1,7 +1,7 @@
-describe('grailsCrud FlashService: ', function() {
+describe('grails FlashService: ', function() {
     var $rootScope, FlashService;
 
-    beforeEach(module('grailsCrud.services.flash'));
+    beforeEach(module('grails.services.flash'));
     beforeEach(inject(function(_FlashService_, _$rootScope_) {
         FlashService = _FlashService_;
         $rootScope = _$rootScope_;

@@ -1,5 +1,5 @@
 //= require_self
-//= require_tree /templates/grails-crud/directives
+//= require_tree /templates/grails/directives
 
 'use strict';
 
@@ -62,7 +62,7 @@ function sortableColumn() {
     }
 }
 
-angular.module('grailsCrud.directives.sort', [])
+angular.module('grails.directives.sort', [])
     .controller('SortHeaderController', SortHeaderController)
     .directive('sortHeader', sortHeader)
     .directive('sortableColumn', sortableColumn);

@@ -76,5 +76,5 @@ function CrudResourceFactory(rootUrl, $resource, $q, $http) {
     };
 }
 
-angular.module('grailsCrud.services.crud', ['ngResource'])
+angular.module('grails.services.crud', ['ngResource'])
     .factory('CrudResourceFactory', CrudResourceFactory);

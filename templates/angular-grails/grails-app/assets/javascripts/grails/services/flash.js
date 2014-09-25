@@ -60,5 +60,5 @@ function FlashService($rootScope) {
     return FlashService;
 }
 
-angular.module('grailsCrud.services.flash', [])
+angular.module('grails.services.flash', [])
     .factory('FlashService', FlashService);
