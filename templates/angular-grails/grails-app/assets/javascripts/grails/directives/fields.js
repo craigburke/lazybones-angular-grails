@@ -16,7 +16,7 @@ function fieldContainer() {
             var field = ($element.find('input').length > 0) ? $element.find('input') : $element.find('select');
             field.addClass('form-control');
         },
-        templateUrl: 'field.html'
+        templateUrl: 'field-container.html'
     }
 }
 
