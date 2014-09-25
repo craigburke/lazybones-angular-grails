@@ -4,5 +4,5 @@ function ${defaultResource}(CrudResourceFactory) {
     return CrudResourceFactory('${resourceUrl}', '${resourceName}');
 }
 
-angular.module('${moduleName}.services', ['grailsCrud'])
+angular.module('${moduleName}.services', ['grails'])
     .factory('${defaultResource}', ${defaultResource});
