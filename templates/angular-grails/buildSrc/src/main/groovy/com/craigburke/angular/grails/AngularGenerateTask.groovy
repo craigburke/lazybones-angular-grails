@@ -40,10 +40,12 @@ class AngularGenerateTask extends DefaultTask {
 		def properties = []
 		def fields = domainObject.declaredFields.findAll { !Modifier.isStatic(it.modifiers) && it.name != 'metaClass' }
 		
-		fields.each { 
-			String propertyName = it.name
-			String label = propertyName[0].toUpperCase() + propertyName.substring(1).replaceAll(/([A-Z])/, / $1/)			
-			properties << [name: propertyName, label: label ]
+		fields.each { field ->
+			String propertyName = field.name
+			String label = propertyName[0].toUpperCase() + propertyName.substring(1).replaceAll(/([A-Z])/, / $1/)
+			String simpleType = field.genericType.name - 'java.lang.' - 'java.util.' - "${group}."
+					
+			properties << [name: propertyName, label: label, type : simpleType ]
 		}
 		
 		properties
@@ -53,7 +55,7 @@ class AngularGenerateTask extends DefaultTask {
 	private String findModulePath(module) {
 		String path = module.replace('.', '/')
 		path = path.replaceAll(/([A-Z])/,/-$1/).toLowerCase().replaceAll(/^-/,'')
-		path.replaceAll(/\/-/, '/') + '/'
+		path.replaceAll(/\/-/, '/')
 	}
 
 	private String getModuleName(domainClass) {

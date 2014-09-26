@@ -84,13 +84,6 @@ function crudButton($location, $injector, defaultCrudResource, FlashService) {
                 defaultResource.delete($scope.item.id, successFn, errorFn);
             };
 
-            var cancelFn = function () {
-                FlashService.clear();
-                $location.path("/");
-                if ($scope.afterAction) {
-                    $scope.afterAction();
-                }
-            };
 
             $scope.onClick = function () {
                 switch ($scope.crudButton) {
@@ -106,9 +99,6 @@ function crudButton($location, $injector, defaultCrudResource, FlashService) {
                     case "save" :
                         saveFn();
                         break;
-                    case "cancel" :
-                        cancelFn();
-                        break;
                 }
             }
         },
@@ -122,8 +112,6 @@ function crudButton($location, $injector, defaultCrudResource, FlashService) {
                     return "delete-button.html";
                 case "save":
                     return "save-button.html";
-                case "cancel":
-                    return "cancel-button.html";
             }
 
         }

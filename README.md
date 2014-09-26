@@ -147,7 +147,6 @@ The click actions of these buttons are automatically set to make the appropriate
 <button crud-button="edit" item="ctrl.item" ></button>
 <button crud-button="save" item="ctrl.item" ></button>
 <button crud-button="create" ></button>
-<button crud-button="cancel" ></button>
 ```
 
 You can also include an optional **afterAction** parameter to register a callback or **isDisabled** to disable a button.
@@ -158,7 +157,7 @@ You can also include an optional **afterAction** parameter to register a callbac
 ```
 
 The button templates are located at:
-`/grails-app/assets/javascripts/templates/grails/directives/buttons`
+`/grails-app/assets/vendor/grails/templates/directives/buttons`
 
 #### fieldContainer
 This allows you to define a common template for your form fields (similar to the way the Fields plugin does with GSP pages). It includes a label, value and invalid property that are used within the template.
@@ -172,7 +171,7 @@ This allows you to define a common template for your form fields (similar to the
 ```
 
 The fieldContainer template is located at:
-`/grails-app/assets/javascripts/templates/grails/directives/fields/field-container.tpl.html`
+`/grails-app/assets/vendor/grails/templates/directives/fields/field-container.tpl.html`
 
 #### displayField
 Like the **fieldContainer** directive above, this defines a template for the displaying the field values (such as on a show page).
@@ -186,7 +185,7 @@ Like the **fieldContainer** directive above, this defines a template for the dis
 ```
 
 The displayField template is located at:
-`/grails-app/assets/javascripts/templates/grails/directives/fields/display-field.tpl.html`
+`/grails-app/assets/vendor/grails/templates/directives/fields/display-field.tpl.html`
 
 
 #### flashMessage
@@ -196,7 +195,7 @@ This directive is used along with the **FlashService** above to display messages
 ```
 
 The flash message template is located at:
-`/grails-app/assets/javascripts/templates/grails/directives/flash-message.tpl.html`
+`/grails-app/assets/vendor/grails/templates/directives/flash-message.tpl.html`
 
 #### sortHeader / sortableColumn
 This directive allows you to keep track of the current sort state of a table, and has an onSort callback to allow you to reload your data if need be.
@@ -209,7 +208,7 @@ This directive allows you to keep track of the current sort state of a table, an
 ```
 
 The sortable column template is located at:
-`/grails-app/assets/javascripts/templates/grails/directives/sortable-column.tpl.html`
+`/grails-app/assets/vendor/grails/templates/directives/sortable-column.tpl.html`
 
 
 
