@@ -1,5 +1,5 @@
 //= require_self
-//= require_tree /grails/templates/directives/fields
+//= require_tree /templates/grails/directives/fields
 
 'use strict';
 
