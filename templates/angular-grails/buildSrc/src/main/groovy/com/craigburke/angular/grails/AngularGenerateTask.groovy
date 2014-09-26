@@ -83,7 +83,7 @@ class AngularGenerateTask extends DefaultTask {
 	}
 
 	def createTemplates() {
-        String destination = "${jsRoot}/templates/${modulePath}"
+        String destination = "${jsRoot}/${modulePath}/templates"
         def props = [resourceName: resourceName, maxListItems: 4, domainProperties: domainProperties]
 
 		project.copy {
