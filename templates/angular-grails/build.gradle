@@ -12,7 +12,7 @@ buildscript {
 }
 
 project.ext {
-	warFile = file('angular-grails.war')
+	warFile = file("target/${project.warName}")
 	jasmineDependencies = ['karma', 'karma-jasmine@2_0', 'karma-chrome-launcher']
 	karmaExec = file('node_modules/karma/bin/karma')
 	karmaConfig = 'test/js/karma.conf.js'
