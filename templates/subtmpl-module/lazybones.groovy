@@ -11,6 +11,7 @@ props.modulePath = getModulePath(props.fullModuleName)
 props.domainProperties = getDomainProperties("${props.group}.${props.resourceName}", props.group)
 
 def moduleLocation = new File("${projectDir}/grails-app/assets/javascripts/${props.modulePath}")
+FileUtils.deleteQuietly(moduleLocation)
 
 def generateUrlMappings = {
 	String pageMapping = "'/${props.moduleName}'(view: '${props.moduleName}')"
@@ -48,6 +49,7 @@ def generatePage = {
 	
 	File source = new File(templateDir, "page.gsp")
 	File destination = new File(projectDir, "grails-app/views/${props.moduleName}.gsp") 
+	FileUtils.deleteQuietly(destination)
 	
 	FileUtils.moveFile(source, destination)
 }
@@ -58,6 +60,7 @@ def generateController = {
     String groupPath = props.group.replace('.', '/') + '/'
 	File source = new File(templateDir, "Controller.groovy")
     File destination = new File(projectDir, "grails-app/controllers/${groupPath}/${props.resourceName}Controller.groovy")
+	FileUtils.deleteQuietly(destination)
 	
 	FileUtils.moveFile(source, destination)
 }
