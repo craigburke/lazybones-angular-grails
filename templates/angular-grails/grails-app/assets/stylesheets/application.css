@@ -1,5 +1,112 @@
 /*
 *= require bootstrap/css/bootstrap.min
-*= require grails-theme
 *= require font-awesome/css/font-awesome.min
 */
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+
+html {
+  font-family: "Open Sans", sans-serif;
+  letter-spacing: .1em;
+}
+
+.navbar {
+  text-shadow: 2px 2px 5px #335905;
+  background: #4e8908;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #4e8908), color-stop(100%, #335905));
+  background-image: -webkit-linear-gradient(#4e8908, #335905);
+  background-image: -moz-linear-gradient(#4e8908, #335905);
+  background-image: -o-linear-gradient(#4e8908, #335905);
+  background-image: linear-gradient(#4e8908, #335905);
+  border-bottom: 2px solid #335905;
+}
+
+.navbar .navbar-brand {
+  font-size: 1.4em;
+  color: white;
+  text-shadow: 3px 3px 2px #335905;
+}
+
+.navbar-nav > li > a, .navbar-right > li > a {
+  color: white;
+}
+
+.navbar-nav li a:hover, .navbar-right li a:hover {
+  background: #69b90b;
+}
+
+h1 {
+  color: #4e8908;
+}
+
+.btn {
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(55%, #3b4145), color-stop(100%, #181a1c));
+  background-image: -webkit-linear-gradient(#3b4145 55%, #181a1c);
+  background-image: -moz-linear-gradient(#3b4145 55%, #181a1c);
+  background-image: -o-linear-gradient(#3b4145 55%, #181a1c);
+  background-image: linear-gradient(#3b4145 55%, #181a1c);
+  color: white;
+  text-shadow: 1px 1px 2px #181a1c;
+  border: 1px solid #181a1c;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.btn:hover {
+  color: white;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(55%, #535b60), color-stop(100%, #3b4145));
+  background-image: -webkit-linear-gradient(#535b60 55%, #3b4145);
+  background-image: -moz-linear-gradient(#535b60 55%, #3b4145);
+  background-image: -o-linear-gradient(#535b60 55%, #3b4145);
+  background-image: linear-gradient(#535b60 55%, #3b4145);
+  border: 1px solid #3b4145;
+}
+
+.btn-primary {
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(55%, #4e8908), color-stop(100%, #335905));
+  background-image: -webkit-linear-gradient(#4e8908 55%, #335905);
+  background-image: -moz-linear-gradient(#4e8908 55%, #335905);
+  background-image: -o-linear-gradient(#4e8908 55%, #335905);
+  background-image: linear-gradient(#4e8908 55%, #335905);
+  color: white;
+  text-shadow: 1px 1px 2px #335905;
+  border: 1px solid #335905;
+}
+
+.btn-primary:hover {
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(55%, #69b90b), color-stop(100%, #4e8908));
+  background-image: -webkit-linear-gradient(#69b90b 55%, #4e8908);
+  background-image: -moz-linear-gradient(#69b90b 55%, #4e8908);
+  background-image: -o-linear-gradient(#69b90b 55%, #4e8908);
+  background-image: linear-gradient(#69b90b 55%, #4e8908);
+  border: 1px solid #4e8908;
+}
+
+.dropdown-menu {
+  border: 2px solid rgba(83, 91, 96, 0.5);
+  padding: 5px;
+}
+
+.dropdown-menu .btn {
+  font-size: .8em;
+  background: lightgrey;
+  color: #3b4145;
+  border-color: #b9b9b9;
+  text-shadow: 1px 1px 2px white;
+}
+
+.dropdown-menu td, .dropdown-menu th {
+  padding: 1px;
+}
+
+.dropdown-menu table:focus {
+  outline: none;
+}
+
+.pagination > .active > span:focus, .pagination > .active > a:focus, .pagination > .active > span:hover, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > a {
+  background-color: #4e8908;
+  border-color: #4e8908;
+}

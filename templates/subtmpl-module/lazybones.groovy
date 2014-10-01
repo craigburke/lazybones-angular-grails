@@ -3,12 +3,19 @@ import org.apache.commons.io.FilenameUtils
 import java.lang.reflect.Modifier
 
 def props = [:]
+
+boolean isRestModule = (tmplQualifiers[1] != "blank")
+String moduleFilesDir = isRestModule ? "rest" : "blank"
+
 props.moduleName = tmplQualifiers[0][0]?.toLowerCase() + tmplQualifiers[0]?.substring(1)
 props.resourceName = props.moduleName[0]?.toUpperCase() + props.moduleName?.substring(1)
 props.group = parentParams.group
 props.fullModuleName = "${parentParams.angularModule}.${props.moduleName}"
 props.modulePath = getModulePath(props.fullModuleName)
-props.domainProperties = getDomainProperties("${props.group}.${props.resourceName}", props.group)
+
+if (isRestModule) {
+	props.domainProperties = getDomainProperties("${props.group}.${props.resourceName}", props.group)
+}
 
 def moduleLocation = new File("${projectDir}/grails-app/assets/javascripts/${props.modulePath}")
 FileUtils.deleteQuietly(moduleLocation)
@@ -27,27 +34,29 @@ def generateUrlMappings = {
 }
 
 def generateTemplates = {
-	processTemplates "templates/**", props
+	processTemplates "${moduleFilesDir}/templates/**", props
 	moduleLocation.mkdirs()
 	
-	File source = new File(templateDir, "templates")
+	File source = new File(templateDir, "${moduleFilesDir}/templates")
 	FileUtils.moveDirectoryToDirectory(source, moduleLocation, true)
 }
 
 def generateModule = {
-	props.defaultResource = "${props.resourceName}Resource"
-	props.resourceUrl = "/api/${props.moduleName}"	
+	if (isRestModule) {
+		props.defaultResource = "${props.resourceName}Resource"
+		props.resourceUrl = "/api/${props.moduleName}"		
+	}
 
-	processTemplates "javascript/**", props
-	File source = new File(templateDir, "javascript")
+	processTemplates "${moduleFilesDir}/javascript/**", props
+	File source = new File(templateDir, "${moduleFilesDir}/javascript")
 
 	FileUtils.moveDirectory(source, moduleLocation)
 }
 
 def generatePage = {
-	processTemplates "page.gsp", props
+	processTemplates "common/page.gsp", props
 	
-	File source = new File(templateDir, "page.gsp")
+	File source = new File(templateDir, "common/page.gsp")
 	File destination = new File(projectDir, "grails-app/views/${props.moduleName}.gsp") 
 	FileUtils.deleteQuietly(destination)
 	
@@ -55,21 +64,30 @@ def generatePage = {
 }
 
 def generateController = {
-	processTemplates "Controller.groovy", props
+	processTemplates "${moduleFilesDir}/Controller.groovy", props
 	
     String groupPath = props.group.replace('.', '/') + '/'
-	File source = new File(templateDir, "Controller.groovy")
+	File source = new File(templateDir, "${moduleFilesDir}/Controller.groovy")
     File destination = new File(projectDir, "grails-app/controllers/${groupPath}/${props.resourceName}Controller.groovy")
 	FileUtils.deleteQuietly(destination)
 	
 	FileUtils.moveFile(source, destination)
 }
 
-generateController()
+def printMessage = {
+	println "Your Angular app (${props.fullModuleName}) has been created"
+	println "URL: /${props.moduleName}"
+}
+
+if (isRestModule) {
+	generateController()	
+}
+
 generatePage()
 generateUrlMappings()
 generateModule()
 generateTemplates()
+printMessage()
 
 def getDomainProperties(String clazz, String group) {
 	def classLoader = new GroovyClassLoader()
