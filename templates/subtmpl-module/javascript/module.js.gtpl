@@ -3,16 +3,16 @@
 //= require_tree /${modulePath}/templates/
 
 'use strict';
-angular.module('${moduleName}', ['grails', '${moduleName}.services'])
+angular.module('${fullModuleName}', ['grails', '${fullModuleName}.services'])
 .value('defaultCrudResource', '${defaultResource}')
-.config(function(<%='$routeProvider'%>) {
-<%='$routeProvider'%>
+.config(function(<%='\\$routeProvider'%>) {
+<%='\\$routeProvider'%>
         .when('/', {
             controller: 'DefaultListCtrl as ctrl',
             templateUrl: 'list.html',
             resolve: {
-                items: function(\$route, ${defaultResource}) {
-                    var params = \$route.current.params;
+                items: function(<%='\\$route'%>, ${defaultResource}) {
+                    var params = <%='\\$route'%>.current.params;
                     return ${defaultResource}.list(params);
                 }
             }
@@ -30,8 +30,8 @@ angular.module('${moduleName}', ['grails', '${moduleName}.services'])
             controller: 'DefaultCreateEditCtrl as ctrl',
             templateUrl: 'create-edit.html',
             resolve: {
-                item: function(\$route, ${defaultResource}) {
-                    var id = \$route.current.params.id;
+                item: function(<%='\\$route'%>, ${defaultResource}) {
+                    var id = <%='\\$route'%>.current.params.id;
                     return ${defaultResource}.get(id);
                 }
             }
@@ -40,8 +40,8 @@ angular.module('${moduleName}', ['grails', '${moduleName}.services'])
             controller: 'DefaultShowCtrl as ctrl',
             templateUrl: 'show.html',
             resolve: {
-                item: function(\$route, ${defaultResource}) {
-                    var id = \$route.current.params.id;
+                item: function(<%='\\$route'%>, ${defaultResource}) {
+                    var id = <%='\\$route'%>.current.params.id;
                     return ${defaultResource}.get(id);
                 }
             }

@@ -3,5 +3,6 @@ plugins {
 }
 
 lazybones {
+	template "angular-grails" includes "module"
     repositoryName = "<account>/<templates-repo>"
 }

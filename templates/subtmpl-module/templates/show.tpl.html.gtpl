@@ -10,5 +10,5 @@
 
 <div class="form-actions">
     <button crud-button="edit" item="ctrl.item"></button>
-    <button crud-button="cancel" ></button>
+    <button crud-button="delete" item="ctrl.item" ></button>
 </div>

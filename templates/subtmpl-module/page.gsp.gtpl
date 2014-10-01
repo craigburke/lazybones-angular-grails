@@ -5,7 +5,7 @@
     <asset:javascript src="${modulePath}/module"/>
 </head>
 
-<body ng-app="${fullModule}">
+<body ng-app="${fullModuleName}">
 
 </body>
 </html>
