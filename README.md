@@ -12,7 +12,7 @@ gradlew installAllTemplates
 ```
 Now that you have the template installed locally you can create a new Grails app like this:
 ```bash
-lazybones create angular-grails 0.1 my-project
+lazybones create angular-grails 0.1-BETA my-project
 ```
 
 ## Running your project
