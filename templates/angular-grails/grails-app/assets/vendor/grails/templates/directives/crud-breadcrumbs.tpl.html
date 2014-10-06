@@ -1,8 +1,8 @@
-<ol class="breadcrumb" ng-switch on="crudNav">
-	<li ng-if="crudNav === 'list'" class="active">
+<ol class="breadcrumb" ng-switch on="crudBreadcrumbs">
+	<li ng-if="crudBreadcrumbs === 'list'" class="active">
 		<i class="fa fa-th-list"></i> {{ resourceName }} List
 	</li>
-	<li ng-if="crudNav !== 'list'">
+	<li ng-if="crudBreadcrumbs !== 'list'">
 		<a href="#/"><i class="fa fa-th-list"></i> {{ resourceName }} List</a>
 	</li>
 	
