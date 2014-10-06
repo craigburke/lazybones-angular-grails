@@ -101,9 +101,22 @@ def getDomainProperties(String clazz, String group) {
 	fields.each { field ->
 		String propertyName = field.name
 		String label = propertyName[0].toUpperCase() + propertyName.substring(1).replaceAll(/([A-Z])/, / $1/)
-		String simpleType = field.genericType.name - ['java.lang.', 'java.util.', "${group}."]
+		String type = field.genericType.name - 'java.lang.' - 'java.util.' - "${group}."
+		
+		String displayFilter = ""
+		switch(type) {
+			case "Integer":
+				displayFilter = " | number"
+				break
+			case "Float":
+				displayFilter = " | currency"
+				break
+			case "Date":
+				displayFilter = " | date: 'medium'"
+				break
+		}		
 					
-		properties << [name: propertyName, label: label, type : simpleType ]
+		properties << [name: propertyName, label: label, type : type, displayFilter: displayFilter ]
 	}
 		
 	properties

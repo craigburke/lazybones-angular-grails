@@ -4,7 +4,7 @@
 
 <table class="table table-bordered">
 <% domainProperties.each { property -> %>
-    <tr display-field label="${property.label}" value="ctrl.item.${property.name}"></tr>
+    <tr display-field label="${property.label}" value="ctrl.item.${property.name}${property.displayFilter}"></tr>
 <% } %>
 
 </table>

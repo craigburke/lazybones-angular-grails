@@ -1,5 +1,5 @@
 //= require_self
-//= require_tree /grails/templates/directives
+//= require_tree /grails/templates/directives/crud-breadcrumbs
 
 'use strict';
 

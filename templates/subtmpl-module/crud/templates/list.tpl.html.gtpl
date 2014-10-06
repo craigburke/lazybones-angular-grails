@@ -17,9 +17,7 @@
         <tr ng-repeat="item in ctrl.items">
             <td><a href="#/show/{{item.id}}">{{item.id}}</a></td>
 			<% domainProperties.take(4).each { property -> %>
-			<td>
-			{{ item.${property.name} }}
-			</td>
+			<td>{{ item.${property.name}${property.displayFilter} }}</td>
 			<% } %>
             <td>
                 <button crud-button="edit" item="item" ></button>
