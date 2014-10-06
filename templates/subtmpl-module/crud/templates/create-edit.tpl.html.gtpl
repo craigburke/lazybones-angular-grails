@@ -1,4 +1,4 @@
-<div crud-nav="{{ctrl.item.id ? 'edit' : 'create'}}"></div>
+<div crud-breadcrumbs="{{ctrl.item.id ? 'edit' : 'create'}}"></div>
 <h2>
     <span ng-hide="ctrl.item.id">Create ${resourceName}</span>
     <span ng-show="ctrl.item.id">Edit ${resourceName}</span>

@@ -1,4 +1,4 @@
-Lazybones Template for Angular Grails
+Lazybones Template for AngularJS Grails
 ================================
 ## Getting started
 
@@ -12,7 +12,7 @@ gradlew installAllTemplates
 ```
 Now that you have the template installed locally you can create a new Grails app like this:
 ```bash
-lazybones create angular-grails 0.1-BETA my-project
+lazybones create angular-grails 0.1 my-project
 ```
 
 ## Running your project
@@ -35,7 +35,9 @@ The following will run the Jasmine tests in watch mode (so that tests are rerun 
 gradlew jasmineWatch
 ```
 
-## Generate Scaffolding
+## Generate AngularJS Modules
+
+### CRUD module
 You can generate a CRUD AngularJS application based on a domain class by following these steps:
 
 **1. Create a new domain class**
@@ -48,7 +50,15 @@ gradlew grails-create-domain-class -PgrailsArgs=Foo
 lazybones generate module::Foo
 ```
 
-This will create a module with views, services, controllers, routes, etc. In the example above you can access your app by visiting **/foo.**
+This will create a module with views, services, controllers, routes, etc. In the example above you can access your app by visiting **/foo**.
+
+### Blank module
+
+```bash
+lazybones generate module::Bar::blank
+```
+
+This will create a blank module with a single route and view that can be accessed by visiting **/bar**.
 
 ## The Grails AngularController
 This is a slightly modified version of the standard Grails RestfulController. It adds support for server side paging and can be used exactly the same way the RestfulController is used.
@@ -137,27 +147,28 @@ FlashService.clear(); // Clear message
 
 ### Directives
 
-#### crudButton
-
-The click actions of these buttons are automatically set to make the appropriate method call from the default CrudResource. For example, clicking the delete button will call the DefaultResource.delete method.
-
-
+#### flashMessage
+This directive is used along with the **FlashService** above to display messages on the page. 
 ```html
-<button crud-button="delete" item="ctrl.item" ></button>
-<button crud-button="edit" item="ctrl.item" ></button>
-<button crud-button="save" item="ctrl.item" ></button>
-<button crud-button="create" ></button>
+<div flash-message></div>
 ```
 
-You can also include an optional **afterAction** parameter to register a callback or **isDisabled** to disable a button.
+The flash message template is located at:
+`/grails-app/assets/vendor/grails/templates/directives/flash-message.tpl.html`
+
+#### sortHeader / sortableColumn
+This directive allows you to keep track of the current sort state of a table, and has an onSort callback to allow you to reload your data if need be.
 
 ```html
-<button crud-button="delete" item="ctrl.item" after-action="ctrl.logDelete()"></button>
-<button crud-button="save" item="ctrl.item" is-disabled="form.$invalid"></button>
+<thead sort-header ng-model="ctrl.sort" on-sort="ctrl.reloadData()">
+    <th sortable-column title="Id" property="id"></th>
+    <th sortable-column title="Name" property="name"></th>
+</thead>
 ```
 
-The button templates are located at:
-`/grails-app/assets/vendor/grails/templates/directives/buttons`
+The sortable column template is located at:
+`/grails-app/assets/vendor/grails/templates/directives/sortable-column.tpl.html`
+
 
 #### fieldContainer
 This allows you to define a common template for your form fields (similar to the way the Fields plugin does with GSP pages). It includes a label, value and invalid property that are used within the template.
@@ -187,28 +198,38 @@ Like the **fieldContainer** directive above, this defines a template for the dis
 The displayField template is located at:
 `/grails-app/assets/vendor/grails/templates/directives/fields/display-field.tpl.html`
 
+#### crudButton
 
-#### flashMessage
-This directive is used along with the **FlashService** above to display messages on the page. 
-```html
-<div flash-message></div>
-```
+The click actions of these buttons are automatically set to make the appropriate method call from the default CrudResource. For example, clicking the delete button will call the DefaultResource.delete method.
 
-The flash message template is located at:
-`/grails-app/assets/vendor/grails/templates/directives/flash-message.tpl.html`
-
-#### sortHeader / sortableColumn
-This directive allows you to keep track of the current sort state of a table, and has an onSort callback to allow you to reload your data if need be.
 
 ```html
-<thead sort-header ng-model="ctrl.sort" on-sort="ctrl.reloadData()">
-    <th sortable-column title="Id" property="id"></th>
-    <th sortable-column title="Name" property="name"></th>
-</thead>
+<button crud-button="delete" item="ctrl.item" ></button>
+<button crud-button="edit" item="ctrl.item" ></button>
+<button crud-button="save" item="ctrl.item" ></button>
+<button crud-button="create" ></button>
 ```
 
-The sortable column template is located at:
-`/grails-app/assets/vendor/grails/templates/directives/sortable-column.tpl.html`
+You can also include an optional **afterAction** parameter to register a callback or **isDisabled** to disable a button.
 
+```html
+<button crud-button="delete" item="ctrl.item" after-action="ctrl.logDelete()"></button>
+<button crud-button="save" item="ctrl.item" is-disabled="form.$invalid"></button>
+```
+
+The button templates are located at:
+`/grails-app/assets/vendor/grails/templates/directives/buttons`
+
+
+#### crudBreadcrumbs
+This directive displays breadcrumb navigation for the different pages. The value can be set to list, create, edit or show.
+```html
+<div crud-breadcrumbs="list" ></div>
+<div crud-breadcrumbs="create" ></div>
+<div crud-breadcrumbs="edit" ></div>
+<div crud-breadcrumbs="show" ></div>
+```
+The breadcrumbs templates are located at:
+`/grails-app/assets/vendor/grails/templates/directives/crud-breadcrumbs.tpl.html`
 
 

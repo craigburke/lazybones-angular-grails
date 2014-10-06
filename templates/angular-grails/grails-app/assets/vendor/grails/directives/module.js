@@ -8,7 +8,7 @@ angular.module('grails.directives', [
     'grails.directives.sort',
     'grails.directives.flash',
     'grails.directives.fields',
-	'grails.directives.nav'
+	'grails.directives.crudBreadcrumbs'
 ]);
 
 

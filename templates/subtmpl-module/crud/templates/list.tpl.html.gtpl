@@ -1,4 +1,4 @@
-<div crud-nav="list"></div>
+<div crud-breadcrumbs="list"></div>
 <h2>${resourceName} List</h2>
 <div flash-message ></div>
 

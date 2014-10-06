@@ -3,20 +3,20 @@
 
 'use strict';
 
-function crudNav($injector, defaultCrudResource) {
+function crudBreadcrumbs($injector, defaultCrudResource) {
     return {
         restrict: 'EA',
         replace: true,
         scope: {
-            crudNav: '@'
+            crudBreadcrumbs: '@'
         },
 		link: function($scope) {
             var defaultResource = $injector.get(defaultCrudResource);
 			$scope.resourceName = defaultResource.getName();
 		},
-        templateUrl: 'nav.html'
+        templateUrl: 'crud-breadcrumbs.html'
     }
 }
 
-angular.module('grails.directives.nav', ['grails.services'])
-    .directive('crudNav', crudNav);
+angular.module('grails.directives.crudBreadcrumbs', ['grails.services'])
+    .directive('crudBreadcrumbs', crudBreadcrumbs);
