@@ -22,9 +22,14 @@ FileUtils.deleteQuietly(moduleLocation)
 
 def generateUrlMappings = {
 	String pageMapping = "'/${props.moduleName}'(view: '${props.moduleName}')"
-	String resourceMapping = "'/api/${props.moduleName}'(resources: '${props.moduleName}')"
+	
 	String indent = "\t" * 2
-	String urlMapping = "\n${indent}${pageMapping}\n${indent}${resourceMapping}\n\n${indent}"
+	String urlMapping = "\n${indent}${pageMapping}\n"
+	
+	if (isCrudModule) {
+		String resourceMapping = "'/api/${props.moduleName}'(resources: '${props.moduleName}')"
+		urlMapping << "${indent}${resourceMapping}\n\n${indent}"
+	}
 
 	def mappingFile = new File("${projectDir}/grails-app/conf/UrlMappings.groovy")
 		
