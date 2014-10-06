@@ -1,21 +1,21 @@
 # Introduction
-
-You have created an Angular Grails application using lazybones.
+You have just created an Angular Grails application using lazybones.
 
 For more detailed information see:
 https://github.com/craigburke/lazybones-angular-grails
 
 # Running the application
-		gradlew run
+	gradlew run
 
 # Running tests
-		gradlew test
-		
-# Generate scaffolding
+	gradlew test
 
-	* Create a domain class
-		gradlew create-domain-class -PgrailsArgs=Foo
+# Generate blank application
+	lazybones generate module::Foo::blank
 
-	* Generate your angular module
-		lazybones generate module::Foo
+# Generate REST application
+	* Create a domain class:
+	gradlew create-domain-class -PgrailsArgs=Foo
 
+	* Generate your angular module:
+	lazybones generate module::Foo

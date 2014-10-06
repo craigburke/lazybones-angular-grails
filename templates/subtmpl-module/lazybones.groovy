@@ -4,8 +4,8 @@ import java.lang.reflect.Modifier
 
 def props = [:]
 
-boolean isRestModule = (tmplQualifiers[1] != "blank")
-String moduleFilesDir = isRestModule ? "rest" : "blank"
+boolean isCrudModule = (tmplQualifiers[1] != "blank")
+String moduleFilesDir = isCrudModule ? "crud" : "blank"
 
 props.moduleName = tmplQualifiers[0][0]?.toLowerCase() + tmplQualifiers[0]?.substring(1)
 props.resourceName = props.moduleName[0]?.toUpperCase() + props.moduleName?.substring(1)
@@ -13,7 +13,7 @@ props.group = parentParams.group
 props.fullModuleName = "${parentParams.angularModule}.${props.moduleName}"
 props.modulePath = getModulePath(props.fullModuleName)
 
-if (isRestModule) {
+if (isCrudModule) {
 	props.domainProperties = getDomainProperties("${props.group}.${props.resourceName}", props.group)
 }
 
@@ -42,7 +42,7 @@ def generateTemplates = {
 }
 
 def generateModule = {
-	if (isRestModule) {
+	if (isCrudModule) {
 		props.defaultResource = "${props.resourceName}Resource"
 		props.resourceUrl = "/api/${props.moduleName}"		
 	}
@@ -79,7 +79,7 @@ def printMessage = {
 	println "URL: /${props.moduleName}"
 }
 
-if (isRestModule) {
+if (isCrudModule) {
 	generateController()	
 }
 

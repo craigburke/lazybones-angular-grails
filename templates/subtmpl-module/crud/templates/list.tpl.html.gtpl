@@ -1,3 +1,4 @@
+<div crud-nav="list"></div>
 <h2>${resourceName} List</h2>
 <div flash-message ></div>
 
@@ -16,7 +17,9 @@
         <tr ng-repeat="item in ctrl.items">
             <td><a href="#/show/{{item.id}}">{{item.id}}</a></td>
 			<% domainProperties.take(4).each { property -> %>
-			<td>{{ item.${property.name} }}</td>
+			<td>
+			{{ item.${property.name} }}
+			</td>
 			<% } %>
             <td>
                 <button crud-button="edit" item="item" ></button>

@@ -19,7 +19,7 @@
         <asset:deferredScripts />
 		<g:layoutHead/>
 	</head>
-	<body ng-app="${pageProperty(name: 'body.ng-app') ?: 'grailsCrud'}">
+	<body id="ng-app" ng-app="${pageProperty(name: 'body.ng-app') ?: 'grails'}">
 
     <div class="container-fluid">
 

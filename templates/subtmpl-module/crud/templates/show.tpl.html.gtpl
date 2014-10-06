@@ -1,3 +1,4 @@
+<div crud-nav="show"></div>
 <h2>Show ${resourceName}</h2>
 <div flash-message ></div>
 

@@ -112,8 +112,6 @@ function crudButton($location, $injector, defaultCrudResource, FlashService) {
                     return "delete-button.html";
                 case "save":
                     return "save-button.html";
-                case "cancel":
-                    return "cancel-button.html";
             }
 
         }
