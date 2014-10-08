@@ -16,7 +16,7 @@ class AngularController<T> extends RestfulController<T> {
         params.offset = ((page - 1) * params.int('max'))
         response.setHeader('Content-Range', getContentRange(params.int('offset'), params.int('max')))
 
-        respond listAllResources(params), [excludes: 'class']
+        respond listAllResources(params), formats: ['json', 'html']
     }
 
     private String getContentRange(int offset, int max) {

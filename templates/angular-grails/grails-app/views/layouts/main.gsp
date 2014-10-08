@@ -23,7 +23,7 @@
 
     <div class="container-fluid">
 
-    <nav class="navbar" role="navigation">
+    <nav class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
         <div class="navbar-header">
             <g:link uri="/" class="navbar-brand">Angular Grails</g:link>
@@ -32,7 +32,7 @@
             <li><g:link uri="/"><i class="fa fa-home"></i> Home</g:link></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="https://github.com/craigburke/angular-grails"><i class="fa fa-github"></i> Github</a></li>
+            <li><a href="https://github.com/craigburke/lazybones-angular-grails"><i class="fa fa-github"></i> Github</a></li>
         </ul>
         </div>
     </nav>

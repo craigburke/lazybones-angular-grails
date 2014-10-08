@@ -20,21 +20,12 @@ if (isCrudModule) {
 def moduleLocation = new File("${projectDir}/grails-app/assets/javascripts/${props.modulePath}")
 FileUtils.deleteQuietly(moduleLocation)
 
-def generateUrlMappings = {
-	String pageMapping = "'/${props.moduleName}'(view: '${props.moduleName}')"
-	
-	String indent = "\t" * 2
-	String urlMapping = "\n${indent}${pageMapping}\n"
-	
-	if (isCrudModule) {
-		String resourceMapping = "'/api/${props.moduleName}'(resources: '${props.moduleName}')"
-		urlMapping << "${indent}${resourceMapping}\n\n${indent}"
-	}
-
+def generateResourceUrlMapping = {
+	String resourceMapping = "\t\t'/api/${props.moduleName}'(resources: '${props.moduleName}')\n"
 	def mappingFile = new File("${projectDir}/grails-app/conf/UrlMappings.groovy")
 		
-	if (!mappingFile.text.contains(urlMapping)) {
-		mappingFile.text = mappingFile.text.replaceAll(/(mappings\s*=\s*\{\s*\n*)/, "\$1${urlMapping}")
+	if (!mappingFile.text.contains(resourceMapping)) {
+		mappingFile.text = mappingFile.text.replaceAll(/(mappings\s*=\s*\{\s*\n*)/, "\$1${resourceMapping}")
 	}
 }
 
@@ -59,10 +50,10 @@ def generateModule = {
 }
 
 def generatePage = {
-	processTemplates "common/page.gsp", props
+	processTemplates "common/index.gsp", props
 	
-	File source = new File(templateDir, "common/page.gsp")
-	File destination = new File(projectDir, "grails-app/views/${props.moduleName}.gsp") 
+	File source = new File(templateDir, "common/index.gsp")
+	File destination = new File(projectDir, "grails-app/views/${props.moduleName}/index.gsp") 
 	FileUtils.deleteQuietly(destination)
 	
 	FileUtils.moveFile(source, destination)
@@ -86,10 +77,10 @@ def printMessage = {
 
 if (isCrudModule) {
 	generateController()	
+	generateResourceUrlMapping()
 }
 
 generatePage()
-generateUrlMappings()
 generateModule()
 generateTemplates()
 printMessage()
