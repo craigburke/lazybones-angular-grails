@@ -7,8 +7,8 @@ def props = [:]
 boolean isCrudModule = (tmplQualifiers[1] != "blank")
 String moduleFilesDir = isCrudModule ? "crud" : "blank"
 
-props.moduleName = tmplQualifiers[0][0]?.toLowerCase() + tmplQualifiers[0]?.substring(1)
-props.resourceName = props.moduleName[0]?.toUpperCase() + props.moduleName?.substring(1)
+props.moduleName = formatModuleName(tmplQualifiers[0])
+props.resourceName = getResourceName(props.moduleName)
 props.group = parentParams.group
 props.fullModuleName = "${parentParams.angularModule}.${props.moduleName}"
 props.modulePath = getModulePath(props.fullModuleName)
@@ -116,6 +116,16 @@ def getDomainProperties(String clazz, String group) {
 	}
 		
 	properties
+}
+ 
+String formatModuleName(String moduleName) {
+	def moduleParts = moduleName.tokenize('.')	
+	moduleParts.collect { it[0]?.toLowerCase() + it?.substring(1) }.join('.')
+} 
+ 
+String getResourceName(String moduleName) {
+	String resource = moduleName.tokenize('.').last()
+	resource[0]?.toUpperCase() + resource?.substring(1)
 }
  
 String getModulePath(String moduleName) {
