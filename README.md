@@ -15,6 +15,8 @@ Now that you have the template installed locally you can create a new Grails app
 lazybones create angular-grails 0.1 my-project
 ```
 
+**See it in Action:** [Live Demo](http://angular-grails.interwebs.io/)
+
 ## Running your project
 Any new project makes use of the [Grails Gradle plugin](https://github.com/grails/grails-gradle-plugin). You can start the application like this:
 
