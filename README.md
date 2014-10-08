@@ -12,7 +12,7 @@ gradlew installAllTemplates
 ```
 Now that you have the template installed locally you can create a new Grails app like this:
 ```bash
-lazybones create angular-grails 0.1 my-project
+lazybones create angular-grails 0.2 my-project
 ```
 
 **See it in Action:** [Live Demo](http://angular-grails.interwebs.io/)
@@ -37,30 +37,30 @@ The following will run the Jasmine tests in watch mode (so that tests are rerun 
 gradlew jasmineWatch
 ```
 
-## Generate AngularJS Modules
+## Generate an AngularJS Module
 
-### CRUD module
-You can generate a CRUD AngularJS application based on a domain class by following these steps:
-
-**1. Create a new domain class**
-```bash
-gradlew grails-create-domain-class -PgrailsArgs=Foo
-```
-
-**2. Generate an Angular module based on your domain object**
-```bash
-lazybones generate module::Foo
-```
-
-This will create a module with views, services, controllers, routes, etc. In the example above you can access your app by visiting **/foo**.
-
-### Blank module
+### CRUD Module
 
 ```bash
-lazybones generate module::Bar::blank
+lazybones generate module
 ```
 
-This will create a blank module with a single route and view that can be accessed by visiting **/bar**.
+You can also avoid the prompts and set the properties directly:
+```bash
+lazybones generate module -PmoduleName=foo -PdomainClass=Foo
+```
+
+The above command will create a module with views, services, controllers, routes, etc. In the example above you can access your app by visiting **/foo**.
+
+### Blank Module
+```bash
+lazybones generate module::blank
+```
+
+You can also avoid the prompts and set the properties directly:
+```bash
+lazybones generate module::blank -PmoduleName=foo
+```
 
 ## The Grails AngularController
 This is a slightly modified version of the standard Grails RestfulController. It adds support for server side paging and can be used exactly the same way the RestfulController is used.

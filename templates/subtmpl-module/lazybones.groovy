@@ -5,17 +5,18 @@ import java.lang.reflect.Modifier
 def props = [:]
 
 boolean isCrudModule = (tmplQualifiers[1] != "blank")
-String moduleFilesDir = isCrudModule ? "crud" : "blank"
-
-props.moduleName = formatModuleName(tmplQualifiers[0])
-props.resourceName = getResourceName(props.moduleName)
 props.group = parentParams.group
-props.fullModuleName = "${parentParams.angularModule}.${props.moduleName}"
-props.modulePath = getModulePath(props.fullModuleName)
+props.moduleName = formatModuleName(ask("Define the name for your new module [myModule]: ", "myModule", "moduleName"))
 
 if (isCrudModule) {
-	props.domainProperties = getDomainProperties("${props.group}.${props.resourceName}", props.group)
+	props.domainClassName = props.group + '.' + ask("Define the name of the domain class [Foo]: ", "Foo", "domainClass")
+	props.domainProperties = getDomainProperties(props.domainClassName)
 }
+
+String moduleFilesDir = isCrudModule ? "crud" : "blank"
+props.resourceName = getResourceName(props.moduleName)
+props.fullModuleName = "${parentParams.angularModule}.${props.moduleName}"
+props.modulePath = getModulePath(props.fullModuleName)
 
 def moduleLocation = new File("${projectDir}/grails-app/assets/javascripts/${props.modulePath}")
 FileUtils.deleteQuietly(moduleLocation)
@@ -85,11 +86,14 @@ generateModule()
 generateTemplates()
 printMessage()
 
-def getDomainProperties(String clazz, String group) {
+def getDomainProperties(String className) {
 	def classLoader = new GroovyClassLoader()
-	classLoader.addClasspath('grails-app/domain/')
+	
+	['grails-app/domain', 'grails-app/services', 'src/groovy', 'src/java'].each {
+		classLoader.addClasspath(it)
+	}
 		
-	def domainObject = classLoader.loadClass(clazz)
+	def domainObject = classLoader.loadClass(className)
 			
 	def properties = []
 	def fields = domainObject.declaredFields.findAll { !Modifier.isStatic(it.modifiers) && it.name != 'metaClass' }
@@ -97,8 +101,8 @@ def getDomainProperties(String clazz, String group) {
 	fields.each { field ->
 		String propertyName = field.name
 		String label = propertyName[0].toUpperCase() + propertyName.substring(1).replaceAll(/([A-Z])/, / $1/)
-		String type = field.genericType.name - 'java.lang.' - 'java.util.' - "${group}."
-		
+		String type = field.genericType.name.tokenize('.').last()
+			
 		String displayFilter = ""
 		switch(type) {
 			case "Integer":
