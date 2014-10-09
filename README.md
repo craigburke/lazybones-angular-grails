@@ -63,20 +63,20 @@ lazybones generate module::blank -PmoduleName=foo
 ```
 
 ## The Grails PagedRestfulController
-This is a slightly modified version of the standard Grails RestfulController. It adds support for server side paging and filtering and can be used exactly the same way the RestfulController is used.
+This is a modified version of the standard Grails RestfulController. It adds support for server side paging and filtering and can be used much like the RestfulController is used.
 
 Here's how you would add a REST controller for the Book domain class:
 ```groovy
-class BookController extends PageRestfulController {
+class BookController extends PagedRestfulController {
     BookController() {
         super(Book)
     }
 }
 ```
 
-It's a good idea to override the default loadPagedResults method to be more selective about what fields (and how) you filter
+It's a good idea to override the default loadPagedResults method to be more selective about which fields (and how) you filter
 ```groovy
-class BookController extends PageRestfulController {
+class BookController extends PagedRestfulController {
     BookController() {
         super(Book)
     }
