@@ -13,7 +13,7 @@ if (isCrudModule) {
 	props.domainProperties = getDomainProperties(props.domainClassName)
 }
 
-String moduleFilesDir = isCrudModule ? "crud" : "blank"
+String moduleFilesDir = "angular/" + (isCrudModule ? "crud" : "blank")
 props.resourceName = getResourceName(props.moduleName)
 props.fullModuleName = "${parentParams.angularModule}.${props.moduleName}"
 props.modulePath = getModulePath(props.fullModuleName)
@@ -21,43 +21,11 @@ props.modulePath = getModulePath(props.fullModuleName)
 def moduleLocation = new File("${projectDir}/grails-app/assets/javascripts/${props.modulePath}")
 FileUtils.deleteQuietly(moduleLocation)
 
-def generateResourceUrlMapping = {
-	String resourceMapping = "\t\t'/api/${props.moduleName}'(resources: '${props.moduleName}')\n"
-	def mappingFile = new File("${projectDir}/grails-app/conf/UrlMappings.groovy")
-		
-	if (!mappingFile.text.contains(resourceMapping)) {
-		mappingFile.text = mappingFile.text.replaceAll(/(mappings\s*=\s*\{\s*\n*)/, "\$1${resourceMapping}")
-	}
-}
-
-def generateTemplates = {
-	processTemplates "${moduleFilesDir}/templates/**", props
-	moduleLocation.mkdirs()
-	
-	File source = new File(templateDir, "${moduleFilesDir}/templates")
-	FileUtils.moveDirectoryToDirectory(source, moduleLocation, true)
-}
-
-def generateModule = {
-	if (isCrudModule) {
-		props.defaultResource = "${props.resourceName}Resource"
-		props.resourceUrl = "/api/${props.moduleName}"		
-	}
-
-	processTemplates "${moduleFilesDir}/javascript/**", props
-	File source = new File(templateDir, "${moduleFilesDir}/javascript")
-
-	FileUtils.moveDirectory(source, moduleLocation)
-}
-
-def generatePage = {
-	processTemplates "common/index.gsp", props
-	
-	File source = new File(templateDir, "common/index.gsp")
-	File destination = new File(projectDir, "grails-app/views/${props.moduleName}/index.gsp") 
-	FileUtils.deleteQuietly(destination)
-	
-	FileUtils.moveFile(source, destination)
+def copyAngularTemplates = {
+	File source = new File(projectDir, "src/templates/angular/")	
+	File destinatation = new File(templateDir, "angular/")	
+	FileUtils.deleteQuietly(destinatation)
+	FileUtils.copyDirectory(source, destinatation, true)
 }
 
 def generateController = {
@@ -71,10 +39,59 @@ def generateController = {
 	FileUtils.moveFile(source, destination)
 }
 
+def generateResourceUrlMapping = {
+	String resourceMapping = "\t\t'/api/${props.moduleName}'(resources: '${props.moduleName}')\n"
+	def mappingFile = new File("${projectDir}/grails-app/conf/UrlMappings.groovy")
+		
+	if (!mappingFile.text.contains(resourceMapping)) {
+		mappingFile.text = mappingFile.text.replaceAll(/(mappings\s*=\s*\{\s*\n*)/, "\$1${resourceMapping}")
+	}
+}
+
+
+def generatePage = {
+	processTemplates "angular/common/index.gsp", props
+	
+	File source = new File(templateDir, "/angular/common/index.gsp")
+	File destination = new File(projectDir, "grails-app/views/${props.moduleName}/index.gsp") 
+	FileUtils.deleteQuietly(destination)
+	
+	FileUtils.moveFile(source, destination)
+}
+
+
+def generateModule = {
+	if (isCrudModule) {
+		props.defaultResource = "${props.resourceName}Resource"
+		props.resourceUrl = "/api/${props.moduleName}"		
+	}
+
+	processTemplates "${moduleFilesDir}/javascript/**", props
+	File source = new File(templateDir, "${moduleFilesDir}/javascript")
+
+	FileUtils.moveDirectory(source, moduleLocation)
+}
+
+
+def generateTemplates = {
+	processTemplates "${moduleFilesDir}/templates/**", props
+	moduleLocation.mkdirs()
+	
+	File source = new File(templateDir, "${moduleFilesDir}/templates")
+	FileUtils.moveDirectoryToDirectory(source, moduleLocation, true)
+}
+
+
 def printMessage = {
 	println "Your Angular app (${props.fullModuleName}) has been created"
 	println "URL: /${props.moduleName}"
 }
+
+def cleanup = {
+	FileUtils.deleteQuietly(new File(templateDir, "angular"))
+}
+
+copyAngularTemplates()
 
 if (isCrudModule) {
 	generateController()	
@@ -85,6 +102,7 @@ generatePage()
 generateModule()
 generateTemplates()
 printMessage()
+cleanup()
 
 def getDomainProperties(String className) {
 	def classLoader = new GroovyClassLoader()

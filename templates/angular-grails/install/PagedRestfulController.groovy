@@ -2,25 +2,36 @@ package ${group}
 
 import grails.rest.RestfulController
 
-class AngularController<T> extends RestfulController<T> {
+class PagedRestfulController<T> extends RestfulController<T> {
 
     static responseFormats = ['json']
 
-    AngularController(Class<T> resource) {
+    PagedRestfulController(Class<T> resource) {
         super(resource)
     }
 
     def index(Integer page) {
         page = page ?: 1
-        params.max = grailsApplication.config.angular.pageSize ?: 25
-        params.offset = ((page - 1) * params.int('max'))
-        response.setHeader('Content-Range', getContentRange(params.int('offset'), params.int('max')))
+        int max = grailsApplication.config.angular.pageSize ?: 25
+		int offset = ((page - 1) * max)
+        def results = loadPagedResults([max: max, offset: offset, sort: params.sort], params.filter)
 
-        respond listAllResources(params), formats: ['json', 'html']
+        response.setHeader('Content-Range', getContentRange((int)results.totalCount, offset, max))
+        respond results, formats: ['json', 'html']
     }
 
-    private String getContentRange(int offset, int max) {
-        int totalCount = countResources()
+    protected def loadPagedResults(def params, def filter) {
+        resource.createCriteria().list(max: params.max, offset: params.offset) {
+            filter?.each { key, value ->
+                ilike(key, "\${value}%")
+            }
+            if (params.sort) {
+                order(params.sort)
+            }
+        }
+    }
+
+    private String getContentRange(int totalCount, int offset, int max) {
         int startRange = offset + 1;
         int endRange = Math.min(startRange + max, totalCount)
 
