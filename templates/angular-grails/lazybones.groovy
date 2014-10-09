@@ -14,10 +14,10 @@ params.warName = ask("Define the name for your war file [ROOT.war]: ", "ROOT.war
 processTemplates 'gradle.properties', params
 processTemplates 'application.properties', params
 processTemplates 'grails-app/conf/Config.groovy', params
-processTemplates "${installDirName}/AngularController.groovy", params
+processTemplates "${installDirName}/PagedRestfulController.groovy", params
 
 String groupPath = params.group.replace('.', '/')
 
-FileUtils.moveFile new File(installDir, 'AngularController.groovy'), new File(templateDir, "src/groovy/${groupPath}/AngularController.groovy")
+FileUtils.moveFile new File(installDir, 'PagedRestfulController.groovy'), new File(templateDir, "src/groovy/${groupPath}/PagedRestfulController.groovy")
 
 FileUtils.deleteDirectory(installDir)

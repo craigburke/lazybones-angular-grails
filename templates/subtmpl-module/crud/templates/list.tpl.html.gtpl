@@ -4,6 +4,22 @@
 
 <p><button crud-button="create" ></button></p>
 
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Filter</h3>
+    </div>
+    <div class="panel-body">
+        <form>
+		<% domainProperties.take(4).each { property -> %>
+        <div class="form-group">
+            <label for="filter.${property.name}">${property.label}</label>
+            <input class="form-control" id="filter.${property.name}" ng-model="ctrl.filter.${property.name}" />
+        </div>
+		<% } %>
+        </form>
+    </div>
+</div>
+
 <table class="table table-striped table-bordered">
 
     <thead sort-header ng-model="ctrl.sort" on-sort="ctrl.reload()">

@@ -1,10 +1,15 @@
-function DefaultListCtrl($injector, defaultCrudResource, items, pageSize) {
+function DefaultListCtrl($injector, $scope, defaultCrudResource, items, pageSize) {
     var self = this;
     var defaultResource = $injector.get(defaultCrudResource);
 
     self.items = items;
     self.pageSize = pageSize;
     self.page = 1;
+    self.filter = {};
+
+    $scope.$watchCollection(function() { return self.filter }, function() {
+        self.reload();
+    });
 
     self.load = function() {
         var params = {page: self.page};
@@ -13,7 +18,7 @@ function DefaultListCtrl($injector, defaultCrudResource, items, pageSize) {
             angular.extend(params, self.sort);
         }
 
-        defaultResource.list(params).then(function(items) {
+        defaultResource.list(params, self.filter).then(function(items) {
             self.items = items;
         });
     };

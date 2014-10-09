@@ -25,8 +25,12 @@ function CrudResourceFactory(rootUrl, $resource, $q, $http) {
             return promise;
         };
 
-        crudResource.list = function(params, successFn, errorFn) {
+        crudResource.list = function(params, filter, successFn, errorFn) {
             var deferred = $q.defer();
+
+            angular.forEach(filter, function(value, key) {
+                params['filter.' + key ] = value;
+            });
 
             resource.query(params, function(items, headers) {
                 var totalCount = headers('Content-Range').split('/')[1];

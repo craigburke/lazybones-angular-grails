@@ -1,7 +1,7 @@
 package ${group}
 import ${domainClassName}
 
-class ${resourceName}Controller extends AngularController {
+class ${resourceName}Controller extends PagedRestfulController {
     ${resourceName}Controller() {
         super(${resourceName})
     }
