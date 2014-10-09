@@ -62,17 +62,39 @@ You can also avoid the prompts and set the properties directly:
 lazybones generate module::blank -PmoduleName=foo
 ```
 
-## The Grails AngularController
-This is a slightly modified version of the standard Grails RestfulController. It adds support for server side paging and can be used exactly the same way the RestfulController is used.
+## The Grails PagedRestfulController
+This is a slightly modified version of the standard Grails RestfulController. It adds support for server side paging and filtering and can be used exactly the same way the RestfulController is used.
 
 Here's how you would add a REST controller for the Book domain class:
 ```groovy
-class BookController extends AngularController {
+class BookController extends PageRestfulController {
     BookController() {
         super(Book)
     }
 }
 ```
+
+It's a good idea to override the default loadPagedResults method to be more selective about what fields (and how) you filter
+```groovy
+class BookController extends PageRestfulController {
+    BookController() {
+        super(Book)
+    }
+	
+	@Override
+    protected def loadPagedResults(def params, def filter) {
+        resource.createCriteria().list(max: params.max, offset: params.offset) {
+            filter?.each { key, value ->
+                ilike(key, "\${value}%")
+            }
+            if (params.sort) {
+                order(params.sort)
+            }
+        }
+    }
+}
+```
+
 ## Grails Plugins
 
 This project makes use of the Asset Pipeline along with two AngularJs specific asset pipeline plugins that I developed:
