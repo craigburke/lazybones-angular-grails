@@ -84,9 +84,12 @@ class BookController extends PagedRestfulController {
 	@Override
     protected def loadPagedResults(def params, def filter) {
         resource.createCriteria().list(max: params.max, offset: params.offset) {
-            filter?.each { key, value ->
-                ilike(key, "\${value}%")
-            }
+            if (filter.title) {
+				ilike('title', filter.title)
+			}
+			if (filter.publishDate) {
+				gt('publishDate', filter.publishDate)
+			}
             if (params.sort) {
                 order(params.sort)
             }

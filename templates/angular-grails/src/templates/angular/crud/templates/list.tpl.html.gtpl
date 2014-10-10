@@ -13,7 +13,7 @@
 		<% domainProperties.take(4).each { property -> %>
         <div class="form-group">
             <label for="filter.${property.name}">${property.label}</label>
-            <input class="form-control" id="filter.${property.name}" ng-model="ctrl.filter.${property.name}" />
+			<%= generateInput(property, 'ctrl.filter') %>
         </div>
 		<% } %>
         </form>

@@ -4,37 +4,71 @@ import grails.rest.RestfulController
 
 class PagedRestfulController<T> extends RestfulController<T> {
 
-    static responseFormats = ['json']
+	static responseFormats = ['json']
 
-    PagedRestfulController(Class<T> resource) {
-        super(resource)
-    }
+	PagedRestfulController(Class<T> resource) {
+		super(resource)
+	}
 
-    def index(Integer page) {
-        page = page ?: 1
-        int max = grailsApplication.config.angular.pageSize ?: 25
+	def index(Integer page) {
+		page = page ?: 1
+		int max = grailsApplication.config.angular.pageSize ?: 25
 		int offset = ((page - 1) * max)
-        def results = loadPagedResults([max: max, offset: offset, sort: params.sort], params.filter)
+		def results = loadPagedResults([max: max, offset: offset, sort: params.sort], params.filter)
 
-        response.setHeader('Content-Range', getContentRange((int)results.totalCount, offset, max))
-        respond results, formats: ['json', 'html']
-    }
+		response.setHeader('Content-Range', getContentRange((int)results.totalCount, offset, max))
+		respond results, formats: ['json', 'html']
+	}
 
-    protected def loadPagedResults(def params, def filter) {
-        resource.createCriteria().list(max: params.max, offset: params.offset) {
-            filter?.each { key, value ->
-                ilike(key, "\${value}%")
-            }
-            if (params.sort) {
-                order(params.sort)
-            }
-        }
-    }
+	protected def loadPagedResults(def params, def filter) {
+		   resource.createCriteria().list(max: params.max, offset: params.offset) {
+			   filter?.each { String name, String value ->
+				   setDefaultCriteria(delegate, name, value)
+			   }
+			   if (params.sort) {
+				   order(params.sort)
+			   }
+			   }
+		   }
 
-    private String getContentRange(int totalCount, int offset, int max) {
-        int startRange = offset + 1;
-        int endRange = Math.min(startRange + max, totalCount)
+	private void setDefaultCriteria(criteria, String propertyName, String propertyValue) {
+			def field = resource.declaredFields.find { it.name == propertyName }
+				if (field && propertyValue) {
 
-        "\${startRange}-\${endRange}/\${totalCount}"
-    }
+					switch (field.type) {
+						case String:
+					  		criteria.ilike(propertyName, "%\${propertyValue}%")
+					   	 	break
+						 case [Float, Integer, BigDecimal]:
+						 	if (propertyValue.isNumber()) {
+								criteria.eq(propertyName, propertyValue)
+							}
+							else {
+								criteria.eq(propertyName, null)
+							}
+							
+							break
+						case Date:
+							def dateFormats = grailsApplication.config.grails.databinding?.dateFormats 
+							def dateProperty = params.date("filter.\${propertyName}", dateFormats)
+
+							if (dateProperty) {
+								criteria.ge(propertyName, dateProperty)
+							}
+							else {
+								criteria.eq(propertyName, null)
+							}
+							break
+						default:
+							criteria.eq(propertyName, propertyValue)
+					}
+				}
+	}
+
+	private String getContentRange(int totalCount, int offset, int max) {
+		int startRange = offset + 1;
+		int endRange = Math.min(startRange + max, totalCount)
+
+		"\${startRange}-\${endRange}/\${totalCount}"
+	}
 }

@@ -18,6 +18,13 @@ props.resourceName = getResourceName(props.moduleName)
 props.fullModuleName = "${parentParams.angularModule}.${props.moduleName}"
 props.modulePath = getModulePath(props.fullModuleName)
 
+props.generateInput = { property, String modelPrefix ->
+	String inputType = property.type in ['Float', 'Integer'] ? 'number' : 'text'
+	"""
+	<input name="${property.name}" type="${inputType}" class='form-control' ${property.type == 'Date' ? 'date-field' : ''} ng-model="${modelPrefix}.${property.name}" />
+	"""
+}
+
 def moduleLocation = new File("${projectDir}/grails-app/assets/javascripts/${props.modulePath}")
 FileUtils.deleteQuietly(moduleLocation)
 
