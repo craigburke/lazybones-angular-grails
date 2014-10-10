@@ -27,11 +27,13 @@ function CrudResourceFactory(rootUrl, $resource, $q, $http) {
 
         crudResource.list = function(params, successFn, errorFn) {
             var deferred = $q.defer();
-
-            angular.forEach(params.filter, function(value, key) {
-                params['filter.' + key ] = value;
-			});            	
-			delete params.filter;
+			
+			if (params && params.filter) {
+	            angular.forEach(params.filter, function(value, key) {
+	                params['filter.' + key ] = value;
+				});            	
+				delete params.filter;
+			}
 
             resource.query(params, function(items, headers) {
                 var totalCount = headers('Content-Range').split('/')[1];

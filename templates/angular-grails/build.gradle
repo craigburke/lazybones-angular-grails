@@ -25,6 +25,9 @@ apply plugin: 'eclipse'
 
 repositories {
 	grails.central()
+    flatDir {
+        dirs 'lib'
+    }
 }
 
 task wrapper(type: Wrapper) {
@@ -87,7 +90,7 @@ test.dependsOn jasmineRun
 
 dependencies {
 	springloaded 'org.springframework:springloaded:1.1.5.RELEASE@jar'
-
+	
   	String gebVersion = '0.9.2'
 	String seleniumVersion = '2.43.1'
 
@@ -113,6 +116,5 @@ dependencies {
 	runtime('org.grails.plugins:hibernate4:4.1.11.7') {
     		exclude module: 'xml-apis'
 	}
-	
 	
 }
