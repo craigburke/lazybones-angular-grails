@@ -29,7 +29,7 @@ class PagedRestfulController<T> extends RestfulController<T> {
             }
          
             if (params.sort) {
-               order(params.sort)
+              	order(params.sort, params.order == "asc" ? "asc" : "desc")
             }
         }
     }
