@@ -47,11 +47,14 @@ def generateController = {
 }
 
 def generateResourceUrlMapping = {
-	String resourceMapping = "\t\t'/api/${props.moduleName}'(resources: '${props.moduleName}')\n"
 	def mappingFile = new File("${projectDir}/grails-app/conf/UrlMappings.groovy")
+	
+	String resourceMapping = "\t\t'/api/${props.moduleName}'(resources: '${props.moduleName}')\n"
+	String viewMapping = "\t\t'/${props.moduleName}'(view: '${props.moduleName}')\n"
+		
 		
 	if (!mappingFile.text.contains(resourceMapping)) {
-		mappingFile.text = mappingFile.text.replaceAll(/(mappings\s*=\s*\{\s*\n*)/, "\$1${resourceMapping}")
+		mappingFile.text = mappingFile.text.replaceAll(/(mappings\s*=\s*\{\s*\n*)/, "\$1${viewMapping}${resourceMapping}")
 	}
 }
 
@@ -60,7 +63,7 @@ def generatePage = {
 	processTemplates "angular/common/index.gsp", props
 	
 	File source = new File(templateDir, "/angular/common/index.gsp")
-	File destination = new File(projectDir, "grails-app/views/${props.moduleName}/index.gsp") 
+	File destination = new File(projectDir, "grails-app/views/${props.moduleName}.gsp") 
 	FileUtils.deleteQuietly(destination)
 	
 	FileUtils.moveFile(source, destination)

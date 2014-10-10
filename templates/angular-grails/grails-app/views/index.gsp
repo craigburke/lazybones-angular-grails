@@ -52,11 +52,8 @@
                     <ul>
 					<g:each var="c" in="${grailsApplication.controllerClasses.sort { it.fullName } }">
 						<g:if test="c instanceOf grails.rest.RestfulController">
-							<li><g:link controller="${c.logicalPropertyName}" params="[format: 'html']">${c.fullName}</g:link></li>
+							<li><a href="${c.logicalPropertyName}">${c.fullName}</a></li>
 						</g:if>
-						<g:else>
-
-						</g:else>
 					</g:each>
                     </ul>
                 </div>
