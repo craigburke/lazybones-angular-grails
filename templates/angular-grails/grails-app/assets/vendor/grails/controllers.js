@@ -17,8 +17,11 @@ function DefaultListCtrl($injector, $scope, defaultCrudResource, items, pageSize
         if (self.sort) {
             angular.extend(params, self.sort);
         }
+		if (self.filter) {
+			params.filter = self.filter
+		}
 
-        defaultResource.list(params, self.filter).then(function(items) {
+        defaultResource.list(params).then(function(items) {
             self.items = items;
         });
     };

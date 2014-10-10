@@ -82,7 +82,9 @@ class BookController extends PagedRestfulController {
     }
 	
 	@Override
-    protected PagedResultList loadPagedResults(params, filter) {
+    protected PagedResultList loadPagedResults(params) {
+		def filter = params.filter
+		
         resource.createCriteria().list(max: params.max, offset: params.offset) {
             if (filter.title) {
 				ilike('title', filter.title)
@@ -135,6 +137,11 @@ AuthorResource.list({page: 1}).then(function(items) {
   this.totalCount = items.getTotalCount();
 });
 
+// You can also pass a filter object for your controller to use
+AuthorResource.list({page: 1, filter: {lastName: 'Burke'} }).then(function(items) {
+  this.filteredItems = items;
+});
+
 AuthorResource.create().then(function(item) {
   this.newItem = item;
 });
@@ -148,7 +155,7 @@ AuthorResource.update(item);
 
 AuthorResource.delete(1);
 ```
-Each of the above functions can also accept an optional success and error callback function:
+Each of the above functions can also accept an optional success and error callback function as the last two parameters:
 
 ```javascript
 var successFunction = function(response) {

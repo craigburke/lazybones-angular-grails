@@ -1,6 +1,7 @@
 package ${group}
 
 import grails.rest.RestfulController
+import grails.gorm.PagedResultList
 
 class PagedRestfulController<T> extends RestfulController<T> {
 
@@ -12,17 +13,18 @@ class PagedRestfulController<T> extends RestfulController<T> {
 
 	def index(Integer page) {
 		page = page ?: 1
-		int max = grailsApplication.config.angular.pageSize ?: 25
-		int offset = ((page - 1) * max)
-		def results = loadPagedResults([max: max, offset: offset, sort: params.sort], params.filter)
+		params.max = grailsApplication.config.angular.pageSize ?: 25
+		params.offset = ((page - 1) * params.max)
+		def results = loadPagedResults(params)
 
-		response.setHeader('Content-Range', getContentRange((int)results.totalCount, offset, max))
+		response.setHeader('Content-Range', getContentRange((int)results.totalCount, params.offset, params.max))
 		respond results, formats: ['json', 'html']
 	}
 
-	protected PagedResultList loadPagedResults(params, filter) {
+	protected PagedResultList loadPagedResults(params) {
         resource.createCriteria().list(max: params.max, offset: params.offset) {
-            filter?.each { String name, String value ->
+            
+			params.filter?.each { String name, String value ->
                setDefaultCriteria(delegate, name, value)
             }
          
