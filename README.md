@@ -82,7 +82,7 @@ class BookController extends PagedRestfulController {
     }
 	
 	@Override
-    protected def loadPagedResults(def params, def filter) {
+    protected PagedResultList loadPagedResults(params, filter) {
         resource.createCriteria().list(max: params.max, offset: params.offset) {
             if (filter.title) {
 				ilike('title', filter.title)
