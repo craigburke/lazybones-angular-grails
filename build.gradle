@@ -6,3 +6,60 @@ lazybones {
 	template "angular-grails" includes "module"
     repositoryName = "<account>/<templates-repo>"
 }
+
+project.ext {
+	testApp = [
+		templateVersion: '0.3',
+		dir: 'test/app',
+		name: 'angular-grails',
+		group: 'com.craigburke.angular',
+		version: '1.0',
+		angularModule: 'exampleApp',
+		warName: 'angular-grails.war'
+	]
+	
+}
+
+task buildTestApp(dependsOn: 'installAllTemplates') << {
+	delete file(project.testApp.dir)
+	
+	def properties = [
+		appName: project.testApp.name,
+		group: project.testApp.group,
+		version: project.testApp.version,
+		angularModule: project.testApp.angularModule,
+		warName : project.testApp.warName
+	]
+	
+	def createCmd = ['lazybones','create', 'angular-grails', project.testApp.templateVersion, project.testApp.dir]
+	properties.each { key, value -> createCmd << "-P${key}=${value}"}
+	
+	project.exec {
+		commandLine createCmd
+	}
+	
+	project.copy {
+		from "test/domain"
+		into "${project.testApp.dir}/grails-app/domain"
+	}
+	
+	// Not sure why stored-params.properties isn't saved correctly
+	def paramsFile = new File("${testApp.dir}/.lazybones/stored-params.properties")
+	properties.each { key, value ->
+		paramsFile.text += "${key}=${value}\n"
+	}
+	
+	def modules = [
+		[name: 'author', domainClass: 'Author'],
+		[name: 'book', domainClass: 'Book']
+	]
+	
+	modules.each { module ->
+		project.exec {
+			workingDir project.testApp.dir
+			commandLine 'lazybones', 'generate', 'module', "-PmoduleName=${module.name}", "-PdomainClass=${module.domainClass}"
+		}
+	}
+	
+	
+}
