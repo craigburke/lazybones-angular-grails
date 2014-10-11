@@ -43,4 +43,4 @@
     </tbody>
 </table>
 
-<div pagination total-items="ctrl.items.getTotalCount()" ng-model="ctrl.page" ng-change="ctrl.load()"></div>
+<div pagination total-items="ctrl.items.getTotalCount()" items-per-page="ctrl.pageSize" ng-model="ctrl.page" ng-change="ctrl.load()"></div>

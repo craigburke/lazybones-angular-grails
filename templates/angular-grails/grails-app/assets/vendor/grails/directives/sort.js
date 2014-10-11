@@ -47,7 +47,7 @@ function sortableColumn() {
         },
         require: '^sortHeader',
         link: function($scope, $element, $attrs, sortHeader) {
-            $scope.order = "asc";
+            $scope.order = "desc";
 
             $scope.isActive = function() {
                 return (sortHeader.getSort().sort === $scope.property);

@@ -11,10 +11,11 @@ class PagedRestfulController<T> extends RestfulController<T> {
 		super(resource)
 	}
 
-	def index(Integer page) {
-		page = page ?: 1
+	def index(Integer max) {
+		params.page = params.int('page') ?: 1
 		params.max = grailsApplication.config.angular.pageSize ?: 25
-		params.offset = ((page - 1) * params.max)
+		params.offset = ((params.page - 1) * params.max)
+		
 		def results = loadPagedResults(params)
 
 		response.setHeader('Content-Range', getContentRange((int)results.totalCount, params.offset, params.max))
