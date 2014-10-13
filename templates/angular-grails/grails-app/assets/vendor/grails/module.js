@@ -3,7 +3,6 @@
 //= require directives/module
 //= require services/module
 //= require ui-bootstrap.min
-//= require controllers
 
 'use strict';
 
@@ -13,6 +12,5 @@ angular.module('grails', [
     'ui.bootstrap',
     'grails.directives',
     'grails.services',
-    'grails.controllers',
     'grails.constants'
 ]);

@@ -13,7 +13,7 @@
 		<% domainProperties.take(4).each { property -> %>
         <div class="form-group">
             <label for="filter.${property.name}">${property.label}</label>
-			<%= generateInput(property, 'ctrl.filter') %>
+			<%= renderInput(property, 'ctrl.filter') %>
         </div>
 		<% } %>
         </form>
@@ -30,10 +30,10 @@
         <th>&nbsp;</th>
     </thead>
     <tbody>
-        <tr ng-repeat="item in ctrl.items">
+        <tr ng-repeat="item in ctrl.${moduleName}List">
             <td><a href="#/show/{{item.id}}">{{item.id}}</a></td>
 			<% domainProperties.take(4).each { property -> %>
-			<td>{{ item.${property.name}${property.displayFilter} }}</td>
+			<td>{{ ${renderDisplay(property, 'item')} }}</td>
 			<% } %>
             <td>
                 <button crud-button="edit" item="item" ></button>

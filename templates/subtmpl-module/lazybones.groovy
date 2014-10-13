@@ -4,26 +4,68 @@ import java.lang.reflect.Modifier
 
 def props = [:]
 
+props.renderInput = { property, String modelPrefix ->
+	if (property.domainClass) {
+		"""
+		<select name="${property.name}" class='form-control' ng-model="${modelPrefix}.${property.name}" ng-options="item.id for item in ctrl.${property.name}List track by item.id" ></select>
+		"""
+	}
+	else {
+		String inputType = property.type in [Float, Integer] ? 'number' : 'text'
+		"""
+		<input name="${property.name}" type="${inputType}" class='form-control' ${property.type == Date ? 'date-field' : ''} ng-model="${modelPrefix}.${property.name}" />
+		"""
+	}
+}
+
+props.renderDisplay = { property, String modelPrefix ->
+	String displayFilter = ""
+	switch(property.type) {
+		case Integer:
+			displayFilter = " | number"
+			break
+		case Float:
+			displayFilter = " | currency"
+			break
+		case Date:
+			displayFilter = " | date: 'medium'"
+			break
+	}	
+	
+	"${modelPrefix}.${property.name}${displayFilter}"
+}
+
+props.getModulePath = { String fullModule ->
+	String path = fullModule.replace('.', '/')
+	path = path.replaceAll(/([A-Z])/,/-$1/).toLowerCase().replaceAll(/^-/,'')
+	path.replaceAll(/\/-/, '/')
+}
+
+props.formatModuleName = { String moduleName ->
+	def moduleParts = moduleName.tokenize('.')	
+	moduleParts.collect { it[0]?.toLowerCase() + it?.substring(1) }.join('.')
+} 
+ 
+props.formatResourceName = { String moduleName ->
+	String resource = moduleName.tokenize('.').last()
+	resource[0]?.toUpperCase() + resource?.substring(1)
+}
+
 boolean isCrudModule = (tmplQualifiers[1] != "blank")
 props.group = parentParams.group
-props.moduleName = formatModuleName(ask("Define the name for your new module [myModule]: ", "myModule", "moduleName"))
+props.moduleName = props.formatModuleName(ask("Define the name for your new module [myModule]: ", "myModule", "moduleName"))
 
 if (isCrudModule) {
 	props.domainClassName = props.group + '.' + ask("Define the name of the domain class [Foo]: ", "Foo", "domainClass")
-	props.domainProperties = getDomainProperties(props.domainClassName)
+	props.domainProperties = getDomainProperties(props.domainClassName, props.group)
 }
 
 String moduleFilesDir = "angular/" + (isCrudModule ? "crud" : "blank")
-props.resourceName = getResourceName(props.moduleName)
-props.fullModuleName = "${parentParams.angularModule}.${props.moduleName}"
-props.modulePath = getModulePath(props.fullModuleName)
 
-props.generateInput = { property, String modelPrefix ->
-	String inputType = property.type in ['Float', 'Integer'] ? 'number' : 'text'
-	"""
-	<input name="${property.name}" type="${inputType}" class='form-control' ${property.type == 'Date' ? 'date-field' : ''} ng-model="${modelPrefix}.${property.name}" />
-	"""
-}
+props.rootModule = parentParams.angularModule
+props.resourceName = props.formatResourceName(props.moduleName)
+props.fullModuleName = "${parentParams.angularModule}.${props.moduleName}"
+props.modulePath = props.getModulePath(props.fullModuleName)
 
 def moduleLocation = new File("${projectDir}/grails-app/assets/javascripts/${props.modulePath}")
 FileUtils.deleteQuietly(moduleLocation)
@@ -52,12 +94,10 @@ def generateResourceUrlMapping = {
 	String resourceMapping = "\t\t'/api/${props.moduleName}'(resources: '${props.moduleName}')\n"
 	String viewMapping = "\t\t'/${props.moduleName}'(view: '${props.moduleName}')\n"
 		
-		
 	if (!mappingFile.text.contains(resourceMapping)) {
 		mappingFile.text = mappingFile.text.replaceAll(/(mappings\s*=\s*\{\s*\n*)/, "\$1${viewMapping}${resourceMapping}")
 	}
 }
-
 
 def generatePage = {
 	processTemplates "angular/common/index.gsp", props
@@ -68,7 +108,6 @@ def generatePage = {
 	
 	FileUtils.moveFile(source, destination)
 }
-
 
 def generateModule = {
 	if (isCrudModule) {
@@ -90,7 +129,6 @@ def generateTemplates = {
 	File source = new File(templateDir, "${moduleFilesDir}/templates")
 	FileUtils.moveDirectoryToDirectory(source, moduleLocation, true)
 }
-
 
 def printMessage = {
 	println "Your Angular app (${props.fullModuleName}) has been created"
@@ -114,7 +152,7 @@ generateTemplates()
 printMessage()
 cleanup()
 
-def getDomainProperties(String className) {
+def getDomainProperties(String className, String group) {
 	def classLoader = new GroovyClassLoader()
 	
 	['grails-app/domain', 'grails-app/services', 'src/groovy', 'src/java'].each {
@@ -129,39 +167,11 @@ def getDomainProperties(String className) {
 	fields.each { field ->
 		String propertyName = field.name
 		String label = propertyName[0].toUpperCase() + propertyName.substring(1).replaceAll(/([A-Z])/, / $1/)
-		String type = field.genericType.name.tokenize('.').last()
-			
-		String displayFilter = ""
-		switch(type) {
-			case "Integer":
-				displayFilter = " | number"
-				break
-			case "Float":
-				displayFilter = " | currency"
-				break
-			case "Date":
-				displayFilter = " | date: 'medium'"
-				break
-		}		
+		Class type = field.genericType
+		boolean isDomainClass = type.name.startsWith(group)
 					
-		properties << [name: propertyName, label: label, type : type, displayFilter: displayFilter ]
+		properties << [name: propertyName, label: label, type : type, domainClass: isDomainClass ]
 	}
 		
 	properties
-}
- 
-String formatModuleName(String moduleName) {
-	def moduleParts = moduleName.tokenize('.')	
-	moduleParts.collect { it[0]?.toLowerCase() + it?.substring(1) }.join('.')
-} 
- 
-String getResourceName(String moduleName) {
-	String resource = moduleName.tokenize('.').last()
-	resource[0]?.toUpperCase() + resource?.substring(1)
-}
- 
-String getModulePath(String moduleName) {
-	String path = moduleName.replace('.', '/')
-	path = path.replaceAll(/([A-Z])/,/-$1/).toLowerCase().replaceAll(/^-/,'')
-	path.replaceAll(/\/-/, '/')
 }

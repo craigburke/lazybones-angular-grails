@@ -4,12 +4,12 @@
 
 <table class="table table-bordered">
 <% domainProperties.each { property -> %>
-    <tr display-field label="${property.label}" value="ctrl.item.${property.name}${property.displayFilter}"></tr>
+    <tr display-field label="${property.label}" value="${renderDisplay(property, 'ctrl.' + moduleName)}"></tr>
 <% } %>
 
 </table>
 
 <div class="form-actions">
-    <button crud-button="edit" item="ctrl.item"></button>
-    <button crud-button="delete" item="ctrl.item" ></button>
+    <button crud-button="edit" item="ctrl.${moduleName}"></button>
+    <button crud-button="delete" item="ctrl.${moduleName}" ></button>
 </div>

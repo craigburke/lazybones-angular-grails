@@ -1,7 +1,7 @@
-<div crud-breadcrumbs="{{ctrl.item.id ? 'edit' : 'create'}}"></div>
+<div crud-breadcrumbs="{{ctrl.${moduleName}.id ? 'edit' : 'create'}}"></div>
 <h2>
-    <span ng-hide="ctrl.item.id">Create ${resourceName}</span>
-    <span ng-show="ctrl.item.id">Edit ${resourceName}</span>
+    <span ng-hide="ctrl.${moduleName}.id">Create ${resourceName}</span>
+    <span ng-show="ctrl.${moduleName}.id">Edit ${resourceName}</span>
 </h2>
 
 <div flash-message ></div>
@@ -9,13 +9,13 @@
 <form name="form" class="form-horizontal" role="form" novalidate>
 <% domainProperties.each { property -> %>
 	<div field-container label="${property.label}" invalid="form.${property.name}.<%= '\\$invalid' %>">
-		<%= generateInput(property, 'ctrl.item') %>
+		<%= renderInput(property, 'ctrl.${moduleName}') %>
 	</div>
 <% } %>
 
     <div>
-        <button crud-button="save" item="ctrl.item" is-disabled="form.<%= '\\$invalid' %>"></button>
-        <span ng-if="ctrl.item.id"><button crud-button="delete" item="ctrl.item"></button></span>
+        <button crud-button="save" item="ctrl.${moduleName}" is-disabled="form.<%= '\\$invalid' %>"></button>
+        <span ng-if="ctrl.${moduleName}.id"><button crud-button="delete" item="ctrl.${moduleName}"></button></span>
     </div>
 
 </form>

@@ -1,46 +1,57 @@
-//= require_self
-//= require services
+//= require_self <% def domainList = domainProperties.findAll{ it.domainClass }.collect { "${it.type.name - (group + '.')}" } %>
+//= require controllers
+//= require services <%= domainList.collect { '\n//= require /' + getModulePath(formatModuleName(rootModule + '.' + it)) + '/services' }.join("\n")  %>
 //= require_tree /${modulePath}/templates/
-
+<% def generateResolveProperty = { item -> """
+				${item[0].toLowerCase() + item.substring(1)}List: function(${item}Resource) {
+					return ${item}Resource.list();
+				}	
+"""
+}
+%>
 'use strict';
-angular.module('${fullModuleName}', ['grails', '${fullModuleName}.services'])
+angular.module('${fullModuleName}', [
+'grails', 
+'${fullModuleName}.controllers', <%= domainList.collect { "\n'${formatModuleName(rootModule + '.' + it)}.services'," }.join("\n") %>
+'${fullModuleName}.services'
+])
 .value('defaultCrudResource', '${defaultResource}')
 .config(function(<%='\\$routeProvider'%>) {
 <%='\\$routeProvider'%>
         .when('/', {
-            controller: 'DefaultListCtrl as ctrl',
+            controller: 'ListCtrl as ctrl',
             templateUrl: 'list.html',
             resolve: {
-                items: function(<%='\\$route'%>, ${defaultResource}) {
+                ${moduleName}List: function(<%='\\$route'%>, ${defaultResource}) {
                     var params = <%='\\$route'%>.current.params;
                     return ${defaultResource}.list(params);
-                }
+                }<%= (domainList ? ',' : '' ) + domainList.collect{ generateResolveProperty(it) }.join(', ') %> 
             }
         })
         .when('/create', {
-            controller: 'DefaultCreateEditCtrl as ctrl',
+            controller: 'CreateEditCtrl as ctrl',
             templateUrl: 'create-edit.html',
             resolve: {
-                item: function(${defaultResource}) {
+                ${moduleName}: function(${defaultResource}) {
                     return ${defaultResource}.create();
-                }
+                }<%= (domainList ? ',' : '' ) + domainList.collect{ generateResolveProperty(it) }.join(', ') %> 
             }
         })
         .when('/edit/:id', {
-            controller: 'DefaultCreateEditCtrl as ctrl',
+            controller: 'CreateEditCtrl as ctrl',
             templateUrl: 'create-edit.html',
             resolve: {
-                item: function(<%='\\$route'%>, ${defaultResource}) {
+                ${moduleName}: function(<%='\\$route'%>, ${defaultResource}) {
                     var id = <%='\\$route'%>.current.params.id;
                     return ${defaultResource}.get(id);
-                }
+                }<%= (domainList ? ',' : '' ) + domainList.collect{ generateResolveProperty(it) }.join(', ') %> 
             }
         })
         .when('/show/:id', {
-            controller: 'DefaultShowCtrl as ctrl',
+            controller: 'ShowCtrl as ctrl',
             templateUrl: 'show.html',
             resolve: {
-                item: function(<%='\\$route'%>, ${defaultResource}) {
+                ${moduleName}: function(<%='\\$route'%>, ${defaultResource}) {
                     var id = <%='\\$route'%>.current.params.id;
                     return ${defaultResource}.get(id);
                 }

@@ -66,7 +66,7 @@ class PagedRestfulController<T> extends RestfulController<T> {
                     break
                 
                 default:
-                    criteria.eq(propertyName, propertyValue)
+	          		criteria.eq(propertyName, propertyValue)					
             }
         }
     }
