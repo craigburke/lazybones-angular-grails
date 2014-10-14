@@ -1,24 +1,23 @@
 <div crud-breadcrumbs="list"></div>
+<div class="row">
+<div class="col-md-2">
+<h3>Filter List</h3>
+<form class="form">
+	<% domainProperties.take(4).each { property -> %>
+	<div class="form-group">
+		<label for="filter.${property.name}">${property.label}</label>
+		<%= renderInput(property, 'ctrl.filter') %>
+    </div>
+	<% } %>
+</form>
+</div>
+
+<div class="col-md-9">
 <h2>${resourceName} List</h2>
 <div flash-message ></div>
 
 <p><button crud-button="create" ></button></p>
 
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Filter</h3>
-    </div>
-    <div class="panel-body">
-        <form>
-		<% domainProperties.take(4).each { property -> %>
-        <div class="form-group">
-            <label for="filter.${property.name}">${property.label}</label>
-			<%= renderInput(property, 'ctrl.filter') %>
-        </div>
-		<% } %>
-        </form>
-    </div>
-</div>
 
 <table class="table table-striped table-bordered">
 
@@ -44,3 +43,5 @@
 </table>
 
 <div pagination total-items="ctrl.items.getTotalCount()" items-per-page="ctrl.pageSize" ng-model="ctrl.page" ng-change="ctrl.load()"></div>
+</div>
+</div>
