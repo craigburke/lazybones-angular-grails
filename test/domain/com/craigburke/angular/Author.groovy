@@ -9,4 +9,8 @@ class Author {
         lastName(required: true, blank: false)
     }
 
+	public String toString() {
+		"${firstName} ${lastName}"
+	}
+	
 }

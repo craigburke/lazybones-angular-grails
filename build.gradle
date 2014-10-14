@@ -1,15 +1,15 @@
 plugins {
-  id "uk.co.cacoethes.lazybones-templates" version "1.2.2"
+	id "uk.co.cacoethes.lazybones-templates" version "1.2.2"
 }
 
 lazybones {
 	template "angular-grails" includes "module"
-    repositoryName = "<account>/<templates-repo>"
+	repositoryName = "<account>/<templates-repo>"
 }
 
 project.ext {
 	testApp = [
-		templateVersion: '0.3',
+		templateVersion: '0.4',
 		dir: 'test/app',
 		name: 'angular-grails',
 		group: 'com.craigburke.angular',

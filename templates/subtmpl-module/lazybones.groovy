@@ -7,7 +7,7 @@ def props = [:]
 props.renderInput = { property, String modelPrefix ->
 	if (property.domainClass) {
 		"""
-		<select name="${property.name}" class='form-control' ng-model="${modelPrefix}.${property.name}" ng-options="item.id for item in ctrl.${property.name}List track by item.id" ></select>
+		<select name="${property.name}" class='form-control' ng-model="${modelPrefix}.${property.name}" ng-options="item.toText for item in ctrl.${property.name}List track by item.id" ></select>
 		"""
 	}
 	else {
@@ -31,8 +31,12 @@ props.renderDisplay = { property, String modelPrefix ->
 			displayFilter = " | date: 'medium'"
 			break
 	}	
+	String item = "${modelPrefix}.${property.name}"
+	if (property.domainClass) {
+		item += ".toText"
+	}
 	
-	"${modelPrefix}.${property.name}${displayFilter}"
+	"${item}${displayFilter}"
 }
 
 props.getModulePath = { String fullModule ->
@@ -86,6 +90,27 @@ def generateController = {
 	FileUtils.deleteQuietly(destination)
 	
 	FileUtils.moveFile(source, destination)
+	
+	//* Add custom JSON marshaller
+	def customMarshallerRegistrar = new File(projectDir, "src/groovy/${groupPath}/CustomMarshallerRegistrar.groovy")
+	String domainClass = "${props.group}.${props.resourceName}"
+	String jsonMarshaller = 
+	"""
+		JSON.registerObjectMarshaller(${domainClass}) {
+			def map = [:];
+			map['id'] = it?.id;
+			${props.domainProperties.collect { "map['" + it.name + "'] = it?." + it.name + ";" }.join('\n\t\t\t')}
+	    	map['toText'] = it?.toString();
+			return map 
+		}"""
+	// Remove existing marshaller
+	def functionRegex = /(?ms)(JSON\.registerObjectMarshaller\((.*?)\).*?return.*?\})/
+	customMarshallerRegistrar.text = customMarshallerRegistrar.text.replaceAll(functionRegex) { all, function, matchedDomainClass -> 
+		(matchedDomainClass == domainClass) ? '' : all
+	}
+				
+	// Add new marshaller
+	customMarshallerRegistrar.text = customMarshallerRegistrar.text.replaceAll(/(?s)(registerMarshallers\(\).*?\{)/, "\$1\n${jsonMarshaller}")
 }
 
 def generateResourceUrlMapping = {

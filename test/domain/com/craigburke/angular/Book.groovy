@@ -15,5 +15,9 @@ class Book {
         pageCount(required: true)
         price(required: true)
     }
+	
+	public String toString() {
+		title
+	}
 
 }
