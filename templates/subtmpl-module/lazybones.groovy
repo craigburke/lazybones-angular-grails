@@ -1,6 +1,8 @@
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.FilenameUtils
 import java.lang.reflect.Modifier
+import static groovy.io.FileType.FILES
+
 
 def props = [:]
 
@@ -55,24 +57,24 @@ props.formatResourceName = { String moduleName ->
 	resource[0]?.toUpperCase() + resource?.substring(1)
 }
 
-boolean isCrudModule = (tmplQualifiers[1] != "blank")
+boolean isCrudModule = (tmplQualifiers[0] != "blank")
+
 props.group = parentParams.group
+props.groupPath = props.group.replace('.', '/')
 props.moduleName = props.formatModuleName(ask("Define the name for your new module [myModule]: ", "myModule", "moduleName"))
-
-if (isCrudModule) {
-	props.domainClassName = props.group + '.' + ask("Define the name of the domain class [Foo]: ", "Foo", "domainClass")
-	props.domainProperties = getDomainProperties(props.domainClassName, props.group)
-}
-
-String moduleFilesDir = "angular/" + (isCrudModule ? "crud" : "blank")
-
 props.rootModule = parentParams.angularModule
 props.resourceName = props.formatResourceName(props.moduleName)
 props.fullModuleName = "${parentParams.angularModule}.${props.moduleName}"
 props.modulePath = props.getModulePath(props.fullModuleName)
 
-def moduleLocation = new File("${projectDir}/grails-app/assets/javascripts/${props.modulePath}")
-FileUtils.deleteQuietly(moduleLocation)
+if (isCrudModule) {
+	props.domainClassName = props.group + '.' + ask("Define the name of the domain class [Foo]: ", "Foo", "domainClass")
+	props.domainProperties = getDomainProperties(props.domainClassName, props.group)
+	props.defaultResource = "${props.resourceName}Resource"
+	props.resourceUrl = "/api/${props.moduleName}"
+}
+
+String moduleFilesDir = "angular/" + (isCrudModule ? "crud" : "blank")
 
 def copyAngularTemplates = {
 	File source = new File(projectDir, "src/templates/angular/")	
@@ -81,78 +83,73 @@ def copyAngularTemplates = {
 	FileUtils.copyDirectory(source, destinatation, true)
 }
 
-def generateController = {
-	processTemplates "${moduleFilesDir}/Controller.groovy", props
+def generateCustomMarshaller = {	
+	def customMarshallerRegistrar = new File(projectDir, "src/groovy/${props.groupPath}/CustomMarshallerRegistrar.groovy")
 	
-    String groupPath = props.group.replace('.', '/') + '/'
-	File source = new File(templateDir, "${moduleFilesDir}/Controller.groovy")
-    File destination = new File(projectDir, "grails-app/controllers/${groupPath}/${props.resourceName}Controller.groovy")
-	FileUtils.deleteQuietly(destination)
-	
-	FileUtils.moveFile(source, destination)
-	
-	//* Add custom JSON marshaller
-	def customMarshallerRegistrar = new File(projectDir, "src/groovy/${groupPath}/CustomMarshallerRegistrar.groovy")
-	String domainClass = "${props.group}.${props.resourceName}"
 	String jsonMarshaller = 
 	"""
-		JSON.registerObjectMarshaller(${domainClass}) {
+		JSON.registerObjectMarshaller(${props.domainClassName}) {
 			def map = [:];
 			map['id'] = it?.id;
 			${props.domainProperties.collect { "map['" + it.name + "'] = it?." + it.name + ";" }.join('\n\t\t\t')}
 	    	map['toText'] = it?.toString();
 			return map 
 		}"""
-	// Remove existing marshaller
+		
+	// Remove existing marshallers
 	def functionRegex = /(?ms)(JSON\.registerObjectMarshaller\((.*?)\).*?return.*?\})/
 	customMarshallerRegistrar.text = customMarshallerRegistrar.text.replaceAll(functionRegex) { all, function, matchedDomainClass -> 
-		(matchedDomainClass == domainClass) ? '' : all
+		(matchedDomainClass == props.domainClassName) ? '' : all
 	}
 				
 	// Add new marshaller
 	customMarshallerRegistrar.text = customMarshallerRegistrar.text.replaceAll(/(?s)(registerMarshallers\(\).*?\{)/, "\$1\n${jsonMarshaller}")
 }
 
-def generateResourceUrlMapping = {
+def setUrlMappings = {
 	def mappingFile = new File("${projectDir}/grails-app/conf/UrlMappings.groovy")
 	
-	String resourceMapping = "\t\t'/api/${props.moduleName}'(resources: '${props.moduleName}')\n"
-	String viewMapping = "\t\t'/${props.moduleName}'(view: '${props.moduleName}')\n"
-		
-	if (!mappingFile.text.contains(resourceMapping)) {
-		mappingFile.text = mappingFile.text.replaceAll(/(mappings\s*=\s*\{\s*\n*)/, "\$1${viewMapping}${resourceMapping}")
-	}
-}
-
-def generatePage = {
-	processTemplates "angular/common/index.gsp", props
-	
-	File source = new File(templateDir, "/angular/common/index.gsp")
-	File destination = new File(projectDir, "grails-app/views/${props.moduleName}.gsp") 
-	FileUtils.deleteQuietly(destination)
-	
-	FileUtils.moveFile(source, destination)
-}
-
-def generateModule = {
+	String mapping = "\t\t'/${props.moduleName}'(view: '${props.moduleName}')\n"
 	if (isCrudModule) {
-		props.defaultResource = "${props.resourceName}Resource"
-		props.resourceUrl = "/api/${props.moduleName}"		
+		// Add resource mapping
+		mapping += "\t\t'/api/${props.moduleName}'(resources: '${props.moduleName}')\n"
 	}
-
-	processTemplates "${moduleFilesDir}/javascript/**", props
-	File source = new File(templateDir, "${moduleFilesDir}/javascript")
-
-	FileUtils.moveDirectory(source, moduleLocation)
+		
+	if (!mappingFile.text.contains(mapping)) {
+		mappingFile.text = mappingFile.text.replaceAll(/(mappings\s*=\s*\{\s*\n*)/, "\$1${mapping}")
+	}
 }
 
+def processTemplateFiles = {
+	processTemplates "${moduleFilesDir}/**/*", props
+	processTemplates "angular/common/**/*", props
 
-def generateTemplates = {
-	processTemplates "${moduleFilesDir}/templates/**", props
-	moduleLocation.mkdirs()
+	def processFile = { File baseDirectory, File file ->
+		String relativePath = file.path - baseDirectory.path
 	
-	File source = new File(templateDir, "${moduleFilesDir}/templates")
-	FileUtils.moveDirectoryToDirectory(source, moduleLocation, true)
+		String destinationPath = relativePath
+
+		def pathReplacements = [
+			modulePath: props.modulePath,
+			groupPath: props.groupPath,
+			resourceName: props.resourceName,
+			moduleName: props.moduleName
+		]
+				
+		pathReplacements.each { key, value ->
+			destinationPath = destinationPath.replace("_${key}_", value)
+		}
+		
+		File destination = new File(projectDir, destinationPath)
+		FileUtils.deleteQuietly(destination)
+		FileUtils.copyFile(file, destination)
+	}
+	
+	File templateDirectory = new File(templateDir, "${moduleFilesDir}")	
+	templateDirectory.eachFileRecurse(FILES) { processFile(templateDirectory, it) }
+	 
+	File commonDirectory = new File(templateDir, "angular/common") 
+	commonDirectory.eachFileRecurse(FILES) { processFile(commonDirectory, it) } 
 }
 
 def printMessage = {
@@ -167,13 +164,11 @@ def cleanup = {
 copyAngularTemplates()
 
 if (isCrudModule) {
-	generateController()	
-	generateResourceUrlMapping()
+	generateCustomMarshaller()
 }
 
-generatePage()
-generateModule()
-generateTemplates()
+setUrlMappings()
+processTemplateFiles()
 printMessage()
 cleanup()
 
