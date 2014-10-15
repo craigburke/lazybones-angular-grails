@@ -2,11 +2,8 @@
 <h2>Show ${resourceName}</h2>
 <div flash-message ></div>
 
-<table class="table table-bordered">
-<% domainProperties.each { property -> %>
-    <tr display-field label="${property.label}" value="${renderDisplay(property, 'ctrl.' + moduleName)}"></tr>
-<% } %>
-
+<table class="table table-bordered"><% domainProperties.each { property -> %>
+    <tr display-field label="${property.label}" value="${renderDisplay(property, 'ctrl.' + moduleName)}"></tr><% } %>
 </table>
 
 <div class="form-actions">

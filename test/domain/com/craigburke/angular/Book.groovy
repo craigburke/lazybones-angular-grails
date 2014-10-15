@@ -10,7 +10,7 @@ class Book {
 
     static constraints = {
         title(required: true, blank: false)
-        author(required: true)
+        author(required: false, nullable: true)
         publishDate(required: true)
         pageCount(required: true)
         price(required: true)

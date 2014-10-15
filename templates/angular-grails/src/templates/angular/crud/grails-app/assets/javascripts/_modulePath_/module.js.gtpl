@@ -2,6 +2,8 @@
 //= require controllers
 //= require services <%= domainList.collect { '\n//= require /' + getModulePath(formatModuleName(rootModule + '.' + it)) + '/services' }.join("\n")  %>
 //= require_tree /${modulePath}/templates/
+
+'use strict';
 <% def generateResolveProperty = { item -> """
 				${item[0].toLowerCase() + item.substring(1)}List: function(${item}Resource) {
 					return ${item}Resource.list();
@@ -9,21 +11,20 @@
 """
 }
 %>
-'use strict';
 angular.module('${fullModuleName}', [
-'grails', 
-'${fullModuleName}.controllers', <%= domainList.collect { "\n'${formatModuleName(rootModule + '.' + it)}.services'," }.join("\n") %>
-'${fullModuleName}.services'
+	'grails', 
+	'${fullModuleName}.controllers', ${domainList ? NEWLINE : ''}<%= domainList.collect { "${TAB}'${formatModuleName(rootModule + '.' + it)}.services'," }.join(NEWLINE) %>
+	'${fullModuleName}.services'
 ])
 .value('defaultCrudResource', '${defaultResource}')
-.config(function(<%='\\$routeProvider'%>) {
-<%='\\$routeProvider'%>
+.config(function(${DOLLAR_SIGN}routeProvider) {
+	${DOLLAR_SIGN}routeProvider
         .when('/', {
             controller: 'ListCtrl as ctrl',
             templateUrl: 'list.html',
             resolve: {
-                ${moduleName}List: function(<%='\\$route'%>, ${defaultResource}) {
-                    var params = <%='\\$route'%>.current.params;
+                ${moduleName}List: function(${DOLLAR_SIGN}route, ${defaultResource}) {
+                    var params = ${DOLLAR_SIGN}route.current.params;
                     return ${defaultResource}.list(params);
                 }<%= (domainList ? ',' : '' ) + domainList.collect{ generateResolveProperty(it) }.join(', ') %> 
             }
@@ -41,8 +42,8 @@ angular.module('${fullModuleName}', [
             controller: 'CreateEditCtrl as ctrl',
             templateUrl: 'create-edit.html',
             resolve: {
-                ${moduleName}: function(<%='\\$route'%>, ${defaultResource}) {
-                    var id = <%='\\$route'%>.current.params.id;
+                ${moduleName}: function(${DOLLAR_SIGN}route, ${defaultResource}) {
+                    var id = ${DOLLAR_SIGN}route.current.params.id;
                     return ${defaultResource}.get(id);
                 }<%= (domainList ? ',' : '' ) + domainList.collect{ generateResolveProperty(it) }.join(', ') %> 
             }
@@ -51,8 +52,8 @@ angular.module('${fullModuleName}', [
             controller: 'ShowCtrl as ctrl',
             templateUrl: 'show.html',
             resolve: {
-                ${moduleName}: function(<%='\\$route'%>, ${defaultResource}) {
-                    var id = <%='\\$route'%>.current.params.id;
+                ${moduleName}: function(${DOLLAR_SIGN}route, ${defaultResource}) {
+                    var id = ${DOLLAR_SIGN}route.current.params.id;
                     return ${defaultResource}.get(id);
                 }
             }

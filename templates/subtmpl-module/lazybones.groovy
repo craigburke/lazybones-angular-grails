@@ -3,20 +3,19 @@ import org.apache.commons.io.FilenameUtils
 import java.lang.reflect.Modifier
 import static groovy.io.FileType.FILES
 
-
 def props = [:]
+
+props.DOLLAR_SIGN = '\\$'
+props.TAB = '\\t'
+props.NEWLINE = '\\n'
 
 props.renderInput = { property, String modelPrefix ->
 	if (property.domainClass) {
-		"""
-		<select name="${property.name}" class='form-control' ng-model="${modelPrefix}.${property.name}" ng-options="item.toText for item in ctrl.${property.name}List track by item.id" ></select>
-		"""
+		"""<select name="${property.name}" class="form-control" ng-model="${modelPrefix}.${property.name}" ng-options="item.toText for item in ctrl.${property.name}List track by item.id" ></select>"""
 	}
 	else {
 		String inputType = property.type in [Float, Integer] ? 'number' : 'text'
-		"""
-		<input name="${property.name}" type="${inputType}" class='form-control' ${property.type == Date ? 'date-field' : ''} ng-model="${modelPrefix}.${property.name}" />
-		"""
+		"""<input name="${property.name}" type="${inputType}" class='form-control'${property.type == Date ? ' date-field ' : ' '}ng-model="${modelPrefix}.${property.name}" />"""
 	}
 }
 
@@ -52,18 +51,16 @@ props.formatModuleName = { String moduleName ->
 	moduleParts.collect { it[0]?.toLowerCase() + it?.substring(1) }.join('.')
 } 
  
-props.formatResourceName = { String moduleName ->
-	String resource = moduleName.tokenize('.').last()
-	resource[0]?.toUpperCase() + resource?.substring(1)
-}
-
 boolean isCrudModule = (tmplQualifiers[0] != "blank")
 
 props.group = parentParams.group
 props.groupPath = props.group.replace('.', '/')
 props.moduleName = props.formatModuleName(ask("Define the name for your new module [myModule]: ", "myModule", "moduleName"))
 props.rootModule = parentParams.angularModule
-props.resourceName = props.formatResourceName(props.moduleName)
+props.resourceName = {
+		String resource = it.tokenize('.').last()
+		resource[0]?.toUpperCase() + resource?.substring(1)
+	}(props.moduleName)
 props.fullModuleName = "${parentParams.angularModule}.${props.moduleName}"
 props.modulePath = props.getModulePath(props.fullModuleName)
 

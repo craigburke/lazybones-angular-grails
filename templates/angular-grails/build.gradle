@@ -89,7 +89,7 @@ task jasmineWatch(type: NodeTask, dependsOn: 'setupJasmine') {
 test.dependsOn jasmineRun
 
 dependencies {
-	springloaded 'org.springframework:springloaded:1.1.5.RELEASE@jar'
+	springloaded 'org.springframework:springloaded:1.2.1.RELEASE@jar'
 	
   	String gebVersion = '0.9.2'
 	String seleniumVersion = '2.43.1'

@@ -1,5 +1,6 @@
+'use strict';
 <% def domainList = domainProperties.findAll{ it.domainClass }.collect { "${it.name}List" } %>
-function ListCtrl(<%='\\$scope'%>, ${defaultResource}, ${moduleName}List<%= (domainList ? ', ' : '') + domainList.join(', ') %>, pageSize) {
+function ListCtrl(${DOLLAR_SIGN}scope, ${defaultResource}, ${moduleName}List<%= (domainList ? ', ' : '') + domainList.join(', ') %>, pageSize) {
     var self = this;
     self.${moduleName}List = ${moduleName}List;
 	<%= domainList.collect{ "self.${it} = ${it};" }.join('\n') %>
