@@ -4,7 +4,9 @@ plugins {
 
 lazybones {
 	template "angular-grails" includes "module"
-	repositoryName = "<account>/<templates-repo>"
+	repositoryName = "craigburke/lazybones"
+	repositoryUsername = project.bintrayUsername
+	repositoryApiKey = project.bintrayApiKey
 }
 
 project.ext {
