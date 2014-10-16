@@ -17,7 +17,7 @@
 <p><button crud-button="create" ></button></p>
 
 
-<table id="list" class="table table-striped table-bordered">
+<table id="list" class="table table-striped table-bordered table-hover">
 
     <thead sort-header ng-model="ctrl.sort" on-sort="ctrl.reload()">
         <th sortable-column title="Id" property="id"></th><% domainProperties.take(4).each { property -> %>
@@ -36,6 +36,6 @@
     </tbody>
 </table>
 
-<div pagination total-items="ctrl.items.getTotalCount()" items-per-page="ctrl.pageSize" ng-model="ctrl.page" ng-change="ctrl.load()"></div>
+<div pagination total-items="ctrl.${moduleName}List.getTotalCount()" items-per-page="ctrl.pageSize" ng-model="ctrl.page" ng-change="ctrl.load()"></div>
 </div>
 </div>

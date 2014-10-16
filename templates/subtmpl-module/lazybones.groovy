@@ -1,6 +1,5 @@
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.FilenameUtils
-import java.lang.reflect.Modifier
 import static groovy.io.FileType.FILES
 
 def props = [:]
@@ -29,7 +28,7 @@ props.renderDisplay = { property, String modelPrefix ->
 			displayFilter = " | currency"
 			break
 		case Date:
-			displayFilter = " | date: 'medium'"
+			displayFilter = " | date: 'MMM d, yyyy'"
 			break
 	}	
 	String item = "${modelPrefix}.${property.name}"
@@ -57,10 +56,12 @@ props.group = parentParams.group
 props.groupPath = props.group.replace('.', '/')
 props.moduleName = props.formatModuleName(ask("Define the name for your new module [myModule]: ", "myModule", "moduleName"))
 props.rootModule = parentParams.angularModule
+
 props.resourceName = {
 		String resource = it.tokenize('.').last()
 		resource[0]?.toUpperCase() + resource?.substring(1)
-	}(props.moduleName)
+}(props.moduleName)
+	
 props.fullModuleName = "${parentParams.angularModule}.${props.moduleName}"
 props.modulePath = props.getModulePath(props.fullModuleName)
 
@@ -179,14 +180,14 @@ def getDomainProperties(String className, String group) {
 	def domainObject = classLoader.loadClass(className)
 			
 	def properties = []
-	def fields = domainObject.declaredFields.findAll { !Modifier.isStatic(it.modifiers) && it.name != 'metaClass' }
+	def fields = domainObject.declaredFields.findAll { !it.isSynthetic() && it.name != 'id' && it.type != Object }
 		
-	fields.each { field ->
+	fields.each { field ->		
 		String propertyName = field.name
 		String label = propertyName[0].toUpperCase() + propertyName.substring(1).replaceAll(/([A-Z])/, / $1/)
-		Class type = field.genericType
+		Class type = field.type
 		boolean isDomainClass = type.name.startsWith(group)
-					
+		
 		properties << [name: propertyName, label: label, type : type, domainClass: isDomainClass ]
 	}
 		
