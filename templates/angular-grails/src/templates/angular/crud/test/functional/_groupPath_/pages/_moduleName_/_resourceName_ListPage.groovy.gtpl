@@ -10,9 +10,14 @@ class ${resourceName}ListPage extends Page {
     static at = { ${DOLLAR_SIGN}('h2').text() == '${resourceName} List' }
 
     static content = {
-        createButton { ${DOLLAR_SIGN}("button[crud-button='create']") }
+<%= domainProperties.collect {"${TAB*2}${it.name}Filter {${DOLLAR_SIGN}(\"${it.domainClass ? 'select' : 'input'}[ng-model='ctrl.filter.${it.name}']\")}" }.join(NEWLINE) %>
+	
+<%= domainProperties.take(4).collect{ """${TAB*2}${it.name}Sort { ${DOLLAR_SIGN}("table#list th[property='${it.name}']") }"""}.join(NEWLINE) %>
+    
+	    createButton { ${DOLLAR_SIGN}("button[crud-button='create']") }
         successMessage { ${DOLLAR_SIGN}(".alert-success") }
-        rows { moduleList ${resourceName}ListRow, ${DOLLAR_SIGN}("table tbody tr") }
+		
+        rows { moduleList ${resourceName}ListRow, ${DOLLAR_SIGN}("table#list tbody tr") }
     }
 
 }

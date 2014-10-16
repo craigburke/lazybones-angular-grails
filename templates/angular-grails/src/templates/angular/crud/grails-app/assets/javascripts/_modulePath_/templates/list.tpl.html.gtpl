@@ -17,7 +17,7 @@
 <p><button crud-button="create" ></button></p>
 
 
-<table class="table table-striped table-bordered">
+<table id="list" class="table table-striped table-bordered">
 
     <thead sort-header ng-model="ctrl.sort" on-sort="ctrl.reload()">
         <th sortable-column title="Id" property="id"></th><% domainProperties.take(4).each { property -> %>

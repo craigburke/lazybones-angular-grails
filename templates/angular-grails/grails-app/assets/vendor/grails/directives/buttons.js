@@ -49,7 +49,7 @@ function crudButton($location, $injector, defaultCrudResource, FlashService) {
                                 $scope.afterAction();
                             }
                             $scope.$on('$destroy', function () {
-                                FlashService.success(defaultResource.getName() + " was updated");
+                                FlashService.success(defaultResource.getName() + " was successfully updated");
                             });
                         },
                         errorFunction)
@@ -62,7 +62,7 @@ function crudButton($location, $injector, defaultCrudResource, FlashService) {
                                 $scope.afterAction();
                             }
                             $scope.$on('$destroy', function () {
-                                FlashService.success(defaultResource.getName() + " was saved");
+                                FlashService.success(defaultResource.getName() + " was successfully created");
                             });
                         },
                         errorFunction)
