@@ -2,10 +2,22 @@ Lazybones Template for AngularJS Grails
 ================================
 ## Getting started
 
-To generate a new project make sure you have lazybones installed (easiest to install through GVM):
+To generate a new project make sure you have [Lazybones](https://github.com/pledbrook/lazybones) installed:
+
 ```bash
 gvm install lazybones
 ```
+
+### Installing from Bintray
+
+```bash
+lazybones create http://dl.bintray.com/craigburke/lazybones/angular-grails-template-0.5.0.zip my-project
+```
+
+### Installing from source
+
+Checkout this project from github
+
 Then install the template
 ```bash
 gradlew installAllTemplates
