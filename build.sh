@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 
+LAZYBONES_VERSION="0.7.1"
 SELENIUM_VERSION="2.42.2"
 SELENIUM_FOLDER=${SELENIUM_VERSION%.*}
 
@@ -17,6 +18,13 @@ function install_java {
 	sudo apt-get -q -y install oracle-java7-set-default
 }
 
+function install_lazybones {
+	sudo mkdir /opt/lazybones
+	wget "http://dl.bintray.com/pledbrook/lazybones-templates/lazybones-$LAZYBONES_VERSION.zip"
+	sudo unzip "lazybones-$LAZYBONES_VERSION.zip" /opt/lazybones/
+	export PATH=$PATH:/opt/lazybones/bin
+}
+
 function start_selenium {
 	sudo start xvfb
 	wget "http://selenium-release.storage.googleapis.com/$SELENIUM_FOLDER/selenium-server-standalone-$SELENIUM_VERSION.jar" --quiet
@@ -24,5 +32,6 @@ function start_selenium {
 }
 
 install_java
+install_lazybones
 start_selenium
 ./gradlew buildTestApp
