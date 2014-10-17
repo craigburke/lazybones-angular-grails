@@ -21,7 +21,7 @@ function install_java {
 function install_lazybones {
 	sudo mkdir /opt/lazybones
 	wget "http://dl.bintray.com/pledbrook/lazybones-templates/lazybones-$LAZYBONES_VERSION.zip"
-	sudo unzip "lazybones-$LAZYBONES_VERSION.zip" /opt/lazybones/
+	sudo unzip "lazybones-$LAZYBONES_VERSION.zip" -d /opt/lazybones/
 	export PATH=$PATH:/opt/lazybones/bin
 }
 
