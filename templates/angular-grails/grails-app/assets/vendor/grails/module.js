@@ -9,6 +9,7 @@
 angular.module('grails', [
     'ngRoute',
     'ngResource',
+	'ngAnimate',
     'ui.bootstrap',
     'grails.directives',
     'grails.services',

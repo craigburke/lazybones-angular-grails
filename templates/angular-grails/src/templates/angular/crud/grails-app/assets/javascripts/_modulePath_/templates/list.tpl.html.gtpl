@@ -25,7 +25,7 @@
         <th>&nbsp;</th>
     </thead>
     <tbody>
-        <tr ng-repeat="item in ctrl.${moduleName}List">
+        <tr class="animate-repeat" ng-repeat="item in ctrl.${moduleName}List">
             <td><a href="#/show/{{item.id}}">{{item.id}}</a></td><% domainProperties.take(4).each { property -> %>
 			<td>{{ ${renderDisplay(property, 'item')} }}</td><% } %>
             <td>

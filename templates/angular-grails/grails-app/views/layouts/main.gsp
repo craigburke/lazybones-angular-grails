@@ -43,7 +43,7 @@
         <div class="row">
             <div class="col-md-12">
 
-            <div ng-view></div>
+            <div class="animate-view" ng-view></div>
             <g:layoutBody />
         </div>
       </div>
