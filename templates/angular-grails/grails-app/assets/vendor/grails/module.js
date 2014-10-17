@@ -14,3 +14,5 @@ angular.module('grails', [
     'grails.services',
     'grails.constants'
 ]);
+
+angular.module('grails.constants', []);
