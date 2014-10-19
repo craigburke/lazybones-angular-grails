@@ -48,9 +48,8 @@ function crudButton($location, $injector, defaultCrudResource, FlashService) {
                             if ($scope.afterAction) {
                                 $scope.afterAction();
                             }
-                            $scope.$on('$destroy', function () {
-                                FlashService.success(defaultResource.getName() + " was successfully updated");
-                            });
+							var message = defaultResource.getName() + " was successfully updated";
+                            FlashService.success(message, {routeChange: true});
                         },
                         errorFunction)
                 }
@@ -61,9 +60,8 @@ function crudButton($location, $injector, defaultCrudResource, FlashService) {
                             if ($scope.afterAction) {
                                 $scope.afterAction();
                             }
-                            $scope.$on('$destroy', function () {
-                                FlashService.success(defaultResource.getName() + " was successfully created");
-                            });
+							var message = defaultResource.getName() + " was successfully created";
+                            FlashService.success(message, {routeChange: true});
                         },
                         errorFunction)
                 }
@@ -71,15 +69,22 @@ function crudButton($location, $injector, defaultCrudResource, FlashService) {
 
             var deleteFn = function () {
                 var successFn = function () {
-                    FlashService.success(defaultResource.getName() + ' was successfully deleted');
-                    $location.path('/');
-                    if ($scope.afterAction) {
+					var routeChange = ($location.path() !== '/')
+					
+					if ($scope.afterAction) {
                         $scope.afterAction();
                     }
+					if (routeChange) {
+						$location.path('/');
+					}
+
+					var message = defaultResource.getName() + ' was successfully deleted';
+                    FlashService.success(message, {routeChange: routeChange});					
                 };
 
                 var errorFn = function () {
-                    FlashService.error("Couldn't delete " + defaultResource.getName());
+					var message = "Couldn't delete " + defaultResource.getName();
+                    FlashService.error(message);
                 };
 
                 defaultResource.delete($scope.item.id, successFn, errorFn);

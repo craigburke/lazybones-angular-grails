@@ -8,51 +8,66 @@ describe('grails FlashService: ', function() {
     }));
 
     it('should be able to set a default message', function() {
-        FlashService.set("Default");
-        var message = FlashService.get();
+        FlashService.setMessage("Default");
+        var message = FlashService.getMessage();
 
         expect(message.message).toEqual("Default");
-        expect(message.title).toBeUndefined();
-        expect(message.type).toEqual(FlashService.TYPES.INFO);
+        expect(message.type).toEqual(FlashService.TYPE.INFO);
     });
 
     it('should be able to set different message types', function() {
-        FlashService.set("Error", FlashService.TYPES.ERROR, "Error Title");
-        var message = FlashService.get();
+        FlashService.error("Error");
+        var message = FlashService.getMessage();
 
         expect(message.message).toEqual("Error");
-        expect(message.title).toEqual("Error Title");
-        expect(message.type).toEqual(FlashService.TYPES.ERROR);
+        expect(message.type).toEqual(FlashService.TYPE.ERROR);
 
         FlashService.clear();
-        expect(FlashService.get()).toBeNull();
+        expect(FlashService.getMessage()).toBeNull();
 
-        FlashService.set("Success", FlashService.TYPES.SUCCESS, "Success Title");
-        var message = FlashService.get();
+        FlashService.success("Success");
+        var message = FlashService.getMessage();
 
         expect(message.message).toEqual("Success");
-        expect(message.title).toEqual("Success Title");
-        expect(message.type).toEqual(FlashService.TYPES.SUCCESS);
+        expect(message.type).toEqual(FlashService.TYPE.SUCCESS);
 
         FlashService.clear();
-        expect(FlashService.get()).toBeNull();
+        expect(FlashService.getMessage()).toBeNull();
 
-        FlashService.set("Info", FlashService.TYPES.INFO, "Info Title");
-        var message = FlashService.get();
+        FlashService.setMessage("Info");
+        var message = FlashService.getMessage();
 
         expect(message.message).toEqual("Info");
-        expect(message.title).toEqual("Info Title");
-        expect(message.type).toEqual(FlashService.TYPES.INFO);
+        expect(message.type).toEqual(FlashService.TYPE.INFO);
 
         FlashService.clear();
-        expect(FlashService.get()).toBeNull();
+        expect(FlashService.getMessage()).toBeNull();
     });
+	
+	it('should clear after two clear request if routeChange property set', function() {
+        FlashService.setMessage("Foo", {type: FlashService.TYPE.SUCCESS, routeChange: true});
+        var message = FlashService.getMessage();
+		expect(message.message).toEqual("Foo");
+		
+		FlashService.clear();
+		expect(FlashService.getMessage()).not.toBeNull();
+
+		FlashService.clear();
+		expect(FlashService.getMessage()).toBeNull();
+		
+        FlashService.setMessage("Foo");
+        var message = FlashService.getMessage();
+		expect(message.message).toEqual("Foo");
+		
+		FlashService.clear();
+		expect(FlashService.getMessage()).toBeNull();	
+	})
 
     it('should fire the flash:messageChange event', function() {
         spyOn($rootScope, '$broadcast');
         expect($rootScope.$broadcast).not.toHaveBeenCalledWith('flash:messageChange');
 
-        FlashService.set("Foo");
+        FlashService.setMessage("Foo");
         expect($rootScope.$broadcast).toHaveBeenCalledWith('flash:messageChange');
     });
 

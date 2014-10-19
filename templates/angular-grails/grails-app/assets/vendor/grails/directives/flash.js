@@ -11,9 +11,9 @@ function flashMessage(FlashService) {
         link: function($scope) {
             $scope.getMessageClass = function(type) {
                 switch(type) {
-                    case FlashService.TYPES.ERROR:
+                    case FlashService.TYPE.ERROR:
                         return "alert-danger";
-                    case FlashService.TYPES.WARN:
+                    case FlashService.TYPE.WARN:
                         return "alert-warning";
                     default:
                         return "alert-" + type;
@@ -25,20 +25,20 @@ function flashMessage(FlashService) {
             };
 
             $scope.close = function() {
-                FlashService.clear();
+                FlashService.clear(true);
             };
 
             var loadMessage = function() {
-                $scope.flash = FlashService.get();
+				$scope.flash = FlashService.getMessage();
             };
-
-            $scope.$on('$destroy', function () {
-                FlashService.clear();
-            });
+			
+		    $scope.$on('$destroy', function () {
+				FlashService.clear();
+			});
 
             $scope.$on('flash:messageChange', loadMessage);
-
-            loadMessage();
+			
+			loadMessage();
         },
         templateUrl: 'flash-message.html'
     }

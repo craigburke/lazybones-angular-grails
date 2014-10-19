@@ -10,46 +10,64 @@ function FlashService($rootScope) {
         WARN: 'warn'
     };
 
-    var _message = null;
+	var _message, _clearRequestCount, _routeChangePersist;
 
     var broadcastChange = function() {
         $rootScope.$broadcast('flash:messageChange');
     };
-
-    var clearMessage = function() {
+	
+	var resetMessage = function() {
         _message = null;
-        broadcastChange();
+		_clearRequestCount = 0;
+	}
+	
+    var clearMessage = function(forceClear) {
+		_clearRequestCount++;
+		
+		if (!_routeChangePersist || _clearRequestCount >= 2) {
+			resetMessage();
+	        broadcastChange();	
+		}
     }
 
-    var setMessage = function(message, type, title) {
-        _message = {message: message, type: type, title: title};
+    FlashService.TYPE = MESSAGE_TYPE;
+
+    FlashService.setMessage = function(message, options) {
+		options = options || {};
+        var type = options.type || MESSAGE_TYPE.INFO;
+    
+        _message = {message: message, type: type};
+		_routeChangePersist = options.routeChange || false;
+		_clearRequestCount = 0;
+		
         broadcastChange();
-    };
+	};
+	
+	FlashService.error = function(message, options) {
+		options = options || {};
+		options.type = MESSAGE_TYPE.ERROR;
+		FlashService.setMessage(message, options);
+	};
+	
+	FlashService.success = function(message, options) {
+		options = options || {};
+		options.type = MESSAGE_TYPE.SUCCESS;
+		FlashService.setMessage(message, options);
+	};
+	
+	FlashService.warn = function(message, options) {
+		options = options || {};
+		options.type = MESSAGE_TYPE.WARN;
+		FlashService.setMessage(message, options);
+	};
+	
+	FlashService.info = function(message, options) {
+		options = options || {};
+		options.type = MESSAGE_TYPE.INFO;
+		FlashService.setMessage(message, options);
+	};
 
-    FlashService.TYPES = MESSAGE_TYPE;
-
-    FlashService.error = function(message, title) {
-        setMessage(message, MESSAGE_TYPE.ERROR, title);
-    };
-
-    FlashService.success = function(message, title) {
-        setMessage(message, MESSAGE_TYPE.SUCCESS, title);
-    };
-
-    FlashService.info = function(message, title) {
-        setMessage(message, MESSAGE_TYPE.INFO, title);
-    };
-
-    FlashService.warn = function(message, title) {
-        setMessage(message, MESSAGE_TYPE.WARN, title);
-    };
-
-    FlashService.set = function(message, type, title) {
-        type = type ? type : MESSAGE_TYPE.INFO;
-        setMessage(message, type, title);
-    };
-
-    FlashService.get = function() {
+    FlashService.getMessage = function() {
         return _message;
     };
 
@@ -57,6 +75,7 @@ function FlashService($rootScope) {
         clearMessage();
     };
 
+	resetMessage();
     return FlashService;
 }
 
