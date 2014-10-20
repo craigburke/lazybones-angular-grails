@@ -5,7 +5,7 @@
 <form class="form"><% domainProperties.take(4).each { property -> %>
 	<div class="form-group">
 		<label for="filter.${property.name}">${property.label}</label>
-		<%= renderInput(property, 'ctrl.filter') %>
+		<%= util.renderInput(property, 'ctrl.filter') %>
     </div><% } %>
 </form>
 </div>
@@ -27,7 +27,7 @@
     <tbody>
         <tr class="animate-repeat" ng-repeat="item in ctrl.${moduleName}List">
             <td><a href="#/show/{{item.id}}">{{item.id}}</a></td><% domainProperties.take(4).each { property -> %>
-			<td>{{ ${renderDisplay(property, 'item')} }}</td><% } %>
+			<td>{{ ${util.renderDisplay(property, 'item')} }}</td><% } %>
             <td>
                 <button crud-button="edit" item="item" ></button>
                 <button crud-button="delete" item="item" after-action="ctrl.reload()"></button>

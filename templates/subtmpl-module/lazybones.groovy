@@ -3,40 +3,14 @@ import org.apache.commons.io.FilenameUtils
 import static groovy.io.FileType.FILES
 
 def props = [:]
-
 props.DOLLAR_SIGN = '\\$'
 props.TAB = '\\t'
 props.NEWLINE = '\\n'
 
-props.renderInput = { property, String modelPrefix ->
-	if (property.domainClass) {
-		"""<select name="${property.name}" class="form-control" ng-model="${modelPrefix}.${property.name}" ng-options="item.toText for item in ctrl.${property.name}List track by item.id" ></select>"""
-	}
-	else {
-		String inputType = property.type in [Float, Integer] ? 'number' : 'text'
-		"""<input name="${property.name}" type="${inputType}" class='form-control'${property.type == Date ? ' date-field ' : ' '}ng-model="${modelPrefix}.${property.name}" />"""
-	}
-}
-
-props.renderDisplay = { property, String modelPrefix ->
-	String displayFilter = ""
-	switch(property.type) {
-		case Integer:
-			displayFilter = " | number"
-			break
-		case Float:
-			displayFilter = " | currency"
-			break
-		case Date:
-			displayFilter = " | date: 'MMM d, yyyy'"
-			break
-	}	
-	String item = "${modelPrefix}.${property.name}"
-	if (property.domainClass) {
-		item += ".toText"
-	}
-	
-	"${item}${displayFilter}"
+// Bring in and expose any defined render utility methods
+def renderUtilFile = new File("${projectDir}/src/templates/angular/RenderUtil.groovy")
+if (renderUtilFile.exists()) {
+	props.util = new GroovyShell().evaluate(renderUtilFile)
 }
 
 props.getModulePath = { String fullModule ->
