@@ -19,10 +19,11 @@ function install_java {
 }
 
 function install_lazybones {
-	sudo mkdir /opt/lazybones
-	wget "http://dl.bintray.com/pledbrook/lazybones-templates/lazybones-$LAZYBONES_VERSION.zip"
-	sudo unzip "lazybones-$LAZYBONES_VERSION.zip" -d /opt/lazybones/
-	export PATH=$PATH:/opt/lazybones/bin
+	curl -s get.gvmtool.net | bash
+	echo "gvm_auto_answer=true" > ~/.gvm/etc/config
+	source ~/.gvm/bin/gvm-init.sh
+	gvm install lazybones
+	gvm use lazybones
 }
 
 function start_selenium {
@@ -34,4 +35,10 @@ function start_selenium {
 install_java
 install_lazybones
 start_selenium
-./gradlew buildTestApp
+./gradlew buildTestApp -PangularVersion=1.2
+cd test/app
+./gradlew test
+cd ../../
+./gradlew buildTestApp -PangularVersion=1.3
+cd test/app
+./gradlew test
