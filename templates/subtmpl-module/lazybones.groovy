@@ -187,10 +187,7 @@ def getDomainConstraints(Class domainClass, fields) {
 		constraints["${it.name}"] = [required: true, nullable: false]
 	}
 
-	def delegate = [ methodMissing: { String name, args ->
-		constraints[name] = args[0]
-	}] as Object 
-	
+	def delegate = new ConstraintDelegate()
 	delegate.constraints = constraints
 		
 	if (domainClass.constraints) {

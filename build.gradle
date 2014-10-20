@@ -11,12 +11,11 @@ lazybones {
 
 project.ext {
 	testApp = [
-		templateVersion: '0.6.0',
+		templateVersion: '0.7.0',
 		dir: 'test/app',
 		name: 'angular-grails',
 		group: 'com.craigburke.angular',
 		version: '1.0',
-		angularVersion: '1.3',
 		angularModule: 'exampleApp',
 		warName: 'angular-grails.war'
 	]
@@ -28,7 +27,7 @@ task buildTestApp(dependsOn: 'installAllTemplates') << {
 	
 	def properties = [
 		appName: project.testApp.name,
-		angularVersion: project.testApp.angularVersion,
+		angularVersion: project.angularVersion,
 		group: project.testApp.group,
 		version: project.testApp.version,
 		angularModule: project.testApp.angularModule,
