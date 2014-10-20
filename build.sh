@@ -42,3 +42,4 @@ cd ../../
 ./gradlew buildTestApp -PangularVersion=1.3
 cd test/app
 ./gradlew test
+./gradlew war
