@@ -155,15 +155,49 @@ def getDomainProperties(String className, String group) {
 			
 	def properties = []
 	def fields = domainObject.declaredFields.findAll { !it.isSynthetic() && it.name != 'id' && it.type != Object }
-		
+	def constraints = getDomainConstraints(domainObject, fields)	
+			
 	fields.each { field ->		
+	
 		String propertyName = field.name
 		String label = propertyName[0].toUpperCase() + propertyName.substring(1).replaceAll(/([A-Z])/, / $1/)
 		Class type = field.type
 		boolean isDomainClass = type.name.startsWith(group)
 		
-		properties << [name: propertyName, label: label, type : type, domainClass: isDomainClass ]
+		properties << [name: propertyName, label: label, type : type, domainClass: isDomainClass, constraints: constraints[propertyName] ]
 	}
 		
 	properties
 }
+
+class ConstraintDelegate {
+	def constraints = [:]
+	
+	def methodMissing(String name, args) {
+		constraints[name] = args[0]
+	}
+}
+
+
+def getDomainConstraints(Class domainClass, fields) {
+	def constraints = [:]
+
+	// set defaults
+	fields.each {
+		constraints["${it.name}"] = [required: true, nullable: false]
+	}
+
+	def delegate = [ methodMissing: { String name, args ->
+		constraints[name] = args[0]
+	}] as Object 
+	
+	delegate.constraints = constraints
+		
+	if (domainClass.constraints) {
+		domainClass.constraints.delegate = delegate
+		domainClass.constraints()
+	}
+	
+	delegate.constraints
+}
+

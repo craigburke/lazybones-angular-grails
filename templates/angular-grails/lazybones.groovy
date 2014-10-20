@@ -22,6 +22,6 @@ String groupPath = params.group.replace('.', '/')
 FileUtils.moveFile new File(installDir, 'PagedRestfulController.groovy'), new File(templateDir, "src/groovy/${groupPath}/PagedRestfulController.groovy")
 FileUtils.moveFile new File(installDir, 'CustomMarshallerRegistrar.groovy'), new File(templateDir, "src/groovy/${groupPath}/CustomMarshallerRegistrar.groovy")
 FileUtils.moveFile new File(installDir, 'resources.groovy'), new File(templateDir, "grails-app/conf/spring/resources.groovy")
-FileUtils.copyDirectory new File(installDir, "angular/${angularVersion}"), templateDir
+FileUtils.copyDirectory new File(installDir, "angular/${params.angularVersion}"), templateDir
 
 FileUtils.deleteDirectory(installDir)

@@ -11,7 +11,7 @@ gvm install lazybones
 ### Installing from Bintray
 
 ```bash
-lazybones create http://dl.bintray.com/craigburke/lazybones/angular-grails-template-0.6.0.zip my-project
+lazybones create http://dl.bintray.com/craigburke/lazybones/angular-grails-template-0.7.0.zip my-project
 ```
 
 ### Installing from source
@@ -24,7 +24,7 @@ gradlew installAllTemplates
 ```
 Now that you have the template installed locally you can create a new Grails app like this:
 ```bash
-lazybones create angular-grails 0.6.0 my-project
+lazybones create angular-grails 0.7.0 my-project
 ```
 
 **See it in Action:** [Live Demo](http://angular-grails.interwebs.io/)
