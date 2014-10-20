@@ -12,10 +12,10 @@ function install_java {
 	sudo apt-get -q -y install python-software-properties
 	sudo add-apt-repository -y ppa:webupd8team/java > /dev/null
 	sudo apt-get -q -y update
-	echo "oracle-java7-installer shared/accepted-oracle-license-v1-1 select true" | sudo debconf-set-selections
-	echo "oracle-java7-installer shared/accepted-oracle-license-v1-1 seen true" | sudo debconf-set-selections
+	echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | sudo debconf-set-selections
+	echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 seen true" | sudo debconf-set-selections
 
-	sudo apt-get -q -y install oracle-java7-set-default
+	sudo apt-get -q -y install oracle-java8-set-default
 }
 
 function install_lazybones {
@@ -35,11 +35,17 @@ function start_selenium {
 install_java
 install_lazybones
 start_selenium
+
+# Test Angular 1.2 version
 ./gradlew buildTestApp -PangularVersion=1.2
 cd test/app
 ./gradlew test
+
+# Test Angular 1.3 version
 cd ../../
 ./gradlew buildTestApp -PangularVersion=1.3
 cd test/app
 ./gradlew test
+
+# Build
 ./gradlew war
