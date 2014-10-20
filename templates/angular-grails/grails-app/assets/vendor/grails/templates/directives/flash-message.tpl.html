@@ -1,5 +1,5 @@
 
-<div id="flash-message" ng-show="flash.message" class="alert" ng-class="getMessageClass(flash.type)">
+<div id="flash-message" ng-show="flash.message" class="alert animate-message" ng-class="getMessageClass(flash.type)">
     <button type="button" class="close" aria-hidden="true" ng-click="close()">&times;</button>
 
     <ul ng-if="isList(flash.message)" ng-repeat="message in flash.message track by $index">

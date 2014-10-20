@@ -20,7 +20,7 @@
 	opacity:1;
 }
 
-.animate-repeat.ng-leave 
+.animate-repeat.ng-leave,
 .animate-view.ng-leave {
 	-webkit-animation:0.5s fade_animation;
 	-moz-animation:0.5s fade_animation;

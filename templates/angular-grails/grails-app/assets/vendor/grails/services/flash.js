@@ -68,7 +68,12 @@ function FlashService($rootScope) {
 	};
 
     FlashService.getMessage = function() {
-        return _message;
+		if (_routeChangePersist && _clearRequestCount == 0) {
+			return null;
+		}
+		else {
+	        return _message;
+		}
     };
 
     FlashService.clear = function() {
