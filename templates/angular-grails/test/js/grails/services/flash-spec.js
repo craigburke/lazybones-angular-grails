@@ -46,18 +46,18 @@ describe('grails FlashService: ', function() {
 	
 	it('should clear after two clear request if routeChange property set', function() {
         FlashService.setMessage("Foo", {type: FlashService.TYPE.SUCCESS, routeChange: true});
-        var message = FlashService.getMessage();
-		expect(message.message).toEqual("Foo");
+		expect(FlashService.getMessage()).toBeNull();
 		
 		FlashService.clear();
 		expect(FlashService.getMessage()).not.toBeNull();
-
+		expect(FlashService.getMessage().message).toEqual("Foo");
+		
 		FlashService.clear();
 		expect(FlashService.getMessage()).toBeNull();
 		
         FlashService.setMessage("Foo");
         var message = FlashService.getMessage();
-		expect(message.message).toEqual("Foo");
+		expect(FlashService.getMessage().message).toEqual("Foo");
 		
 		FlashService.clear();
 		expect(FlashService.getMessage()).toBeNull();	
