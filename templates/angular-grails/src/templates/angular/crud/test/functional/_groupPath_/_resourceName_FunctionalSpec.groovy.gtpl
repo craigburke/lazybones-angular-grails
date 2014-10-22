@@ -66,7 +66,7 @@ class ${resourceName}FunctionalSpec extends GebReportingSpec {
 	def "should be able to filter the ${resourceName} List"() {
 		given:
 		to ${resourceName}ListPage
-<%= domainProperties.take(4).collect{ ["${NEWLINE}${TAB*2}when:", "${it.name}Filter = ${getTestValueFromProperty(it, it.name + 'Filter', true)}", '', 'then:', "rows.size() > 0"].join("${NEWLINE}${TAB*2}")}.join(NEWLINE) %>
+<%= domainProperties.take(4).collect{ ["${NEWLINE}${TAB*2}when:", "${it.name}Filter = ${getTestValueFromProperty(it, it.name + 'Filter', true)}", '', 'then:', "waitFor { rows.size() > 0 }"].join("${NEWLINE}${TAB*2}")}.join(NEWLINE) %>
 	
 	}
 	
