@@ -24,10 +24,6 @@ function flashMessage(FlashService) {
                 return (message instanceof Array);
             };
 
-            $scope.close = function() {
-                FlashService.clear(true);
-            };
-
             var loadMessage = function() {
 				$scope.flash = FlashService.getMessage();
             };

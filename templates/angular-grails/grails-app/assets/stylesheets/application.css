@@ -1,5 +1,13 @@
 /*
 *= require bootstrap/css/bootstrap.min
 *= require font-awesome/css/font-awesome.min
-*= require angular-animations
+*= require animate
 */
+
+.animate-view.ng-enter {
+    animation: fadeIn 1s;
+}
+
+.animate-view.ng-leave {
+    animation: fadeIn 1s;
+}

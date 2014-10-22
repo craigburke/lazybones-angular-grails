@@ -21,7 +21,7 @@ function FlashService($rootScope) {
 		_clearRequestCount = 0;
 	}
 	
-    var clearMessage = function(forceClear) {
+    var clearMessage = function() {
 		_clearRequestCount++;
 		
 		if (!_routeChangePersist || _clearRequestCount >= 2) {
