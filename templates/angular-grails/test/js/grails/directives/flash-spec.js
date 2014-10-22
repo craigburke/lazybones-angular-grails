@@ -26,12 +26,6 @@ describe('grails flashDirective: ', function() {
         directiveScope = element.isolateScope();
     }));
 
-    it('should be able to create a flash directive', function() {
-        spyOn(mockFlashService, 'clear');
-        directiveScope.close();
-        expect(mockFlashService.clear).toHaveBeenCalled();
-    });
-
     it('should be cleaned up when the scope is destroyed', function() {
         spyOn(mockFlashService, 'clear');
         expect(mockFlashService.clear).not.toHaveBeenCalled();
