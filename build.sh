@@ -39,13 +39,13 @@ function run_tests {
 	# Test Angular 1.2 version
 	./gradlew buildTestApp -PangularVersion=1.2
 	cd test/app
-	./gradlew test
+	./gradlew test -PgrailsArgs=geb.waiting.timeout=60
 
 	# Test Angular 1.3 version
 	cd ../../
 	./gradlew buildTestApp -PangularVersion=1.3
 	cd test/app
-	./gradlew test
+	./gradlew test -PgrailsArgs=geb.waiting.timeout=60
 }
 
 function build {
