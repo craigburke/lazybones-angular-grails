@@ -46,7 +46,7 @@ class PagedRestfulController<T> extends RestfulController<T> {
                 
                 case [Float, Integer, BigDecimal]:
                     if (propertyValue.isNumber()) {
-                        criteria.eq(propertyName, propertyValue)
+                        criteria.eq(propertyName, propertyValue.asType(field.type))
                     }
                     else {
                         criteria.eq(propertyName, null)
