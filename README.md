@@ -8,9 +8,8 @@ Lazybones Template for AngularJS Grails
 
 You'll need to have the following installed on your machine:
 
-	* JDK (1.6+)
-	* [Lazybones](https://github.com/pledbrook/lazybones)
-	* [PhantomJS](http://phantomjs.org/) (to run tests)
+* JDK 1.6+
+* [Lazybones](https://github.com/pledbrook/lazybones)
 
 ### Installing from Bintray
 

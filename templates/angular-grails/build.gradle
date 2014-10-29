@@ -71,12 +71,17 @@ tasks.withType(GrailsTask) {
 	}
 }
 
+task setupPhantomJS(type: NpmTask) {
+	outputs.dir file('node_modules')
+	args = ['install', 'phantomjs']
+}
+
 task setupJasmine(type: NpmTask) {
 	outputs.dir file('node_modules')
 	args = ['install'] + jasmineDependencies
 }
 
-task jasmineRun(type: NodeTask, dependsOn: 'setupJasmine') {
+task jasmineRun(type: NodeTask, dependsOn: ['setupPhantomJS', 'setupJasmine']) {
 	script = karmaExec
 	args = ['start', karmaConfig, '--single-run']
 }
