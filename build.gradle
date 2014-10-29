@@ -11,7 +11,7 @@ lazybones {
 
 project.ext {
 	testApp = [
-		templateVersion: '0.7.2',
+		templateVersion: '1.0.0-SNAPSHOT',
 		dir: 'test/app',
 		name: 'angular-grails',
 		group: 'com.craigburke.angular',

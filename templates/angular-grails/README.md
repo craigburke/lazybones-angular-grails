@@ -11,11 +11,12 @@ https://github.com/craigburke/lazybones-angular-grails
 	gradlew test
 
 # Generate blank application
-	lazybones generate module::blank
+        lazybones generate module::blank
 
 # Generate REST application
 	* Create a domain class:
-	gradlew create-domain-class -PgrailsArgs=Foo
+	gradlew grails-create-domain-class -PgrailsArgs=Foo
 
 	* Generate your angular module:
 	lazybones generate module
+
