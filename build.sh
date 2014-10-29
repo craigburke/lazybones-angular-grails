@@ -35,27 +35,21 @@ function start_selenium {
 	java -jar "selenium-server-standalone.$SELENIUM_VERSION.jar" > /dev/null 2>&1 &
 }
 
-function run_tests {
-	# Test Angular 1.2 version
-	./gradlew buildTestApp -PangularVersion=1.2
-	cd test/app
-	./gradlew test -PgrailsArgs=geb.waiting.timeout=60
-
-	# Test Angular 1.3 version
-	cd ../../
-	./gradlew buildTestApp -PangularVersion=1.3
-	cd test/app
-	./gradlew test -PgrailsArgs=geb.waiting.timeout=60
-}
-
-function build {
-	./gradlew war
-
-}
-
 setup
 install_java
 install_lazybones
 start_selenium
-run_tests
-build
+
+# Test Angular 1.2 version
+./gradlew buildTestApp -PangularVersion=1.2
+cd test/app
+./gradlew test -PgrailsArgs=geb.waiting.timeout=60
+
+# Test Angular 1.3 version
+cd ../../
+./gradlew buildTestApp -PangularVersion=1.3
+cd test/app
+./gradlew test -PgrailsArgs=geb.waiting.timeout=60
+
+#Build
+./gradlew war
