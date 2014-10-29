@@ -1,11 +1,11 @@
-import org.openqa.selenium.firefox.FirefoxDriver
+import org.openqa.selenium.phantomjs.PhantomJSDriver
 
 driver = {
-    new FirefoxDriver()
+    new PhantomJSDriver()
 }
 
 waiting {
-    timeout = 60
+    timeout = 30
     retryInterval = 0.5
 }
 
