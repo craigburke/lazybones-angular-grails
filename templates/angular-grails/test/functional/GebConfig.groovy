@@ -5,7 +5,7 @@ driver = {
 }
 
 waiting {
-    timeout = 45
+    timeout = 60
     retryInterval = 0.5
 }
 
