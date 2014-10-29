@@ -40,16 +40,18 @@ install_java
 install_lazybones
 start_selenium
 
-# Test Angular 1.2 version
+printf "Testing Angular 1.2...\n"
 ./gradlew buildTestApp -PangularVersion=1.2
 cd test/app
 ./gradlew test -PgrailsArgs=geb.waiting.timeout=60
+printf "Done testing Angular 1.2!\n"
 
-# Test Angular 1.3 version
+printf "Testing Angular 1.3...\n"
 cd ../../
 ./gradlew buildTestApp -PangularVersion=1.3
 cd test/app
 ./gradlew test -PgrailsArgs=geb.waiting.timeout=60
+printf "Done testing Angular 1.3!\n"
 
 #Build
 ./gradlew war
