@@ -19,4 +19,3 @@ https://github.com/craigburke/lazybones-angular-grails
 
 	* Generate your angular module:
 	lazybones generate module
-

@@ -1,4 +1,5 @@
 import org.apache.commons.io.FileUtils
+import static groovy.io.FileType.FILES
 
 def params = [:]
 
@@ -15,13 +16,20 @@ params.warName = ask("Define the name for your war file [ROOT.war]: ", "ROOT.war
 processTemplates 'gradle.properties', params
 processTemplates 'application.properties', params
 processTemplates 'grails-app/conf/Config.groovy', params
-processTemplates "${installDirName}/*", params
+processTemplates "${installDirName}/app/**/*", params
 
-String groupPath = params.group.replace('.', '/')
+def processFile = { File baseDirectory, File file ->
+	String relativePath = file.path - baseDirectory.path
+	String groupPath = params.group.replace('.', '/')		
+	String destinationPath = relativePath.replace("_groupPath_", groupPath)
+		
+	File destination = new File(templateDir, destinationPath)
+	FileUtils.copyFile(file, destination)
+}
 
-FileUtils.moveFile new File(installDir, 'PagedRestfulController.groovy'), new File(templateDir, "src/groovy/${groupPath}/PagedRestfulController.groovy")
-FileUtils.moveFile new File(installDir, 'CustomMarshallerRegistrar.groovy'), new File(templateDir, "src/groovy/${groupPath}/CustomMarshallerRegistrar.groovy")
-FileUtils.moveFile new File(installDir, 'resources.groovy'), new File(templateDir, "grails-app/conf/spring/resources.groovy")
+File appDirectory = new File(installDir, "app")	
+appDirectory.eachFileRecurse(FILES) { processFile(appDirectory, it) }
+
 FileUtils.copyDirectory new File(installDir, "angular/${params.angularVersion}"), templateDir
 
 FileUtils.deleteDirectory(installDir)

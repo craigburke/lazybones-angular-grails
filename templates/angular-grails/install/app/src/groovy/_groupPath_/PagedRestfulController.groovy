@@ -35,7 +35,7 @@ class PagedRestfulController<T> extends RestfulController<T> {
         }
     }
 
-    private void setDefaultCriteria(criteria, String propertyName, String propertyValue) {
+    protected void setDefaultCriteria(criteria, String propertyName, String propertyValue) {
         def field = resource.declaredFields.find { it.name == propertyName }
         if (field && propertyValue) {
         
@@ -71,9 +71,9 @@ class PagedRestfulController<T> extends RestfulController<T> {
         }
     }
 
-	private String getContentRange(int totalCount, int offset, int max) {
-		int startRange = offset + 1;
-		int endRange = Math.min(startRange + max, totalCount)
+	protected String getContentRange(int totalCount, int offset, int max) {
+		int startRange = (totalCount == 0) ? 0 : offset + 1;
+		int endRange = Math.min(offset + max, totalCount)
 
 		"\${startRange}-\${endRange}/\${totalCount}"
 	}
