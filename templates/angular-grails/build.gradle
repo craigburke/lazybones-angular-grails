@@ -73,12 +73,12 @@ tasks.withType(GrailsTask) {
 
 task setupPhantomJS(type: NpmTask) {
 	outputs.dir file('node_modules')
-	args = ['install', 'phantomjs']
+	args = ['install', 'phantomjs', '--loglevel', 'error']
 }
 
 task setupJasmine(type: NpmTask) {
 	outputs.dir file('node_modules')
-	args = ['install'] + jasmineDependencies
+	args = ['install'] + jasmineDependencies + ['--loglevel', 'error']
 }
 
 task jasmineRun(type: NodeTask, dependsOn: ['setupPhantomJS', 'setupJasmine']) {
