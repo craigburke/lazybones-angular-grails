@@ -3,7 +3,7 @@
 <div flash-message ></div>
 
 <table class="table table-bordered table-striped"><% domainProperties.each { property -> %>
-    <tr display-field label="${property.label}" value="${util.renderDisplay(property, 'ctrl.' + moduleName)}"></tr><% } %>
+    <tr display-field label="${property.label}" value="${renderDisplay(property, 'ctrl.' + moduleName)}"></tr><% } %>
 </table>
 
 <div class="form-actions">

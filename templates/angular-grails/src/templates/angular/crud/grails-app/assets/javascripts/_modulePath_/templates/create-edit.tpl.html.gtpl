@@ -9,7 +9,7 @@
 <form name="form" class="form-horizontal" role="form" novalidate> <% domainProperties.each { property -> %>
 	
 	<div field-container label="${property.label}" invalid="form.${property.name}.${DOLLAR_SIGN}invalid">
-		<%= util.renderInput(property, 'ctrl.${moduleName}') %>
+		<%= renderInput(property, 'ctrl.${moduleName}') %>
 	</div><% } %>
 
     <div>

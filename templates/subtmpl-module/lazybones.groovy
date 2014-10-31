@@ -7,12 +7,6 @@ props.DOLLAR_SIGN = '\\$'
 props.TAB = '\\t'
 props.NEWLINE = '\\n'
 
-// Bring in and expose any defined render utility methods
-def renderUtilFile = new File("${projectDir}/src/templates/angular/RenderUtil.groovy")
-if (renderUtilFile.exists()) {
-	props.util = new GroovyShell().evaluate(renderUtilFile)
-}
-
 props.getModulePath = { String fullModule ->
 	String path = fullModule.replace('.', '/')
 	path = path.replaceAll(/([A-Z])/,/-$1/).toLowerCase().replaceAll(/^-/,'')
@@ -23,7 +17,7 @@ props.formatModuleName = { String moduleName ->
 	def moduleParts = moduleName.tokenize('.')	
 	moduleParts.collect { it[0]?.toLowerCase() + it?.substring(1) }.join('.')
 } 
- 
+
 boolean isCrudModule = (tmplQualifiers[0] != "blank")
 
 props.group = parentParams.group
@@ -44,6 +38,12 @@ if (isCrudModule) {
 	props.domainProperties = getDomainProperties(props.domainClassName, props.group)
 	props.defaultResource = "${props.resourceName}Resource"
 	props.resourceUrl = "/api/${props.moduleName}"
+}
+
+// Bring in and expose any defined render utility methods
+def renderUtilFile = new File("${projectDir}/src/templates/angular/RenderUtil.groovy")
+if (renderUtilFile.exists()) {
+	props += new GroovyShell().evaluate(renderUtilFile)
 }
 
 String moduleFilesDir = "angular/" + (isCrudModule ? "crud" : "blank")
