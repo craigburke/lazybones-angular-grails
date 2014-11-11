@@ -43,7 +43,7 @@ if (isCrudModule) {
 // Bring in and expose any defined render utility methods
 def renderUtilFile = new File("${projectDir}/src/templates/angular/RenderUtil.groovy")
 if (renderUtilFile.exists()) {
-	props += new GroovyShell().evaluate(renderUtilFile)
+	props << new GroovyShell().evaluate(renderUtilFile)
 }
 
 String moduleFilesDir = "angular/" + (isCrudModule ? "crud" : "blank")

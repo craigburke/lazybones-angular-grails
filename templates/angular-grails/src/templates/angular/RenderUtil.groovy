@@ -1,8 +1,8 @@
 def util = [:]
 
-
-util.renderInput = { property, String modelPrefix, attrs = [:] ->
-	String attrsString = attrs.collect { key, value -> " ${key}=\"${value}\" " }.join("")
+util.renderInput = { property, String modelPrefix, Map attrs = [:] ->
+	String attrsString = ""
+	
 	if (property.constraints.required || !property.constraints.nullable) {
 		attrsString += " required "
 	}
@@ -16,7 +16,7 @@ util.renderInput = { property, String modelPrefix, attrs = [:] ->
 	}
 }
 
-util.renderDisplay = { property, String modelPrefix ->
+util.renderDisplay = { def property, String modelPrefix ->
 	String displayFilter = ""
 	switch(property.type) {
 		case Integer:
