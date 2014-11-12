@@ -20,7 +20,7 @@ lazybones create http://dl.bintray.com/craigburke/lazybones/angular-grails-templ
 ### Installing from source
 
 Checkout this project from github
-
+ 
 Then install the template
 ```bash
 gradlew installAllTemplates
