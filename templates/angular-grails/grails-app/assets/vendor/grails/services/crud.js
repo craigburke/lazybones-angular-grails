@@ -30,8 +30,8 @@ function CrudResourceFactory(rootUrl, $resource, $q, $http) {
 			
 			if (params && params.filter) {
 	            angular.forEach(params.filter, function(value, key) {
-	                params['filter.' + key ] = value;
-				});            	
+			     	params['filter.' + key ] = value;
+				});        	
 				delete params.filter;
 			}
 

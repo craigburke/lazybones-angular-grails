@@ -14,7 +14,7 @@
 <form class="form"><% domainProperties.take(4).each { property -> %>
 	<div class="form-group col-md-3">
 		<label for="filter.${property.name}">${property.label}</label>
-		<%= renderInput(property, 'ctrl.filter', ['ng-model-options' : '{ debounce: 500 }']) %>
+		<%= renderFilter(property) %>
     </div><% } %>
 </form>
 </div>

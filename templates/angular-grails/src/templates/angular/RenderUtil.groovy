@@ -1,8 +1,7 @@
 def util = [:]
 
-util.renderInput = { property, String modelPrefix, Map attrs = [:] ->
+util.renderInput = { def property, String modelPrefix ->
 	String attrsString = ""
-	
 	if (property.constraints.required || !property.constraints.nullable) {
 		attrsString += " required "
 	}
@@ -13,6 +12,16 @@ util.renderInput = { property, String modelPrefix, Map attrs = [:] ->
 	else {
 		String inputType = property.type in [Float, Integer] ? 'number' : 'text'
 		"""<input name="${property.name}" type="${inputType}" class='form-control'${property.type == Date ? ' date-field ' : ' '}ng-model="${modelPrefix}.${property.name}"${attrsString} />"""
+	}
+}
+
+util.renderFilter = { def property ->
+	if (property.domainClass) {
+		"""<select class="form-control" ng-model="ctrl.filter.${property.name}Id" ng-options="item.id as item.toText for item in ctrl.${property.name}List" ><option value="">-- Select ${property.label}--</option></select>"""
+	}
+	else {
+		String inputType = property.type in [Float, Integer] ? 'number' : 'text'
+		"""<input type="${inputType}" class='form-control'${property.type == Date ? ' date-field ' : ' '}ng-model="ctrl.filter.${property.name}" />"""
 	}
 }
 
