@@ -7,7 +7,7 @@ driver = {
 }
 
 waiting {
-    timeout = 30
+    timeout = System.getProperty('geb.waiting.timeout') ?: 30
     retryInterval = 0.5
 }
 
