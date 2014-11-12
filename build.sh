@@ -6,13 +6,13 @@ SELENIUM_VERSION="2.42.2"
 SELENIUM_FOLDER=${SELENIUM_VERSION%.*}
 
 function install_java {
-	apt-get -q -y install python-software-properties
-	add-apt-repository -y ppa:webupd8team/java > /dev/null
-	apt-get -q -y update
-	echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | debconf-set-selections
-	echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 seen true" | debconf-set-selections
+	sudo apt-get -q -y install python-software-properties
+	sudo add-apt-repository -y ppa:webupd8team/java > /dev/null
+	sudo apt-get -q -y update
+	echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | sudo debconf-set-selections
+	echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 seen true" | sudo debconf-set-selections
 
-	apt-get -q -y install oracle-java8-set-default
+	sudo apt-get -q -y install oracle-java8-set-default
 }
 
 function install_lazybones {
