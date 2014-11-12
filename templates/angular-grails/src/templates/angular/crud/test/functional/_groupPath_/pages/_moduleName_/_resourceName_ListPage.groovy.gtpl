@@ -10,7 +10,7 @@ class ${resourceName}ListPage extends Page {
     static at = { ${DOLLAR_SIGN}('h2').text() == '${resourceName} List' }
 
     static content = {
-<%= domainProperties.collect {"${TAB*2}${it.name}Filter {${DOLLAR_SIGN}(\"${it.domainClass ? 'select' : 'input'}[ng-model='ctrl.filter.${it.name}']\")}" }.join(NEWLINE) %>
+<%= domainProperties.collect {"${TAB*2}${it.name}Filter {${DOLLAR_SIGN}(\"${it.domainClass ? 'select' : 'input'}[ng-model='ctrl.filter.${it.name + (it.domainClass ? 'Id' : '')}']\")}" }.join(NEWLINE) %>
 	
 <%= domainProperties.take(4).collect{ """${TAB*2}${it.name}Sort { ${DOLLAR_SIGN}("table#list th[property='${it.name}']") }"""}.join(NEWLINE) %>
     
