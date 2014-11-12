@@ -43,14 +43,14 @@ start_selenium
 printf "Testing Angular 1.2...\n"
 ./gradlew buildTestApp -PangularVersion=1.2
 cd test/app
-./gradlew test -PgrailsArgs=geb.waiting.timeout=60
+./gradlew test
 printf "Done testing Angular 1.2!\n"
 
 printf "Testing Angular 1.3...\n"
 cd ../../
 ./gradlew buildTestApp -PangularVersion=1.3
 cd test/app
-./gradlew test -PgrailsArgs=geb.waiting.timeout=60
+./gradlew test
 printf "Done testing Angular 1.3!\n"
 
 #Build
