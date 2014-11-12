@@ -5,20 +5,14 @@ LAZYBONES_VERSION="0.7.1"
 SELENIUM_VERSION="2.42.2"
 SELENIUM_FOLDER=${SELENIUM_VERSION%.*}
 
-function setup {
-	sudo sudo apt-get purge openjdk*
-	unset JAVA_HOME	
-	sudo rm /usr/bin/phantomjs
-}
-
 function install_java {
-	sudo apt-get -q -y install python-software-properties
-	sudo add-apt-repository -y ppa:webupd8team/java > /dev/null
-	sudo apt-get -q -y update
-	echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | sudo debconf-set-selections
-	echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 seen true" | sudo debconf-set-selections
+	apt-get -q -y install python-software-properties
+	add-apt-repository -y ppa:webupd8team/java > /dev/null
+	apt-get -q -y update
+	echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | debconf-set-selections
+	echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 seen true" | debconf-set-selections
 
-	sudo apt-get -q -y install oracle-java8-set-default
+	apt-get -q -y install oracle-java8-set-default
 }
 
 function install_lazybones {
@@ -30,12 +24,11 @@ function install_lazybones {
 }
 
 function start_selenium {
-	sudo start xvfb
+	start xvfb
 	wget "http://selenium-release.storage.googleapis.com/$SELENIUM_FOLDER/selenium-server-standalone-$SELENIUM_VERSION.jar" --quiet
 	java -jar "selenium-server-standalone.$SELENIUM_VERSION.jar" > /dev/null 2>&1 &
 }
 
-setup
 install_java
 install_lazybones
 start_selenium
