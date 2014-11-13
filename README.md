@@ -1,5 +1,6 @@
 Lazybones Template for AngularJS Grails
 ================================
+[ ![Codeship Status for craigburke/lazybones-angular-grails](https://codeship.com/projects/e89bcc50-4ce2-0132-18c4-0a390dea4bee/status?branch=master)](https://codeship.com/projects/47280)
 
 ## Getting started
 
