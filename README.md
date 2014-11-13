@@ -218,7 +218,6 @@ This directive allows you to keep track of the current sort state of a table, an
 The sortable column template is located at:
 `/grails-app/assets/vendor/grails/templates/directives/sortable-column.tpl.html`
 
-
 #### fieldContainer
 This allows you to define a common template for your form fields (similar to the way the Fields plugin does with GSP pages). It includes a label, value and invalid property that are used within the template.
 
