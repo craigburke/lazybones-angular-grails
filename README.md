@@ -1,7 +1,6 @@
 Lazybones Template for AngularJS Grails
 ================================
 
-[![Build Status](https://drone.io/github.com/craigburke/lazybones-angular-grails/status.png)](https://drone.io/github.com/craigburke/lazybones-angular-grails/latest)
 ## Getting started
 
 ### Requirements
