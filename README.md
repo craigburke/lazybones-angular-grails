@@ -14,7 +14,7 @@ You'll need to have the following installed on your machine:
 ### Creating a New Project
 
 ```bash
-lazybones create http://dl.bintray.com/craigburke/lazybones/angular-grails-template-1.1.0.zip my-project
+lazybones create angular-grails my-project
 ```
 
 **See a Sample Application:** [Live Demo](http://angular-grails.interwebs.io/)
