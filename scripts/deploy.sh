@@ -2,7 +2,7 @@
 
 export SERVER="craig@the.interwebs.io"
 export PORT_NUMBER="2222"
-export SOURCE_FILE="~/clone/test/app/target/angular-grails.war"
+export SOURCE_FILE=~/clone/test/app/target/angular-grails.war
 export DESTINATION="/web/tomcat/angular-grails/webapps/"
 export SCRIPT="/etc/init.d/tomcat-angular"
 

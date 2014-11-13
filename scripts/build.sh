@@ -1,4 +1,6 @@
 #/bin/sh
+export PROJECT_ROOT=~/clone
+export APP_ROOT="$PROJECT_ROOT/test/app"
 
 jdk_switcher use oraclejdk7
 
@@ -12,17 +14,17 @@ gvm use lazybones
 java -version
 
 # Test Angular 1.2
-cd ~/clone
+cd $PROJECT_ROOT
 ./gradlew buildTestApp -PangularVersion=1.2
-cd test/app
+cd $APP_ROOT
 ./gradlew test
 
 # Test Angular 1.3
-cd ~/clone
+cd $PROJECT_ROOT
 ./gradlew buildTestApp -PangularVersion=1.3
-cd test/app
+cd $APP_ROOT
 ./gradlew test
 
 # Build
-cd ~/clone
+cd $APP_ROOT
 ./gradlew war
