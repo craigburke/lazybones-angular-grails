@@ -1,7 +1,7 @@
 Lazybones Template for AngularJS Grails
 ================================
-
-[![Build Status](https://drone.io/github.com/craigburke/lazybones-angular-grails/status.png)](https://drone.io/github.com/craigburke/lazybones-angular-grails/latest)
+[ ![Codeship Status for craigburke/lazybones-angular-grails](https://codeship.com/projects/e89bcc50-4ce2-0132-18c4-0a390dea4bee/status?branch=master)](https://codeship.com/projects/47280)
+ 
 ## Getting started
 
 ### Requirements
@@ -20,7 +20,7 @@ lazybones create http://dl.bintray.com/craigburke/lazybones/angular-grails-templ
 ### Installing from source
 
 Checkout this project from github
-
+ 
 Then install the template
 ```bash
 gradlew installAllTemplates
@@ -218,7 +218,6 @@ This directive allows you to keep track of the current sort state of a table, an
 The sortable column template is located at:
 `/grails-app/assets/vendor/grails/templates/directives/sortable-column.tpl.html`
 
-
 #### fieldContainer
 This allows you to define a common template for your form fields (similar to the way the Fields plugin does with GSP pages). It includes a label, value and invalid property that are used within the template.
 
@@ -280,5 +279,3 @@ This directive displays breadcrumb navigation for the different pages. The value
 ```
 The breadcrumbs templates are located at:
 `/grails-app/assets/vendor/grails/templates/directives/crud-breadcrumbs.tpl.html`
-
-
