@@ -1,9 +1,10 @@
 <div crud-breadcrumbs="list"></div>
 
-<h2>${resourceName} List</h2>
+<div class="clearfix">
+	<h2 class="pull-left">${resourceName} List</h2>
+	<div class="pull-right"><button crud-button="create" ></button></div>
+</div>
 <div flash-message ></div>
-
-<p><button crud-button="create" ></button></p>
 
 <div class="panel panel-default">
   <div class="panel-heading">

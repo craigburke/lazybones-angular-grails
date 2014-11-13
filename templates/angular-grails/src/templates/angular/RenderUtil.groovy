@@ -7,7 +7,7 @@ util.renderInput = { def property, String modelPrefix ->
 	}
 	
 	if (property.domainClass) {
-		"""<select name="${property.name}" class="form-control" ng-model="${modelPrefix}.${property.name}"${attrsString} ng-options="item.toText for item in ctrl.${property.name}List track by item.id" ></select>"""
+		"""<select name="${property.name}" class="form-control" ng-model="${modelPrefix}.${property.name}"${attrsString} ng-options="item.toText for item in ctrl.${property.name}List track by item.id"  ></select>"""
 	}
 	else {
 		String inputType = property.type in [Float, Integer] ? 'number' : 'text'
@@ -16,12 +16,14 @@ util.renderInput = { def property, String modelPrefix ->
 }
 
 util.renderFilter = { def property ->
+	String attrsString = " ng-model-options=\"{ debounce: 300 }\" "
+	
 	if (property.domainClass) {
-		"""<select class="form-control" ng-model="ctrl.filter.${property.name}Id" ng-options="item.id as item.toText for item in ctrl.${property.name}List" ><option value="">-- Select ${property.label}--</option></select>"""
+		"""<select class="form-control" ng-model="ctrl.filter.${property.name}Id" ng-options="item.id as item.toText for item in ctrl.${property.name}List"${attrsString} ><option value="">-- Select ${property.label}--</option></select>"""
 	}
 	else {
 		String inputType = property.type in [Float, Integer] ? 'number' : 'text'
-		"""<input type="${inputType}" class='form-control'${property.type == Date ? ' date-field ' : ' '}ng-model="ctrl.filter.${property.name}" />"""
+		"""<input type="${inputType}" class='form-control'${property.type == Date ? ' date-field ' : ' '}ng-model="ctrl.filter.${property.name}"${attrsString} />"""
 	}
 }
 
