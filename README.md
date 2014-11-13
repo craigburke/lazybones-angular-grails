@@ -281,4 +281,3 @@ This directive displays breadcrumb navigation for the different pages. The value
 The breadcrumbs templates are located at:
 `/grails-app/assets/vendor/grails/templates/directives/crud-breadcrumbs.tpl.html`
 
-
