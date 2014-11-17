@@ -190,7 +190,7 @@ def getDomainConstraints(Class domainClass, fields) {
 	def delegate = new ConstraintDelegate()
 	delegate.constraints = constraints
 		
-	if (domainClass.constraints) {
+	if (domainClass.hasProperty('constraints')) {
 		domainClass.constraints.delegate = delegate
 		domainClass.constraints()
 	}
