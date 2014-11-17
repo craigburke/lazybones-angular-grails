@@ -11,26 +11,13 @@ You'll need to have the following installed on your machine:
 * JDK 1.6+
 * [Lazybones](https://github.com/pledbrook/lazybones)
 
-### Installing from Bintray
+### Creating a New Project
 
 ```bash
-lazybones create http://dl.bintray.com/craigburke/lazybones/angular-grails-template-1.1.0.zip my-project
+lazybones create angular-grails my-project
 ```
 
-### Installing from source
-
-Checkout this project from github
- 
-Then install the template
-```bash
-gradlew installAllTemplates
-```
-Now that you have the template installed locally you can create a new Grails app like this:
-```bash
-lazybones create angular-grails 1.1.0 my-project
-```
-
-**See it in Action:** [Live Demo](http://angular-grails.interwebs.io/)
+**See a Sample Application:** [Live Demo](http://angular-grails.interwebs.io/)
 
 ## Running your project
 Any new project makes use of the [Grails Gradle plugin](https://github.com/grails/grails-gradle-plugin). You can start the application like this:
