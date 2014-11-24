@@ -61,10 +61,10 @@ def generateCustomMarshaller = {
 	String jsonMarshaller = 
 	"""
 		JSON.registerObjectMarshaller(${props.domainClassName}) {
-			def map = [:];
-			map['id'] = it?.id;
-			${props.domainProperties.collect { "map['" + it.name + "'] = it?." + it.name + ";" }.join('\n\t\t\t')}
-	    	map['toText'] = it?.toString();
+			def map = [:]
+			map['id'] = it?.id
+			${props.domainProperties.collect { "map['" + it.name + "'] = it?." + it.name}.join('\n\t\t\t')}
+	    	map['toText'] = it?.toString()
 			return map 
 		}"""
 		
@@ -151,7 +151,13 @@ def getDomainProperties(String className, String group) {
 		classLoader.addClasspath(it)
 	}
 		
-	def domainObject = classLoader.loadClass(className)
+	try {
+		def domainObject = classLoader.loadClass(className)	
+	}
+	catch (ex) {
+		println "Error: Unable to load domain class: ${className}"
+		throw ex
+	}
 			
 	def properties = []
 	def fields = domainObject.declaredFields.findAll { !it.isSynthetic() && it.name != 'id' && it.type != Object }
