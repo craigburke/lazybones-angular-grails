@@ -19,7 +19,7 @@ lazybones create angular-grails my-project
 
 ### Resources
 * [AngularJS Grails Template - Part 1: Getting Started](http://www.craigburke.com/2014/11/17/angular-grails-template-1.html)
-* [AngularJS Grails Template - Part 2: Advanced Configuration](http://www.craigburke.com/2014/11/24/angular-grails-template-2.html)
+* [AngularJS Grails Template - Part 2: Advanced Customization](http://www.craigburke.com/2014/11/24/angular-grails-template-2.html)
 * [Sample Application (Live Demo)](http://angular-grails.interwebs.io/)
 
 ## Running your project
