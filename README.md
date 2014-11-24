@@ -17,7 +17,10 @@ You'll need to have the following installed on your machine:
 lazybones create angular-grails my-project
 ```
 
-**See a Sample Application:** [Live Demo](http://angular-grails.interwebs.io/)
+### Resources
+* [AngularJS Grails Template - Part 1: Getting Started](http://www.craigburke.com/2014/11/17/angular-grails-template-1.html)
+* [AngularJS Grails Template - Part 2: Advanced Configuration](http://www.craigburke.com/2014/11/24/angular-grails-template-2.html)
+* [Sample Application (Live Demo)](http://angular-grails.interwebs.io/)
 
 ## Running your project
 Any new project makes use of the [Grails Gradle plugin](https://github.com/grails/grails-gradle-plugin). You can start the application like this:
