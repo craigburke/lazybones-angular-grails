@@ -150,9 +150,9 @@ def getDomainProperties(String className, String group) {
 	['grails-app/domain', 'grails-app/services', 'src/groovy', 'src/java'].each {
 		classLoader.addClasspath(it)
 	}
-		
+		def domainObject
 	try {
-		def domainObject = classLoader.loadClass(className)	
+		domainObject = classLoader.loadClass(className)	
 	}
 	catch (ex) {
 		println "Error: Unable to load domain class: ${className}"
