@@ -2,10 +2,12 @@
 <html>
 <head>
     <meta name="layout" content="main"/>
-    <asset:javascript src="${modulePath}/module"/>
 </head>
 
 <body ng-app="${fullModuleName}">
 
+<content tag="scripts">
+    <asset:javascript src="${modulePath}/module"/>
+</content>
 </body>
 </html>
