@@ -1,6 +1,6 @@
 #/bin/sh
 
-export SERVER="craig@the.interwebs.io"
+export SERVER="craig@angular-grails.craigburke.com"
 export PORT_NUMBER="2222"
 export SOURCE_FILE=~/clone/test/app/target/angular-grails.war
 export DESTINATION="/web/tomcat/angular-grails/webapps/"
