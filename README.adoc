@@ -21,7 +21,7 @@ lazybones create angular-grails my-project
 === Resources
 * http://www.craigburke.com/2014/11/17/angular-grails-template-1.html[AngularJS Grails Template - Part 1: Getting Started]
 * http://www.craigburke.com/2014/11/24/angular-grails-template-2.html[AngularJS Grails Template - Part 2: Advanced Customization]
-* http://angular-grails.interwebs.io/[Sample Application (Live Demo)]
+* http://angular-grails.craigburke.com/[Sample Application (Live Demo)]
 
 ## Running your project
 Any new project makes use of the https://github.com/grails/grails-gradle-plugin[Grails Gradle plugin]. You can start the application like this:
