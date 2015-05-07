@@ -1,8 +1,6 @@
 package com.craigburke.angular
 
 class Book {
-    public static int LARGE_BOOK_PAGE_COUNT = 1000
-
     String title
     Author author
     Date publishDate
