@@ -122,6 +122,8 @@ dependencies {
 		owner."$scope" "org.grails.plugins:${plugin.name}:${plugin.version}"
 	}
 	
+	compile 'com.bertramlabs.plugins:asset-pipeline-core:2.2.0'
+	
 	runtime('org.grails.plugins:hibernate4:4.3.8.1') {
     		exclude module: 'xml-apis'
 	}
