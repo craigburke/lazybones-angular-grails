@@ -1,0 +1,7 @@
+<th ng-click="sort()" ng-class="order">
+   {{title}}
+    <span class="fa fa-sort" ng-if="!isActive()" ></span>
+    <span class="fa" ng-if="isActive()"
+          ng-class="{'fa-sort-up' : order === 'asc', 'fa-sort-down' : order === 'desc'}">
+    </span>
+</th>

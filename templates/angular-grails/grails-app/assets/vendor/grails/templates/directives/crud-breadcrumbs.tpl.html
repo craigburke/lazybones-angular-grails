@@ -1,0 +1,22 @@
+<ol class="breadcrumb" ng-switch on="crudBreadcrumbs">
+	<li ng-if="crudBreadcrumbs === 'list'" class="active">
+		<i class="fa fa-th-list"></i> {{ resourceName }} List
+	</li>
+	<li ng-if="crudBreadcrumbs !== 'list'">
+		<a href="#/"><i class="fa fa-th-list"></i> {{ resourceName }} List</a>
+	</li>
+	
+	<li ng-switch-when='create' class="active">
+		New {{ resourceName }}
+	</li>
+	
+	<li ng-switch-when='edit' class="active">
+		Edit {{ resourceName }}
+	</li>	
+	
+	<li ng-switch-when='show' class="active">
+		Show {{ resourceName }}
+	</li>	
+	
+	
+</ol>

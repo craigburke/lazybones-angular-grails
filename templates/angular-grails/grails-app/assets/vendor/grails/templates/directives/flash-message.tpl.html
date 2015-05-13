@@ -1,0 +1,8 @@
+<div id="flash-message" ng-show="flash.message" class="alert animate-message" ng-class="getMessageClass(flash.type)">
+	
+    <ul ng-if="isList(flash.message)" ng-repeat="message in flash.message track by $index">
+        <li>{{message}}</li>
+    </ul>
+
+    <span ng-if="!isList(flash.message)">{{flash.message}}</span>
+</div>
