@@ -15,6 +15,10 @@ spring:
 
 ---
 grails:
+    databinding:
+        dateFormats:
+            - yyyy-MM-dd'T'hh:mm:ss'Z'
+            - yyyy-MM-dd'T'hh:mm:ss.SSS'Z'
     mime:
         disable:
             accept:
