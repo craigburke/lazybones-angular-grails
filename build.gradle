@@ -1,17 +1,17 @@
 plugins {
-	id "uk.co.cacoethes.lazybones-templates" version "1.2.2"
+	id 'uk.co.cacoethes.lazybones-templates' version '1.2.2'
 }
 
 lazybones {
-	template "angular-grails" includes "module"
-	repositoryName = "craigburke/lazybones"
+	template 'angular-grails' includes 'module'
+	repositoryName = 'craigburke/lazybones'
 	repositoryUsername = project.hasProperty('bintrayUsername') ? project.bintrayUsername : ''
 	repositoryApiKey = project.hasProperty('bintrayApiKey') ? project.bintrayApiKey : ''
 }
 
 project.ext {
 	testApp = [
-		templateVersion: '1.1.6',
+		templateVersion: '2.0.0-SNAPSHOT',
 		dir: 'test/app',
 		name: 'angular-grails',
 		group: 'com.craigburke.angular',
