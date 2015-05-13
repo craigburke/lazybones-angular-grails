@@ -111,7 +111,7 @@ dependencies {
 		[name: 'tomcat', version: '7.0.55.2', scope: 'bootstrap'],
 		[name: 'scaffolding', version: '2.1.2'],
 		[name: 'cache', version: '1.1.8'],
-		[name: 'asset-pipeline', version: '2.1.5'],
+		[name: 'asset-pipeline', version: '2.2.0'],
 		[name: 'angular-template-asset-pipeline', version: '2.1.0'],
 		[name: 'angular-annotate-asset-pipeline', version: '2.1.0'],
 		[name: 'geb', version: gebVersion, scope: 'test']
@@ -121,9 +121,7 @@ dependencies {
 		String scope = plugin.scope ?: 'compile'
 		owner."$scope" "org.grails.plugins:${plugin.name}:${plugin.version}"
 	}
-	
-	compile 'com.bertramlabs.plugins:asset-pipeline-core:2.2.0'
-	
+		
 	runtime('org.grails.plugins:hibernate4:4.3.8.1') {
     		exclude module: 'xml-apis'
 	}
