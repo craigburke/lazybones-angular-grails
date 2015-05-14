@@ -1,6 +1,7 @@
 #/bin/sh
-export PROJECT_ROOT=~/clone
-export APP_ROOT="$PROJECT_ROOT/test/app"
+source ./common.sh
+
+install_lazybones
 
 # Build Angular 1.3
 cd $PROJECT_ROOT
