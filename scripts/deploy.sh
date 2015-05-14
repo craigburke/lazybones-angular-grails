@@ -2,7 +2,7 @@
 
 export SERVER="craig@angular-grails.craigburke.com"
 export PORT_NUMBER="2222"
-export SOURCE_FILE=~/clone/test/app/target/angular-grails.jar
+export SOURCE_FILE=~/clone/test/app/build/libs/angular-grails.jar
 export DESTINATION="/web/apps/"
 export SCRIPT="/etc/init.d/app-angular-grails"
 
