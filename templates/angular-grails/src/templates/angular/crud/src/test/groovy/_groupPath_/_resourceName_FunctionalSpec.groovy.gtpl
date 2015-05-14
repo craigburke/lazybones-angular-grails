@@ -2,6 +2,8 @@ package ${group}
 
 import ${group}.pages.${moduleName}.*
 import geb.spock.GebReportingSpec
+import grails.test.mixin.integration.Integration
+
 <% 
 	def getTestValueFromProperty = { property, pageElementName, initialValue -> 
 		switch(property.type) {
@@ -19,7 +21,7 @@ import geb.spock.GebReportingSpec
 		}	
 	} 
 %>
-
+@Integration
 class ${resourceName}FunctionalSpec extends GebReportingSpec {
 
 	def "should be able to view list page"() {

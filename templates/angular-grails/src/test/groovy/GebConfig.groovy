@@ -7,8 +7,10 @@ driver = {
 }
 
 waiting {
-    timeout = 60
+    timeout = 10
     retryInterval = 0.5
 }
 
+baseUrl = 'http://localhost:8080/'
+reportsDir = 'build/geb-reports'
 atCheckWaiting = true
