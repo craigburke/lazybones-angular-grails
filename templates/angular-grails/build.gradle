@@ -7,7 +7,7 @@ buildscript {
         maven { url 'https://repo.grails.org/grails/core' }
     }
     dependencies {
-        classpath "org.grails:grails-gradle-plugin:\\\$grailsVersion"
+        classpath "org.grails:grails-gradle-plugin:<%='\$grailsVersion'%>"
         classpath 'com.bertramlabs.plugins:asset-pipeline-gradle:2.1.1'
         classpath 'com.craigburke.angular:angular-template-asset-pipeline:2.1.0'
         classpath 'com.craigburke.angular:angular-annotate-asset-pipeline:2.1.0'
@@ -48,7 +48,7 @@ node {
 	version = '0.11.13'
 	distBaseUrl = 'http://nodejs.org/dist'
 	download = true
-	workDir = file("\\\${project.buildDir}/nodejs")
+	workDir = file("<%='\$'%>{project.buildDir}/nodejs")
 }
 
 task setupPhantomJS(type: NpmTask) {
@@ -80,7 +80,7 @@ repositories {
 
 dependencyManagement {
     imports {
-        mavenBom "org.grails:grails-bom:\\\$grailsVersion"
+        mavenBom "org.grails:grails-bom:<%='\$grailsVersion'%>"
     }
     applyMavenExclusions false
 }
