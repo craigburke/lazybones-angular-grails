@@ -4,4 +4,3 @@
 build
 /gradle.properties
 test/app
-test.sh
