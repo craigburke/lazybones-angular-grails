@@ -12,6 +12,7 @@ params.angularModule = ask("Define value for your main AngularJS module [myApp]:
 params.group = ask("Define the value for your application group [com.company]: ", "com.company", "group")
 params.version = ask("Define value for your application 'version' [0.1]: ", "0.1", "version")
 
+processTemplates 'build.gradle', params
 processTemplates 'gradle.properties', params
 processTemplates "${installDirName}/app/**/*", params
 
