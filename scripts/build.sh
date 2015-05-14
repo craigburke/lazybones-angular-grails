@@ -27,4 +27,5 @@ cd $APP_ROOT
 
 # Build
 cd $APP_ROOT
-./gradlew war
+./gradlew assemble
+mv build/libs/*.jar build/libs/angular-grails.jar
