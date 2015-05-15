@@ -85,6 +85,6 @@ class PagedRestfulController<T> extends RestfulController<T> {
 		int startRange = (totalCount == 0) ? 0 : offset + 1;
 		int endRange = Math.min(offset + max, totalCount)
 
-		"\${startRange}-\${endRange}/\${totalCount}"
+		"items \${startRange}-\${endRange}/\${totalCount}"
 	}
 }
