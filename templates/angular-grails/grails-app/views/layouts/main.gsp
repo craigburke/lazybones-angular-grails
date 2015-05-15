@@ -31,7 +31,7 @@
         <ul class="nav navbar-nav navbar-left">
             <li><g:link uri="/"><i class="fa fa-home"></i> Home</g:link></li>
 			<g:each var="c" in="${grailsApplication.controllerClasses.findAll{ it.logicalPropertyName != 'assets' }. sort { it.fullName } }">
-			<li><a href="/${c.logicalPropertyName}"><i class="fa fa-database"></i> ${c.logicalPropertyName.capitalize()} List</a></li>
+			<li><a href="/${c.logicalPropertyName}#/"><i class="fa fa-database"></i> ${c.logicalPropertyName.capitalize()} List</a></li>
 			</g:each>
         </ul>
         <ul class="nav navbar-nav navbar-right">
