@@ -1,6 +1,6 @@
 #/bin/sh
 export PROJECT_ROOT=~/clone
-export APP_ROOT="$PROJECT_ROOT/test/app"
+export APP_ROOT=$PROJECT_ROOT/test/apps/1.3/
 
 jdk_switcher use oraclejdk7
 
