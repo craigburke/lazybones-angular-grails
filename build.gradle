@@ -18,7 +18,7 @@ project.ext {
 		group: 'com.craigburke.angular',
 		version: '1.0',
 		angularModule: 'exampleApp',
-		warName: 'angular-grails.war'
+		archiveName: 'angular-grails'
 	]
 }
 
@@ -30,7 +30,7 @@ task buildTestApps(dependsOn: 'installAllTemplates') << {
 		group: project.testApp.group,
 		version: project.testApp.version,
 		angularModule: project.testApp.angularModule,
-		warName : project.testApp.warName
+		archiveName : project.testApp.archiveName
 	]
 
 	['1.2', '1.3'].each { String angularVersion ->

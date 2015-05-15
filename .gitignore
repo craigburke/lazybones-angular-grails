@@ -3,4 +3,4 @@
 .idea
 build
 /gradle.properties
-test/app
+test/apps

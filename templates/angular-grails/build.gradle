@@ -39,6 +39,14 @@ ext {
 	karmaConfig = 'src/test/js/karma.conf.js'
 }
 
+jar {
+	archiveName = '${archiveName}.jar'
+}
+
+war {
+	archiveName = '${archiveName}.war'
+}
+
 assets {
     minifyJs = true
     minifyCss = true

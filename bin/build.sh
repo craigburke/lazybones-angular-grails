@@ -8,4 +8,3 @@ cd $PROJECT_ROOT
 
 cd $APP_ROOT
 ./gradlew assemble
-mv build/libs/app-1.0.jar build/libs/angular-grails.jar
