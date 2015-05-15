@@ -113,5 +113,6 @@ environments:
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
 ---
 angular:
+   rootUrl: /
    pageSize: 25
    dateFormat: MM/dd/yyyy

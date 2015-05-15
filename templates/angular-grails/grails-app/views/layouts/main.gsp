@@ -10,7 +10,7 @@
 
         <asset:script type="text/javascript">
             angular.module('grails.constants')
-                .constant('rootUrl', '${request.contextPath}')
+                .constant('rootUrl', '${grailsApplication.config.angular.rootUrl}')
                 .constant('pageSize', '${grailsApplication.config.angular.pageSize}')
                 .constant('dateFormat', '${grailsApplication.config.angular.dateFormat}');
         </asset:script>
