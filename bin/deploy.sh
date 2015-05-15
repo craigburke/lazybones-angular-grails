@@ -1,4 +1,5 @@
 #/bin/sh
+source ./common.sh
 
 export SERVER="craig@angular-grails.craigburke.com"
 export PORT_NUMBER="2222"
