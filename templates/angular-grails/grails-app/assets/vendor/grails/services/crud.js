@@ -36,7 +36,7 @@ function CrudResourceFactory(rootUrl, $resource, $q, $http) {
 			}
 
             resource.query(params, function(items, headers) {
-                var totalCount = headers('Content-Range').split('/')[1];
+                var totalCount = headers('X-Item-Range').split('/')[1];
                 totalCount = parseInt(totalCount);
 
                 items.getTotalCount = function() {
