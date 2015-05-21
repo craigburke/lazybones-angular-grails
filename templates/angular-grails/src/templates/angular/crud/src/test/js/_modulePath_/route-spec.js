@@ -8,7 +8,7 @@ describe('${resourceName} Routes: ', function() {
 	
 	
 	beforeEach(inject(
-		function(\$location, \$route, \$ootScope) {
+		function(\$location, \$route, \$rootScope) {
 			location = \$location;
 			route = \$route;
 			rootScope = \$rootScope;

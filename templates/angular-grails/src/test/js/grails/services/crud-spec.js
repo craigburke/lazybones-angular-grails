@@ -29,7 +29,7 @@ describe('grails CrudResourceFactory: ', function() {
 
         beforeEach(inject(function(_$httpBackend_) {
             $httpBackend = _$httpBackend_;
-            $httpBackend.expectGET('/foo/api').respond(itemList, {'Content-Range': '1-2/10'});
+            $httpBackend.expectGET('/foo/api').respond(itemList, {'X-Item-Range': '1-2/10'});
         }));
 
         beforeEach(function(done) {
