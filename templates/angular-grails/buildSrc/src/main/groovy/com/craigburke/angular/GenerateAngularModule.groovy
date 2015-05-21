@@ -84,7 +84,7 @@ class GenerateAngularModule {
 		}
 
 		ClassPropertyFetcher propertyFetcher = new ClassPropertyFetcher(domainClass)
-		def ignoreFields = ['metaClass', 'class', 'attached', 'dirty', 'dirtyPropertyNames',
+		def ignoreFields = ['id', 'version', 'metaClass', 'class', 'attached', 'dirty', 'dirtyPropertyNames',
 					'properties', 'errors']
 					
     	propertyFetcher.propertyDescriptors
