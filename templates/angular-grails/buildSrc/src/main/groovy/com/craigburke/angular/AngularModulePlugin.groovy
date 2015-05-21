@@ -14,11 +14,11 @@ class AngularModulePlugin implements Plugin<Project> {
 			   classpath += project.sourceSets.main.runtimeClasspath
 			   main = 'com.craigburke.angular.GenerateAngularModule'
 			   args = [
+					"${project.rootDir}",
 			   		project.group,
 					project.angular.baseModule,
 					project.angular.module,
-					project.angular.domainClass,
-					"${project.rootDir}"
+					project.angular.domainClass
 			   ]
 		   }
         }

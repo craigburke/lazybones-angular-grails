@@ -1,30 +1,35 @@
 package com.craigburke.angular
 
-import java.lang.reflect.Field
+import org.grails.datastore.mapping.reflect.ClassPropertyFetcher
 import static groovy.io.FileType.FILES
-import static java.lang.reflect.Modifier.isStatic
 import groovy.text.SimpleTemplateEngine
 
 class GenerateAngularModule {
 
 	static String projectPath
+	static Boolean crudModule
 	
  	public static void main(String[] args) {
 		def props = [:]
 	
-		props.group = args[0]
+		projectPath = args[0]
+		props.group = args[1]
 		props.groupPath = props.group.tokenize('.').join('/')
-		props.domainClassName = args[3].contains('.') ? args[3] : "${props.group}.${args[3]}"
-	    props.domainProperties = getDomainProperties(props.group, props.domainClassName)
-		
-		props.rootModule = args[1]
-		props.moduleName = args[2]
+	
+		props.rootModule = args[2]
+		props.moduleName = args[3]
 		props.fullModuleName = "${props.rootModule}.${props.moduleName}"
 		props.modulePath = getModulePath(props.fullModuleName)
-		
-		props.resourceName = getResourceName(props.fullModuleName)
-	    props.defaultResource = "${props.resourceName}Resource"
-	    props.resourceUrl = "/api/${props.moduleName}"
+				
+		crudModule = args[4]
+		if (crudModule) {
+			props.domainClassName = args[4].contains('.') ? args[4] : "${props.group}.${args[4]}"
+		    props.domainProperties = getDomainProperties(props.group, props.domainClassName)
+			
+			props.resourceName = getResourceName(props.fullModuleName)
+		    props.defaultResource = "${props.resourceName}Resource"
+		    props.resourceUrl = "/api/${props.moduleName}"
+		}
 		
 		props.formatModuleName = { String moduleName ->
 		    def moduleParts = moduleName.tokenize('.')
@@ -36,8 +41,6 @@ class GenerateAngularModule {
     		path = path.replaceAll(/([A-Z])/, /-$1/).toLowerCase().replaceAll(/^-/, '')
     		path.replaceAll(/\/-/, '/')
 		}
-		
-		projectPath = args[4]
 		
 		def renderUtilFile = new File("${projectPath}/src/templates/angular/RenderUtil.groovy")
 		if (renderUtilFile.exists()) {
@@ -80,24 +83,25 @@ class GenerateAngularModule {
 			constraintsClosure()
 		}
 
+		ClassPropertyFetcher propertyFetcher = new ClassPropertyFetcher(domainClass)
 		def ignoreFields = ['metaClass', 'class', 'attached', 'dirty', 'dirtyPropertyNames',
-			'properties', 'errors']
-		
-    	domainClass.declaredFields
+					'properties', 'errors']
+					
+    	propertyFetcher.propertyDescriptors
 			.findAll { !(it.name in ignoreFields) }
 			.collect { [
 				name: it.name, 
 				label: it.name[0].toUpperCase() + it.name.substring(1).replaceAll(/([A-Z])/, / $1/),
-				type: it.type, 
-				domainClass: it.type.name.startsWith(group),
+				type: it.propertyType, 
+				domainClass: it.propertyType.name.startsWith(group),
 				constraints: constraints[it.name] ?: [:]
 			] }
 	}
 	
 	
 	private static void processTemplateFiles(props) {
-	    File templateDirectory = new File(projectPath, "/src/templates/angular/crud")
-	    File commonDirectory = new File(projectPath, "/src/templates/angular/common")
+	    File templateDirectory = new File(projectPath, "/src/templates/angular/${crudModule ? 'crud' : 'blank'}")
+	    File commonDirectory = new File(projectPath, '/src/templates/angular/common')
 		
 		[templateDirectory, commonDirectory].each { File directory ->
 			directory.eachFileRecurse(FILES) { File file ->
