@@ -57,7 +57,7 @@ task buildTestApps(dependsOn: 'installAllTemplates') << {
 		modules.each { module ->
 			project.exec {
 				workingDir projectDir
-				commandLine './gradlew', 'generateAngularModule', "-PmoduleName=${module.name}", "-PdomainClass=${module.domainClass}"
+				commandLine './gradlew', 'generateAngularModule', "-PangularModule=${module.name}", "-PdomainClass=${module.domainClass}"
 			}
 		}
 	} 

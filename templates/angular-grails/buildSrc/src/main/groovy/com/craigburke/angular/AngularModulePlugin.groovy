@@ -17,7 +17,7 @@ class AngularModulePlugin implements Plugin<Project> {
 					"${project.rootDir}",
 			   		project.group,
 					project.angular.baseModule,
-					project.angular.module,
+					project.angular.moduleName,
 					project.angular.domainClass
 			   ]
 		   }

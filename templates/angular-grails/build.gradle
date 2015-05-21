@@ -50,8 +50,8 @@ war {
 
 angular {
 	baseModule = '${baseModule}'
-	module = project.hasProperty('moduleName') ? project.moduleName : ''
-	domainClass = project.hasProperty('domainClass') ? project.domainClass : ''
+	moduleName = project.hasProperty('angularModule') ? project.angularModule : ''
+	domainClass = project.hasProperty('domainClass') ? project.domainClass : ''	
 }
 
 assets {
