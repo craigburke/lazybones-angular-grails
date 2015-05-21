@@ -3,6 +3,7 @@ source ./common.sh
 
 install_lazybones
 
+cd $PROJECT_ROOT
 ./gradlew buildTestApps
 
 # Test Angular 1.2
