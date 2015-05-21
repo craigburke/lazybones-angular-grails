@@ -48,8 +48,32 @@ class GenerateAngularModule {
 		}
 		
 		processTemplateFiles(props)
+		createCustomMarshaller(props)
 		updateUrlMappings(props.moduleName)
  	}
+	
+	private static void createCustomMarshaller(props) {
+	       File customMarshallerRegistrar = new File(projectPath, "src/main/groovy/${props.groupPath}/CustomMarshallerRegistrar.groovy")
+
+	       String jsonMarshaller =
+	        """
+	   		JSON.registerObjectMarshaller(${props.domainClassName}) {
+	   			def map = [:]
+	   			map['id'] = it?.id
+	   			${props.domainProperties.collect { "map['" + it.name + "'] = it?." + it.name }.join('\n\t\t\t')}
+	   	    	map['toText'] = it?.toString()
+	   			return map 
+	   		}"""
+
+	       // Remove existing marshallers
+	       def functionRegex = /(?ms)(JSON\.registerObjectMarshaller\((.*?)\).*?return.*?\})/
+	       customMarshallerRegistrar.text = customMarshallerRegistrar.text.replaceAll(functionRegex) { all, function, matchedDomainClass ->
+	           (matchedDomainClass == props.domainClassName) ? '' : all
+	       }
+
+	       // Add new marshaller
+	       customMarshallerRegistrar.text = customMarshallerRegistrar.text.replaceAll(/(?s)(registerMarshallers\(\).*?\{)/, "\$1\n${jsonMarshaller}")
+	}
 	
 	private static String getModulePath(String moduleName) {
 		String path = moduleName.replace('.', '/')
