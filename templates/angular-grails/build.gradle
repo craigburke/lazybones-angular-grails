@@ -50,7 +50,7 @@ war {
 
 angular {
 	baseModule = '${baseModule}'
-	module = project.hasProperty('angularModule') ? project.angularModule : ''
+	module = project.hasProperty('moduleName') ? project.moduleName : ''
 	domainClass = project.hasProperty('domainClass') ? project.domainClass : ''
 }
 

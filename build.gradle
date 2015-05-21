@@ -49,26 +49,18 @@ task buildTestApps(dependsOn: 'installAllTemplates') << {
 			into "${projectDir}/grails-app/domain"
 		}
 	
-		// Not sure why stored-params.properties isn't saved correctly
-		def paramsFile = new File("${projectDir}/.lazybones/stored-params.properties")
-		properties.each { key, value ->
-			paramsFile.text += "${key}=${value}\n"
-		}
-	
 		def modules = [
 			[name: 'author', domainClass: 'Author'],
 			[name: 'book', domainClass: 'Book']
 		]
 	
-		/*modules.each { module ->
+		modules.each { module ->
 			project.exec {
 				workingDir projectDir
-				commandLine 'lazybones', 'generate', 'module', "-PmoduleName=${module.name}", "-PdomainClass=${module.domainClass}"
+				commandLine './gradlew', 'generateAngularModule', "-PmoduleName=${module.name}", "-PdomainClass=${module.domainClass}"
 			}
-		}*/
+		}
 	} 
-	
-	
 }
 
 task wrapper(type: Wrapper) {
