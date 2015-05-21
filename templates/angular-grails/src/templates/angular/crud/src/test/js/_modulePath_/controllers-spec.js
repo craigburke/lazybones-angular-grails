@@ -7,14 +7,14 @@ describe('${resourceName} Controllers: ', function() {
     describe('ShowCtrl: ', function() {
         var ctrl, scope;
 
-        beforeEach(module(function(${DOLLAR_SIGN}provide) {
-            ${DOLLAR_SIGN}provide.value('${moduleName}', item);
+        beforeEach(module(function(\$provide) {
+            \$provide.value('${moduleName}', item);
         }));
 
         beforeEach(inject(
-            function (${DOLLAR_SIGN}controller, ${DOLLAR_SIGN}rootScope) {
-                scope = ${DOLLAR_SIGN}rootScope.${DOLLAR_SIGN}new();
-                ctrl = ${DOLLAR_SIGN}controller('ShowCtrl', { ${DOLLAR_SIGN}scope: scope });
+            function (\$controller, \$rootScope) {
+                scope = \$rootScope.\$new();
+                ctrl = \$controller('ShowCtrl', { \$scope: scope });
             }
         ));
 
@@ -26,15 +26,15 @@ describe('${resourceName} Controllers: ', function() {
     describe('CreateEditCtrl: ', function() {
         var ctrl, scope;
 
-        beforeEach(module(function(${DOLLAR_SIGN}provide) {
-            ${DOLLAR_SIGN}provide.value('${moduleName}', item);
-<%= domainProperties.take(4).findAll{ it.domainClass }.collect { "${TAB*3}${DOLLAR_SIGN}provide.value('${it.name}List', []);" }.join(NEWLINE) %>
+        beforeEach(module(function(\$provide) {
+            \$provide.value('${moduleName}', item);
+<%= domainProperties.take(4).findAll{ it.domainClass }.collect { "\t\t\t\$provide.value('${it.name}List', []);" }.join('\n') %>
         }));
 
         beforeEach(inject(
-            function (${DOLLAR_SIGN}controller, ${DOLLAR_SIGN}rootScope) {
-                scope = ${DOLLAR_SIGN}rootScope.${DOLLAR_SIGN}new();
-                ctrl = ${DOLLAR_SIGN}controller('CreateEditCtrl', { ${DOLLAR_SIGN}scope: scope });
+            function (\$controller, \$rootScope) {
+                scope = \$rootScope.\$new();
+                ctrl = \$controller('CreateEditCtrl', { \$scope: scope });
             }
         ));
 
@@ -58,7 +58,7 @@ describe('${resourceName} Controllers: ', function() {
 
         var PAGE_SIZE = 25;
 
-        beforeEach(module(function(${DOLLAR_SIGN}provide) {
+        beforeEach(module(function(\$provide) {
 
             var mockCrudService = {
                 list: function() {
@@ -67,17 +67,17 @@ describe('${resourceName} Controllers: ', function() {
                 }
             };
 
-            ${DOLLAR_SIGN}provide.value('${resourceName}Resource', mockCrudService);
-            ${DOLLAR_SIGN}provide.value('${moduleName}List', items);
-<%= domainProperties.take(4).findAll{ it.domainClass }.collect { "${TAB*3}${DOLLAR_SIGN}provide.value('${it.name}List', []);" }.join(NEWLINE) %>
-            ${DOLLAR_SIGN}provide.value('pageSize', PAGE_SIZE);
+            \$provide.value('${resourceName}Resource', mockCrudService);
+            \$provide.value('${moduleName}List', items);
+<%= domainProperties.take(4).findAll{ it.domainClass }.collect { "\t\t\t\$provide.value('${it.name}List', []);" }.join('\n') %>
+            \$provide.value('pageSize', PAGE_SIZE);
         }));
 
         beforeEach(inject(
-            function (${DOLLAR_SIGN}controller, ${DOLLAR_SIGN}rootScope, ${DOLLAR_SIGN}q) {
-                deferred = ${DOLLAR_SIGN}q.defer();
-                scope = ${DOLLAR_SIGN}rootScope.${DOLLAR_SIGN}new();
-                ctrl = ${DOLLAR_SIGN}controller('ListCtrl', { ${DOLLAR_SIGN}scope: scope });
+            function (\$controller, \$rootScope, \$q) {
+                deferred = \$q.defer();
+                scope = \$rootScope.\$new();
+                ctrl = \$controller('ListCtrl', { \$scope: scope });
             }
         ));
 
@@ -90,7 +90,7 @@ describe('${resourceName} Controllers: ', function() {
         it('reload should reset page', function() {
             ctrl.page = 2;
             ctrl.reload();
-            scope.${DOLLAR_SIGN}digest();
+            scope.\$digest();
 
             expect(ctrl.page).toEqual(1);
             expect(ctrl.${moduleName}List).toEqual(items2);

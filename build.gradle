@@ -3,7 +3,7 @@ plugins {
 }
 
 lazybones {
-	template 'angular-grails' includes 'module'
+	template 'angular-grails'
 	repositoryName = 'craigburke/lazybones'
 	repositoryUsername = project.hasProperty('bintrayUsername') ? project.bintrayUsername : ''
 	repositoryApiKey = project.hasProperty('bintrayApiKey') ? project.bintrayApiKey : ''
@@ -60,13 +60,15 @@ task buildTestApps(dependsOn: 'installAllTemplates') << {
 			[name: 'book', domainClass: 'Book']
 		]
 	
-		modules.each { module ->
+		/*modules.each { module ->
 			project.exec {
 				workingDir projectDir
 				commandLine 'lazybones', 'generate', 'module', "-PmoduleName=${module.name}", "-PdomainClass=${module.domainClass}"
 			}
-		}
-	}
+		}*/
+	} 
+	
+	
 }
 
 task wrapper(type: Wrapper) {

@@ -13,18 +13,18 @@
 %>
 angular.module('${fullModuleName}', [
 	'grails', 
-	'${fullModuleName}.controllers', ${domainList ? NEWLINE : ''}<%= domainList.collect { "${TAB}'${formatModuleName(rootModule + '.' + it)}.services'," }.join(NEWLINE) %>
+	'${fullModuleName}.controllers', ${domainList ? '\n' : ''}<%= domainList.collect { "\t'${formatModuleName(rootModule + '.' + it)}.services'," }.join('\n') %>
 	'${fullModuleName}.services'
 ])
 .value('defaultCrudResource', '${defaultResource}')
-.config(function(${DOLLAR_SIGN}routeProvider) {
-	${DOLLAR_SIGN}routeProvider
+.config(function(\$routeProvider) {
+	\$routeProvider
         .when('/', {
             controller: 'ListCtrl as ctrl',
             templateUrl: 'list.html',
             resolve: {
-                ${moduleName}List: function(${DOLLAR_SIGN}route, ${defaultResource}) {
-                    var params = ${DOLLAR_SIGN}route.current.params;
+                ${moduleName}List: function(\$route, ${defaultResource}) {
+                    var params = \$route.current.params;
                     return ${defaultResource}.list(params);
                 }<%= (domainList ? ',' : '' ) + domainList.collect{ generateResolveProperty(it) }.join(', ') %> 
             }
@@ -42,8 +42,8 @@ angular.module('${fullModuleName}', [
             controller: 'CreateEditCtrl as ctrl',
             templateUrl: 'create-edit.html',
             resolve: {
-                ${moduleName}: function(${DOLLAR_SIGN}route, ${defaultResource}) {
-                    var id = ${DOLLAR_SIGN}route.current.params.id;
+                ${moduleName}: function(\$route, ${defaultResource}) {
+                    var id = \$route.current.params.id;
                     return ${defaultResource}.get(id);
                 }<%= (domainList ? ',' : '' ) + domainList.collect{ generateResolveProperty(it) }.join(', ') %> 
             }
@@ -52,8 +52,8 @@ angular.module('${fullModuleName}', [
             controller: 'ShowCtrl as ctrl',
             templateUrl: 'show.html',
             resolve: {
-                ${moduleName}: function(${DOLLAR_SIGN}route, ${defaultResource}) {
-                    var id = ${DOLLAR_SIGN}route.current.params.id;
+                ${moduleName}: function(\$route, ${defaultResource}) {
+                    var id = \$route.current.params.id;
                     return ${defaultResource}.get(id);
                 }
             }

@@ -43,7 +43,7 @@ class ${resourceName}FunctionalSpec extends GebReportingSpec {
 		at ${resourceName}CreatePage
 
 		when:
-<%= domainProperties.collect{ "${TAB*2}${it.name}Field = ${getTestValueFromProperty(it, it.name + 'Field', true)}" }.join("${NEWLINE}") %>
+<%= domainProperties.collect{ "\t\t${it.name}Field = ${getTestValueFromProperty(it, it.name + 'Field', true)}" }.join('\n') %>
 			
 		and:
 		saveButton.click()
@@ -61,14 +61,14 @@ class ${resourceName}FunctionalSpec extends GebReportingSpec {
 	def "should be able to sort the ${resourceName} List"() {
 		given:
 		to ${resourceName}ListPage
-<%= domainProperties.take(4).collect{ ["${NEWLINE}${TAB*2}when:", "${it.name}Sort.click()", '', 'then:', "${it.name}Sort.classes().contains(\"asc\")"].join("${NEWLINE}${TAB*2}")}.join(NEWLINE) %>
+<%= domainProperties.take(4).collect{ ["\n\t\twhen:", "${it.name}Sort.click()", '', 'then:', "${it.name}Sort.classes().contains(\"asc\")"].join("\n\t\t")}.join('\n') %>
 	
 	}
 	
 	def "should be able to filter the ${resourceName} List"() {
 		given:
 		to ${resourceName}ListPage
-<%= domainProperties.take(4).collect{ ["${NEWLINE}${TAB*2}when:", "${it.name}Filter = ${getTestValueFromProperty(it, it.name + 'Filter', true)}", '', 'then:', "waitFor { rows.size() > 0 }"].join("${NEWLINE}${TAB*2}")}.join(NEWLINE) %>
+<%= domainProperties.take(4).collect{ ["\n\t\twhen:", "${it.name}Filter = ${getTestValueFromProperty(it, it.name + 'Filter', true)}", '', 'then:', "waitFor { rows.size() > 0 }"].join("\n\t\t")}.join('\n') %>
 	
 	}
 	
@@ -83,7 +83,7 @@ class ${resourceName}FunctionalSpec extends GebReportingSpec {
 		at ${resourceName}EditPage
 		
 		when:
-<%= domainProperties.collect{ "${TAB*2}${it.name}Field = ${getTestValueFromProperty(it, it.name + 'Field', false)}" }.join(NEWLINE) %>
+<%= domainProperties.collect{ "\t\t${it.name}Field = ${getTestValueFromProperty(it, it.name + 'Field', false)}" }.join('\n') %>
 		
 		and:
 		saveButton.click()

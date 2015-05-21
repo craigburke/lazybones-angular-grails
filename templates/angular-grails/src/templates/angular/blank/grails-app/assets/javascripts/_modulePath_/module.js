@@ -4,8 +4,8 @@
 
 'use strict';
 angular.module('${fullModuleName}', ['grails', '${fullModuleName}.controllers'])
-.config(function(<%='\\$routeProvider'%>) {
-<%='\\$routeProvider'%>
+.config(function(\$routeProvider) {
+\$routeProvider
         .when('/', {
             controller: 'MainCtrl as ctrl',
             templateUrl: 'index.html',
