@@ -4,7 +4,7 @@ source ./common.sh
 install_lazybones
 cd $PROJECT_ROOT
 
-if [ -d "$TEST_APP_ROOT" ]; then
+if [ ! -d "$TEST_APP_ROOT" ]; then
 	./gradlew buildTestApps
 fi
 
