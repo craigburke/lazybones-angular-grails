@@ -3,7 +3,7 @@ source ./common.sh
 
 export SERVER="craig@angular-grails.craigburke.com"
 export PORT_NUMBER="2222"
-export SOURCE_FILE=$APP_ROOT/build/libs/angular-grails.jar
+export SOURCE_FILE=$DEPLOY_APP_ROOT/build/libs/angular-grails.jar
 export DESTINATION="/web/apps/"
 export SCRIPT="/etc/init.d/app-angular-grails"
 
