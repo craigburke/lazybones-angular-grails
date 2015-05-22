@@ -1,4 +1,6 @@
 #/bin/sh
+set -e
+
 export PROJECT_ROOT=~/clone
 export APP_ROOT=$PROJECT_ROOT/test/apps/1.3/
 
