@@ -6,5 +6,5 @@ install_lazybones
 cd $PROJECT_ROOT
 ./gradlew buildTestApps
 
-cd $APP_ROOT
+cd $DEPLOY_APP_ROOT
 ./gradlew assemble
