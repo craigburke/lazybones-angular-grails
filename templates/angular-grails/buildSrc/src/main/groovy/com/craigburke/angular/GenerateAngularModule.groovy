@@ -23,12 +23,23 @@ class GenerateAngularModule {
 				
 		crudModule = args[4]
 		if (crudModule) {
-			props.domainClassName = args[4].contains('.') ? args[4] : "${props.group}.${args[4]}"
-		    props.domainProperties = getDomainProperties(props.group, props.domainClassName)
+			boolean fullClassSpecified = args[4].contains('.')
 			
-			props.resourceName = getResourceName(props.fullModuleName)
-		    props.defaultResource = "${props.resourceName}Resource"
-		    props.resourceUrl = "/api/${props.moduleName}"
+			if (fullClassSpecified) {
+				props.domainClassName = args[4]
+				props.domainClassGroup = props.domainClassName.tokenize('.')[0..-2].join('.')
+			}
+			else {
+				props.domainClassName = "${props.group}.${args[4]}"
+				props.domainClassGroup = props.group
+			}
+			
+			props.domainClassGroupPath = props.domainClassGroup.tokenize('.').join('/')
+
+		    props.domainProperties = getDomainProperties(props.group, props.domainClassName)
+			props.resourceName = getResourceName(props.domainClassName)
+		    props.angularResource = "${props.resourceName}Resource"
+		    props.angularResourceUrl = "/api/${props.moduleName}"
 		}
 		
 		props.formatModuleName = { String moduleName ->
@@ -49,7 +60,7 @@ class GenerateAngularModule {
 		
 		processTemplateFiles(props)
 		createCustomMarshaller(props)
-		updateUrlMappings(props.moduleName)
+		updateUrlMappings(props)
  	}
 	
 	private static void createCustomMarshaller(props) {
@@ -81,18 +92,18 @@ class GenerateAngularModule {
     	path.replaceAll(/\/-/, '/')
 	}
 	
-	private static String getResourceName(String moduleName) {
-	    String resource = moduleName.tokenize('.').last()
+	private static String getResourceName(String domainClassName) {
+	    String resource = domainClassName.tokenize('.').last()
 	    resource[0]?.toUpperCase() + resource?.substring(1)
 	}
 	
-	private static getDomainProperties(String group, String fullClassName) {
+	private static getDomainProperties(String group, String domainClassName) {
 		Class domainClass
     	try {
 			def classLoader = new GroovyClassLoader()
-        	domainClass = classLoader.loadClass(fullClassName)
+        	domainClass = classLoader.loadClass(domainClassName)
     	} catch (ex) {
-        	throw new Exception("Unable to load domain class: ${fullClassName}", ex)
+        	throw new Exception("Unable to load domain class: ${domainClassName}", ex)
     	}
 
 		def constraints = [:]
@@ -137,7 +148,7 @@ class GenerateAngularModule {
 	
 	private static File getDestinationPath(File templateFolder, File file, props) {
 		String relativePath = file.absolutePath - templateFolder.absolutePath
-		def pathVariables = ['groupPath', 'resourceName', 'moduleName', 'modulePath']
+		def pathVariables = ['groupPath', 'domainClassGroupPath', 'resourceName', 'moduleName', 'modulePath']
 
         props.findAll { it.key in pathVariables }.each { key, value ->
             relativePath = relativePath.replace("_${key}_", value)
@@ -156,12 +167,15 @@ class GenerateAngularModule {
 		destination << template.toString()
 	}
 	
-	private static void updateUrlMappings(String moduleName) {
+	private static void updateUrlMappings(props) {
+		String resourceName = props.domainClassName.tokenize('.').last()
+		resourceName = resourceName[0]?.toLowerCase() + resourceName?.substring(1)
+		
     	def mappingFile = new File("${projectPath}/grails-app/controllers/UrlMappings.groovy")
 
-    	String mapping = "\t\t'/${moduleName}'(view:'/${moduleName}')\n"
+    	String mapping = "\t\t'/${resourceName}'(view:'/${resourceName}')\n"
         // Add resource mapping
-        mapping += "\t\t'/api/${moduleName}'(resources:'${moduleName}')\n"
+        mapping += "\t\t'${props.angularResourceUrl}'(resources:'${resourceName}')\n"
 
     	if (!mappingFile.text.contains(mapping)) {
         	mappingFile.text = mappingFile.text.replaceAll(/(mappings\s*=\s*\{\s*\n*)/, "\$1${mapping}")

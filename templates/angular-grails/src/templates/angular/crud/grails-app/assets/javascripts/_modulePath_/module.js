@@ -16,16 +16,16 @@ angular.module('${fullModuleName}', [
 	'${fullModuleName}.controllers', ${domainList ? '\n' : ''}<%= domainList.collect { "\t'${formatModuleName(rootModule + '.' + it)}.services'," }.join('\n') %>
 	'${fullModuleName}.services'
 ])
-.value('defaultCrudResource', '${defaultResource}')
+.value('defaultCrudResource', '${angularResource}')
 .config(function(\$routeProvider) {
 	\$routeProvider
         .when('/', {
             controller: 'ListCtrl as ctrl',
             templateUrl: 'list.html',
             resolve: {
-                ${moduleName}List: function(\$route, ${defaultResource}) {
+                ${moduleName}List: function(\$route, ${angularResource}) {
                     var params = \$route.current.params;
-                    return ${defaultResource}.list(params);
+                    return ${angularResource}.list(params);
                 }<%= (domainList ? ',' : '' ) + domainList.collect{ generateResolveProperty(it) }.join(', ') %> 
             }
         })
@@ -33,8 +33,8 @@ angular.module('${fullModuleName}', [
             controller: 'CreateEditCtrl as ctrl',
             templateUrl: 'create-edit.html',
             resolve: {
-                ${moduleName}: function(${defaultResource}) {
-                    return ${defaultResource}.create();
+                ${moduleName}: function(${angularResource}) {
+                    return ${angularResource}.create();
                 }<%= (domainList ? ',' : '' ) + domainList.collect{ generateResolveProperty(it) }.join(', ') %> 
             }
         })
@@ -42,9 +42,9 @@ angular.module('${fullModuleName}', [
             controller: 'CreateEditCtrl as ctrl',
             templateUrl: 'create-edit.html',
             resolve: {
-                ${moduleName}: function(\$route, ${defaultResource}) {
+                ${moduleName}: function(\$route, ${angularResource}) {
                     var id = \$route.current.params.id;
-                    return ${defaultResource}.get(id);
+                    return ${angularResource}.get(id);
                 }<%= (domainList ? ',' : '' ) + domainList.collect{ generateResolveProperty(it) }.join(', ') %> 
             }
         })
@@ -52,9 +52,9 @@ angular.module('${fullModuleName}', [
             controller: 'ShowCtrl as ctrl',
             templateUrl: 'show.html',
             resolve: {
-                ${moduleName}: function(\$route, ${defaultResource}) {
+                ${moduleName}: function(\$route, ${angularResource}) {
                     var id = \$route.current.params.id;
-                    return ${defaultResource}.get(id);
+                    return ${angularResource}.get(id);
                 }
             }
         })

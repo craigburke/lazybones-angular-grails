@@ -1,8 +1,8 @@
 'use strict';
 
-function ${defaultResource}(CrudResourceFactory) {
-    return CrudResourceFactory('${resourceUrl}', '${resourceName}');
+function ${angularResource}(CrudResourceFactory) {
+    return CrudResourceFactory('${angularResourceUrl}', '${resourceName}');
 }
 
 angular.module('${fullModuleName}.services', ['grails'])
-    .factory('${defaultResource}', ${defaultResource});
+    .factory('${angularResource}', ${angularResource});
