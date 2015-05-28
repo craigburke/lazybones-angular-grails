@@ -1,5 +1,5 @@
 //= require_self
-//= require_tree /grails/templates/directives
+//= require_tree /grails/directives/templates
 
 'use strict';
 
@@ -36,7 +36,7 @@ function flashMessage(FlashService) {
 			
 			loadMessage();
         },
-        templateUrl: 'flash-message.html'
+        templateUrl: '/grails/directives/flash-message.html'
     }
 }
 

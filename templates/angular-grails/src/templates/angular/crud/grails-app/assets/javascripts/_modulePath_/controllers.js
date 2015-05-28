@@ -1,6 +1,6 @@
 'use strict';
 <% def domainList = domainProperties.findAll{ it.domainClass }.collect { "${it.name}List" } %>
-function ListCtrl(\$scope, ${angularResource}, ${moduleName}List<%= (domainList ? ', ' : '') + domainList.join(', ') %>, pageSize) {
+function ${domainClassName}ListCtrl(\$scope, ${angularResource}, ${moduleName}List<%= (domainList ? ', ' : '') + domainList.join(', ') %>, pageSize) {
     var self = this;
     self.${moduleName}List = ${moduleName}List;
 	<%= domainList.collect{ "self.${it} = ${it};" }.join('\n') %>
@@ -33,18 +33,18 @@ function ListCtrl(\$scope, ${angularResource}, ${moduleName}List<%= (domainList 
     }
 }
 
-function ShowCtrl(${moduleName}) {
+function ${domainClassName}ShowCtrl(${moduleName}) {
     var self = this;
     self.${moduleName} = ${moduleName};
 };
 
-function CreateEditCtrl(${moduleName}<%= (domainList ? ', ' : '') + domainList.join(', ') %> ) {
+function ${domainClassName}CreateEditCtrl(${moduleName}<%= (domainList ? ', ' : '') + domainList.join(', ') %> ) {
     var self = this;
 	<%= domainList.collect{ "self.${it} = ${it};" }.join('\n') %>
     self.${moduleName} = ${moduleName};
 }
 
 angular.module('${fullModuleName}.controllers', [])
-    .controller('ListCtrl', ListCtrl)
-    .controller('ShowCtrl', ShowCtrl)
-    .controller('CreateEditCtrl', CreateEditCtrl);
+    .controller('${domainClassName}ListCtrl', ${domainClassName}ListCtrl)
+    .controller('${domainClassName}ShowCtrl', ${domainClassName}ShowCtrl)
+    .controller('${domainClassName}CreateEditCtrl', ${domainClassName}CreateEditCtrl);

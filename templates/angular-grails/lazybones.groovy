@@ -16,6 +16,7 @@ params.archiveName = ask('Define the name of your archive files (JAR and WAR) [R
 processTemplates 'build.gradle', params
 processTemplates 'gradle.properties', params
 processTemplates "${installDirName}/app/**/*", params
+processTemplates 'grails-app/assets/javascripts/application.js', params
 
 def processFile = { File baseDirectory, File file ->
 	String relativePath = file.path - baseDirectory.path

@@ -1,4 +1,4 @@
-describe('${resourceName} Controllers: ', function() {
+describe('${domainClassName} Controllers: ', function() {
 
     var item = {'foo': 'bar', 'count': 100};
 
@@ -67,7 +67,7 @@ describe('${resourceName} Controllers: ', function() {
                 }
             };
 
-            \$provide.value('${resourceName}Resource', mockCrudService);
+            \$provide.value('${domainClassName}Resource', mockCrudService);
             \$provide.value('${moduleName}List', items);
 <%= domainProperties.take(4).findAll{ it.domainClass }.collect { "\t\t\t\$provide.value('${it.name}List', []);" }.join('\n') %>
             \$provide.value('pageSize', PAGE_SIZE);

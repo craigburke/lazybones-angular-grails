@@ -1,5 +1,5 @@
 //= require_self
-//= require_tree /templates/grails/directives/fields
+//= require_tree /grails/directives/templates/fields
 
 'use strict';
 
@@ -16,7 +16,7 @@ function fieldContainer() {
             var field = ($element.find('input').length > 0) ? $element.find('input') : $element.find('select');
             field.addClass('form-control');
         },
-        templateUrl: 'field-container.html'
+        templateUrl: '/grails/directives/fields/field-container.html'
     }
 }
 
@@ -28,7 +28,7 @@ function displayField() {
             label: '@',
             value: '='
         },
-        templateUrl: 'display-field.html'
+        templateUrl: '/grails/directives/fields/display-field.html'
     }
 }
 
@@ -42,7 +42,7 @@ function dateField() {
             };
 
         },
-        templateUrl: 'date-field.html'
+        templateUrl: '/grails/directives/fields/date-field.html'
     }
 }
 

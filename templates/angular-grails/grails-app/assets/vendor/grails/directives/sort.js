@@ -1,5 +1,5 @@
 //= require_self
-//= require_tree /grails/templates/directives
+//= require_tree /grails/directives/templates
 
 'use strict';
 
@@ -58,7 +58,7 @@ function sortableColumn() {
                 sortHeader.setSort({sort: $scope.property, order: $scope.order});
             }
         },
-        templateUrl: 'sortable-column.html'
+        templateUrl: '/grails/directives/sortable-column.html'
     }
 }
 

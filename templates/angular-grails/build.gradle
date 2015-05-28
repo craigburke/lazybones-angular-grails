@@ -57,6 +57,13 @@ angular {
 assets {
     minifyJs = true
     minifyCss = true
+
+	configOptions = [
+		angular : [
+	     	includePathInName: true
+	    ]
+	]
+	
 }
 
 node {

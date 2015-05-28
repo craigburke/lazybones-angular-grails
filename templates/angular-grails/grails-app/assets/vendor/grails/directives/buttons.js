@@ -1,5 +1,5 @@
 //= require_self
-//= require_tree /templates/grails/directives/buttons
+//= require_tree /grails/directives/templates/buttons
 
 'use strict';
 
@@ -10,22 +10,23 @@ function crudButton($location, $injector, defaultCrudResource, FlashService) {
         scope: {
             crudButton: '@',
             item: '=',
+			urlPrefix: '@',
             isDisabled: '=',
             afterAction: '&'
         },
         link: function ($scope) {
-
+			$scope.urlPrefix = $scope.urlPrefix || '/';
             var defaultResource = $injector.get(defaultCrudResource);
 
             var createFn = function () {
-                $location.path("/create");
+                $location.path($scope.urlPrefix + "create");
                 if ($scope.afterAction) {
                     $scope.afterAction();
                 }
             };
 
             var editFn = function () {
-                $location.path("/edit/" + $scope.item.id);
+                $location.path($scope.urlPrefix + "edit/" + $scope.item.id);
                 if ($scope.afterAction) {
                     $scope.afterAction();
                 }
@@ -44,7 +45,7 @@ function crudButton($location, $injector, defaultCrudResource, FlashService) {
                 if ($scope.item.id) {
                     defaultResource.update($scope.item,
                         function (response) {
-                            $location.path('/show/' + response.id);
+                            $location.path($scope.urlPrefix + 'show/' + response.id);
                             if ($scope.afterAction) {
                                 $scope.afterAction();
                             }
@@ -56,7 +57,7 @@ function crudButton($location, $injector, defaultCrudResource, FlashService) {
                 else {
                     defaultResource.save($scope.item,
                         function (response) {
-                            $location.path('/show/' + response.id);
+                            $location.path($scope.urlPrefix + 'show/' + response.id);
                             if ($scope.afterAction) {
                                 $scope.afterAction();
                             }
@@ -69,13 +70,13 @@ function crudButton($location, $injector, defaultCrudResource, FlashService) {
 
             var deleteFn = function () {
                 var successFn = function () {
-					var routeChange = ($location.path() !== '/')
+					var routeChange = ($location.path() !== $scope.urlPrefix)
 					
 					if ($scope.afterAction) {
                         $scope.afterAction();
                     }
 					if (routeChange) {
-						$location.path('/');
+						$location.path($scope.urlPrefix);
 					}
 
 					var message = defaultResource.getName() + ' was successfully deleted';
@@ -110,13 +111,13 @@ function crudButton($location, $injector, defaultCrudResource, FlashService) {
         templateUrl: function (element, attrs) {
             switch (attrs.crudButton) {
                 case "create":
-                    return "create-button.html";
+                    return "/grails/directives/buttons/create-button.html";
                 case "edit":
-                    return "edit-button.html";
+                    return "/grails/directives/buttons/edit-button.html";
                 case "delete":
-                    return "delete-button.html";
+                    return "/grails/directives/buttons/delete-button.html";
                 case "save":
-                    return "save-button.html";
+                    return "/grails/directives/buttons/save-button.html";
             }
 
         }

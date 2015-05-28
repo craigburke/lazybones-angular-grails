@@ -22,25 +22,25 @@ import grails.test.mixin.integration.Integration
 	} 
 %>
 @Integration
-class ${resourceName}FunctionalSpec extends GebReportingSpec {
+class ${domainClassName}FunctionalSpec extends GebReportingSpec {
 
 	def "should be able to view list page"() {
 		when:
-		to ${resourceName}ListPage
+		to ${domainClassName}ListPage
 
 		then:
-		at ${resourceName}ListPage
+		at ${domainClassName}ListPage
 	}
 	
-	def "should be able to create a valid ${resourceName}"() {
+	def "should be able to create a valid ${domainClassName}"() {
 		when:
-		to ${resourceName}ListPage
+		to ${domainClassName}ListPage
 
 		and:
 		createButton.click()
 
 		then:
-		at ${resourceName}CreatePage
+		at ${domainClassName}CreatePage
 
 		when:
 <%= domainProperties.collect{ "\t\t${it.name}Field = ${getTestValueFromProperty(it, it.name + 'Field', true)}" }.join('\n') %>
@@ -49,38 +49,38 @@ class ${resourceName}FunctionalSpec extends GebReportingSpec {
 		saveButton.click()
 
 		then:
-		at ${resourceName}ShowPage
+		at ${domainClassName}ShowPage
 
 		and:
 		successMessage.displayed
 
 		and:
-		successMessage.text().contains "${resourceName} was successfully created"
+		successMessage.text().contains "${domainClassName} was successfully created"
 	}
 	
-	def "should be able to sort the ${resourceName} List"() {
+	def "should be able to sort the ${domainClassName} List"() {
 		given:
-		to ${resourceName}ListPage
+		to ${domainClassName}ListPage
 <%= domainProperties.take(4).collect{ ["\n\t\twhen:", "${it.name}Sort.click()", '', 'then:', "${it.name}Sort.classes().contains(\"asc\")"].join("\n\t\t")}.join('\n') %>
 	
 	}
 	
-	def "should be able to filter the ${resourceName} List"() {
+	def "should be able to filter the ${domainClassName} List"() {
 		given:
-		to ${resourceName}ListPage
+		to ${domainClassName}ListPage
 <%= domainProperties.take(4).collect{ ["\n\t\twhen:", "${it.name}Filter = ${getTestValueFromProperty(it, it.name + 'Filter', true)}", '', 'then:', "waitFor { rows.size() > 0 }"].join("\n\t\t")}.join('\n') %>
 	
 	}
 	
-	def "should be able to edit the first ${resourceName}"() {
+	def "should be able to edit the first ${domainClassName}"() {
 		when:
-		to ${resourceName}ListPage
+		to ${domainClassName}ListPage
 
 		and:
 		rows.first().editButton.click()
 
 		then:
-		at ${resourceName}EditPage
+		at ${domainClassName}EditPage
 		
 		when:
 <%= domainProperties.collect{ "\t\t${it.name}Field = ${getTestValueFromProperty(it, it.name + 'Field', false)}" }.join('\n') %>
@@ -89,30 +89,30 @@ class ${resourceName}FunctionalSpec extends GebReportingSpec {
 		saveButton.click()
 		
 		then:
-		at ${resourceName}ShowPage
+		at ${domainClassName}ShowPage
 
 		and:
 		successMessage.displayed
 
 		and:
-		successMessage.text().contains "${resourceName} was successfully updated"
+		successMessage.text().contains "${domainClassName} was successfully updated"
 	}
 	
-	def "should be able to delete the first ${resourceName}"() {
+	def "should be able to delete the first ${domainClassName}"() {
 		when:
-		to ${resourceName}ListPage
+		to ${domainClassName}ListPage
 
 		and:
 		rows.first().deleteButton.click()
 
 		then:
-		at ${resourceName}ListPage
+		at ${domainClassName}ListPage
 
 		and:
 		successMessage.displayed
 
 		and:
-		successMessage.text().contains "${resourceName} was successfully deleted"
+		successMessage.text().contains "${domainClassName} was successfully deleted"
       }
 	
 }

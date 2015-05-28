@@ -1,5 +1,5 @@
 //= require_self
-//= require_tree /grails/templates/directives/crud-breadcrumbs
+//= require /grails/directives/templates/crud-breadcrumbs
 
 'use strict';
 
@@ -8,13 +8,15 @@ function crudBreadcrumbs($injector, defaultCrudResource) {
         restrict: 'EA',
         replace: true,
         scope: {
-            crudBreadcrumbs: '@'
+            crudBreadcrumbs: '@',
+			urlPrefix: '@'
         },
 		link: function($scope) {
+			$scope.urlPrefix = $scope.urlPrefix || '/';
             var defaultResource = $injector.get(defaultCrudResource);
 			$scope.resourceName = defaultResource.getName();
 		},
-        templateUrl: 'crud-breadcrumbs.html'
+        templateUrl: '/grails/directives/crud-breadcrumbs.html'
     }
 }
 

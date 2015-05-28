@@ -1,5 +1,5 @@
-<div crud-breadcrumbs="show"></div>
-<h2>Show ${resourceName}</h2>
+<div crud-breadcrumbs="show" url-prefix="/${domainClassNameLowerCase}/"></div>
+<h2>Show ${domainClassName}</h2>
 <div flash-message ></div>
 
 <table class="table table-bordered table-striped"><% domainProperties.each { property -> %>
@@ -7,6 +7,6 @@
 </table>
 
 <div class="form-actions">
-    <button crud-button="edit" item="ctrl.${moduleName}"></button>
-    <button crud-button="delete" item="ctrl.${moduleName}" ></button>
+    <button crud-button="edit" item="ctrl.${moduleName}" url-prefix="/${domainClassNameLowerCase}/"></button>
+    <button crud-button="delete" item="ctrl.${moduleName}" url-prefix="/${domainClassNameLowerCase}/"></button>
 </div>

@@ -3,11 +3,11 @@ package ${group}.pages.${moduleName}
 import geb.Module
 import geb.Page
 
-class ${resourceName}ListPage extends Page {
+class ${domainClassName}ListPage extends Page {
 
     static url = "${moduleName}"
 
-    static at = { \$('h2').text() == '${resourceName} List' }
+    static at = { \$('h2').text() == '${domainClassName} List' }
 
     static content = {
 <%= domainProperties.collect {"\t\t${it.name}Filter {\$(\"${it.domainClass ? 'select' : 'input'}[ng-model='ctrl.filter.${it.name + (it.domainClass ? 'Id' : '')}']\")}" }.join('\n') %>
@@ -17,12 +17,12 @@ class ${resourceName}ListPage extends Page {
 	    createButton { \$("button[crud-button='create']") }
         successMessage { \$(".alert-success") }
 		
-        rows { moduleList ${resourceName}ListRow, \$("table#list tbody tr") }
+        rows { moduleList ${domainClassName}ListRow, \$("table#list tbody tr") }
     }
 
 }
 
-class ${resourceName}ListRow extends Module {
+class ${domainClassName}ListRow extends Module {
 
 	static content = {
 		cell { \$("td") }

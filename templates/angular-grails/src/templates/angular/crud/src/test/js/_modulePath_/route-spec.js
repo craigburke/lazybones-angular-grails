@@ -1,4 +1,4 @@
-describe('${resourceName} Routes: ', function() {
+describe('${domainClassName} Routes: ', function() {
     beforeEach(module('${fullModuleName}'));
 	var location, route, rootScope;
 

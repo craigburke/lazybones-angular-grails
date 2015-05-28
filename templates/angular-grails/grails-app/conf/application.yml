@@ -71,6 +71,9 @@ grails:
                 scriptlets: html
                 taglib: none
                 staticparts: none
+    assets:
+        angular:
+            includePathInName: true
 
 ---
 dataSource:

@@ -26,20 +26,20 @@ class GenerateAngularModule {
 			boolean fullClassSpecified = args[4].contains('.')
 			
 			if (fullClassSpecified) {
-				props.domainClassName = args[4]
+				props.domainClassFullName = args[4]
 				props.domainClassGroup = props.domainClassName.tokenize('.')[0..-2].join('.')
 			}
 			else {
-				props.domainClassName = "${props.group}.${args[4]}"
+				props.domainClassFullName = "${props.group}.${args[4]}"
 				props.domainClassGroup = props.group
 			}
-			
+			props.domainClassName = props.domainClassFullName.tokenize('.').last()
+			props.domainClassNameLowerCase = props.domainClassName[0].toLowerCase() + props.domainClassName.substring(1)
 			props.domainClassGroupPath = props.domainClassGroup.tokenize('.').join('/')
 
-		    props.domainProperties = getDomainProperties(props.group, props.domainClassName)
-			props.resourceName = getResourceName(props.domainClassName)
-		    props.angularResource = "${props.resourceName}Resource"
-		    props.angularResourceUrl = "/api/${props.moduleName}"
+		    props.domainProperties = getDomainProperties(props.group, props.domainClassFullName)
+		    props.angularResource = "${props.domainClassName}Resource"
+		    props.angularResourceUrl = "/api/${props.domainClassNameLowerCase}"
 		}
 		
 		props.formatModuleName = { String moduleName ->
@@ -61,6 +61,7 @@ class GenerateAngularModule {
 		processTemplateFiles(props)
 		createCustomMarshaller(props)
 		updateUrlMappings(props)
+		addModuleToApplication(props)
  	}
 	
 	private static void createCustomMarshaller(props) {
@@ -92,18 +93,13 @@ class GenerateAngularModule {
     	path.replaceAll(/\/-/, '/')
 	}
 	
-	private static String getResourceName(String domainClassName) {
-	    String resource = domainClassName.tokenize('.').last()
-	    resource[0]?.toUpperCase() + resource?.substring(1)
-	}
-	
-	private static getDomainProperties(String group, String domainClassName) {
+	private static getDomainProperties(String group, String domainClassFullName) {
 		Class domainClass
     	try {
 			def classLoader = new GroovyClassLoader()
-        	domainClass = classLoader.loadClass(domainClassName)
+        	domainClass = classLoader.loadClass(domainClassFullName)
     	} catch (ex) {
-        	throw new Exception("Unable to load domain class: ${domainClassName}", ex)
+        	throw new Exception("Unable to load domain class: ${domainClassFullName}", ex)
     	}
 
 		def constraints = [:]
@@ -148,7 +144,7 @@ class GenerateAngularModule {
 	
 	private static File getDestinationPath(File templateFolder, File file, props) {
 		String relativePath = file.absolutePath - templateFolder.absolutePath
-		def pathVariables = ['groupPath', 'domainClassGroupPath', 'resourceName', 'moduleName', 'modulePath']
+		def pathVariables = ['groupPath', 'domainClassGroupPath', 'domainClassName', 'moduleName', 'modulePath']
 
         props.findAll { it.key in pathVariables }.each { key, value ->
             relativePath = relativePath.replace("_${key}_", value)
@@ -168,17 +164,32 @@ class GenerateAngularModule {
 	}
 	
 	private static void updateUrlMappings(props) {
-		String resourceName = props.domainClassName.tokenize('.').last()
-		resourceName = resourceName[0]?.toLowerCase() + resourceName?.substring(1)
-		
     	def mappingFile = new File("${projectPath}/grails-app/controllers/UrlMappings.groovy")
 
-    	String mapping = "\t\t'/${resourceName}'(view:'/${resourceName}')\n"
-        // Add resource mapping
-        mapping += "\t\t'${props.angularResourceUrl}'(resources:'${resourceName}')\n"
+    	String mapping = "\t\t'${props.angularResourceUrl}'(resources:'${props.domainClassNameLowerCase}')\n"
 
     	if (!mappingFile.text.contains(mapping)) {
         	mappingFile.text = mappingFile.text.replaceAll(/(mappings\s*=\s*\{\s*\n*)/, "\$1${mapping}")
-    	}
+		}
+	}	
+	
+	private static void addModuleToApplication(props) {
+		File applicationJsFile = new File("${projectPath}/grails-app/assets/javascripts/application.js")
+		String moduleAssetDirective = "//= require ${props.modulePath}/module"
+		if (!applicationJsFile.text.contains(moduleAssetDirective)) {
+			def lines = applicationJsFile.readLines()
+			applicationJsFile.text =  "${lines.first()}\n${moduleAssetDirective}\n${lines.tail().join('\n')}" 
+		}
+		
+		String moduleDependency = "'${props.fullModuleName}'"
+		if (!applicationJsFile.text.contains(moduleDependency)) {
+			String originalModuleDefinition = (applicationJsFile.text =~ /(?s).*(angular\.module.*)/)[0][1]
+			String dependencyList = (originalModuleDefinition =~ /(?s).*\[(.*)\]/)[0][1]
+			moduleDependency += (dependencyList.trim()) ? ',' : ''
+			def moduleDefinitionMatcher = (originalModuleDefinition =~ /(?s)(.*)\[(.*)\].*/)
+			String newModuleDefinition = "${moduleDefinitionMatcher[0][1]}[\n\t${moduleDependency}${moduleDefinitionMatcher[0][2]}]);"
+			applicationJsFile.text = applicationJsFile.text.replace(originalModuleDefinition, newModuleDefinition)
+		}
+
 	}
 }
