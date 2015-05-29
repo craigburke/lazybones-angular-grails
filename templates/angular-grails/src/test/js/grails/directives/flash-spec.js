@@ -16,7 +16,7 @@ describe('grails flashDirective: ', function() {
 
     beforeEach(inject(function(_$rootScope_, $compile, $httpBackend) {
         $rootScope = _$rootScope_;
-        $httpBackend.expectGET('flash-message.html').respond("<div>{{message}}</div>");
+        $httpBackend.expectGET('/grails/directives/flash-message.html').respond("<div>{{message}}</div>");
 
         var scope = $rootScope.$new();
         var element = $compile("<div flash-message></div>")(scope);

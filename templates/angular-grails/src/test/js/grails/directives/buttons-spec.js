@@ -40,7 +40,7 @@ describe('grails crudButton: ', function() {
         var directiveScope;
 
         beforeEach(function () {
-            $httpBackend.expectGET('create-button.html').respond("<button>Create</button>");
+            $httpBackend.expectGET('/grails/directives/buttons/create-button.html').respond("<button>Create</button>");
 
             var scope = $rootScope.$new();
             scope.afterAction = afterFn;
@@ -62,7 +62,7 @@ describe('grails crudButton: ', function() {
         var directiveScope;
 
         beforeEach(function () {
-            $httpBackend.expectGET('edit-button.html').respond("<button>Edit</button>");
+            $httpBackend.expectGET('/grails/directives/buttons/edit-button.html').respond("<button>Edit</button>");
 
             var scope = $rootScope.$new();
             scope.item = item;

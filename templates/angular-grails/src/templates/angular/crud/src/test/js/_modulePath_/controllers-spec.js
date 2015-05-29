@@ -4,7 +4,7 @@ describe('${domainClassName} Controllers: ', function() {
 
     beforeEach(module('${fullModuleName}.controllers'));
 
-    describe('ShowCtrl: ', function() {
+    describe('${domainClassName}ShowCtrl: ', function() {
         var ctrl, scope;
 
         beforeEach(module(function(\$provide) {
@@ -14,7 +14,7 @@ describe('${domainClassName} Controllers: ', function() {
         beforeEach(inject(
             function (\$controller, \$rootScope) {
                 scope = \$rootScope.\$new();
-                ctrl = \$controller('ShowCtrl', { \$scope: scope });
+                ctrl = \$controller('${domainClassName}ShowCtrl', { \$scope: scope });
             }
         ));
 
@@ -23,7 +23,7 @@ describe('${domainClassName} Controllers: ', function() {
         });
     });
 
-    describe('CreateEditCtrl: ', function() {
+    describe('${domainClassName}CreateEditCtrl: ', function() {
         var ctrl, scope;
 
         beforeEach(module(function(\$provide) {
@@ -34,7 +34,7 @@ describe('${domainClassName} Controllers: ', function() {
         beforeEach(inject(
             function (\$controller, \$rootScope) {
                 scope = \$rootScope.\$new();
-                ctrl = \$controller('CreateEditCtrl', { \$scope: scope });
+                ctrl = \$controller('${domainClassName}CreateEditCtrl', { \$scope: scope });
             }
         ));
 
@@ -43,7 +43,7 @@ describe('${domainClassName} Controllers: ', function() {
         });
     });
 
-    describe('ListCtrl: ', function() {
+    describe('${domainClassName}ListCtrl: ', function() {
         var ctrl, scope, deferred;
 
         var items = [
@@ -77,7 +77,7 @@ describe('${domainClassName} Controllers: ', function() {
             function (\$controller, \$rootScope, \$q) {
                 deferred = \$q.defer();
                 scope = \$rootScope.\$new();
-                ctrl = \$controller('ListCtrl', { \$scope: scope });
+                ctrl = \$controller('${domainClassName}ListCtrl', { \$scope: scope });
             }
         ));
 

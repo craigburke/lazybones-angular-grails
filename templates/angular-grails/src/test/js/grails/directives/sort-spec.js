@@ -16,7 +16,7 @@ describe('grails sort: ', function() {
         var headerScope;
 
         beforeEach(function () {
-            $httpBackend.expectGET('sortable-column.html').respond("<th>{{title}}</th>");
+            $httpBackend.expectGET('/grails/directives/sortable-column.html').respond("<th>{{title}}</th>");
 
             var scope = $rootScope.$new();
             scope.onSort = onSort;

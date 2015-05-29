@@ -1,82 +1,78 @@
 describe('${domainClassName} Routes: ', function() {
     beforeEach(module('${fullModuleName}'));
-	var location, route, rootScope;
+	var \$location, \$state, \$rootScope, \$q;
 
 	beforeEach(module(function(\$provide) {          
-		\$provide.value('rootUrl', '/');
-	}));	
-	
+		var ResourceMock = {
+			list: function() {
+				var deferred = \$q.defer();
+				deferred.resolve([]);
+				return deferred.promise;
+			},
+			get: function() {
+				var deferred = \$q.defer();
+				deferred.resolve({});
+				return deferred.promise;
+			},
+			create: function() {
+				var deferred = \$q.defer();
+				deferred.resolve({});
+				return deferred.promise;
+			}
+		}
+		\$provide.value('${domainClassName}Resource', ResourceMock);				
+<%= domainProperties.take(4).findAll{ it.domainClass }.collect { "\t\t\$provide.value('${it.name.capitalize()}Resource', ResourceMock);" }.join('\n') %>	
+	}));
 	
 	beforeEach(inject(
-		function(\$location, \$route, \$rootScope) {
-			location = \$location;
-			route = \$route;
-			rootScope = \$rootScope;
+		function(_\$location_, _\$state_, _\$rootScope_, _\$q_) {
+			\$location = _\$location_;
+			\$state = _\$state_;
+			\$rootScope = _\$rootScope_;
+			\$q = _\$q_;
 		}	
 	));
 	
 	describe('Index route: ', function() {
-		beforeEach(inject(
-			function(\$httpBackend) {
-				\$httpBackend.whenGET('list.html').respond(200, 'list page');
-				\$httpBackend.whenGET('/api/${moduleName}').respond([]);
-<%= domainProperties.take(4).findAll{ it.domainClass }.collect { "\t\t\t\t\$httpBackend.whenGET('/api/${it.name}').respond([]);" }.join('\n') %>
-			}
-		));
+		beforeEach(inject(function(\$templateCache) {
+			\$templateCache.put('/${modulePath}/list.html', 'list page');
+		}));
 		
-		it('should load the list page on successful load of /', function() {
-			location.path('/');
-			rootScope.\$digest();
-			expect(route.current.controller).toBe('ListCtrl as ctrl');
+		it('should load the list page on successful load of /list', function() {
+			\$location.path('/${domainClassNameLowerCase}/list');
+			\$rootScope.\$digest();
+			expect(\$state.current.name).toBe('${domainClassNameLowerCase}.list');
 		});
 		
 		it('should redirect to the list page on non-existent route', function() { 
-			location.path('bogus/route/foo/bar'); 
-			rootScope.\$digest(); 
-			expect(route.current.controller).toBe('ListCtrl as ctrl');
+			\$location.path('${domainClassNameLowerCase}/bogus/route/foo/bar'); 
+			\$rootScope.\$digest(); 
+			expect(\$state.current.name).toBe('${domainClassNameLowerCase}.list');
 		});
-	
-		it('should load the list page on successful load of /', function() {
-			location.path('/');
-			rootScope.\$digest();
-			expect(route.current.controller).toBe('ListCtrl as ctrl');
-		});
-	
 	});
 
 	describe('Create route: ', function() {
-		beforeEach(inject(
-			function(\$httpBackend) {
-				\$httpBackend.whenGET('create-edit.html').respond(200, 'list page');
-				\$httpBackend.whenGET('/api/${moduleName}/create').respond([]);
-<%= domainProperties.take(4).findAll{ it.domainClass }.collect { "\t\t\t\t\$httpBackend.whenGET('/api/${it.name}').respond([]);" }.join('\n') %>
-			}
-		));
+		beforeEach(inject(function(\$templateCache) {
+			\$templateCache.put('/${modulePath}/create-edit.html', 'create page');
+		}));
 		
 		it('should load the create page on successful load of /create', function() {
-			location.path('/create');
-			rootScope.\$digest();
-			expect(route.current.controller).toBe('CreateEditCtrl as ctrl');
+			\$location.path('/${domainClassNameLowerCase}/create');
+			\$rootScope.\$digest();
+			expect(\$state.current.name).toBe('${domainClassNameLowerCase}.create');
 		});
-	
 	});
 	
 	describe('Edit route: ', function() {
-		beforeEach(inject(
-			function(\$httpBackend) {
-				\$httpBackend.whenGET('create-edit.html').respond(200, 'list page');
-				\$httpBackend.whenGET('/api/${moduleName}/1').respond([]);
-<%= domainProperties.take(4).findAll{ it.domainClass }.collect { "\t\t\t\t\$httpBackend.whenGET('/api/${it.name}').respond([]);" }.join('\n') %>
-			}
-		));
+		beforeEach(inject(function(\$templateCache) {
+			\$templateCache.put('/${modulePath}/create-edit.html', 'edit page');
+		}));
 		
 		it('should load the edit page on successful load of /edit', function() {
-			location.path('/edit/1');
-			rootScope.\$digest();
-			expect(route.current.controller).toBe('CreateEditCtrl as ctrl');
+			\$location.path('${domainClassNameLowerCase}/edit/1');
+			\$rootScope.\$digest();
+			expect(\$state.current.name).toBe('${domainClassNameLowerCase}.edit');
 		});
-	
 	});	
 	
-
 });

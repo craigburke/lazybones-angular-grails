@@ -15,7 +15,7 @@ describe('grails fields: ', function() {
         var directiveScope;
 
         beforeEach(function () {
-            $httpBackend.expectGET('date-field.html').respond("<input datepicker-popup='' ng-model='ngModel' />");
+            $httpBackend.expectGET('/grails/directives/fields/date-field.html').respond("<input datepicker-popup='' ng-model='ngModel' />");
 
             var scope = $rootScope.$new();
             var element = $compile("<input date-field></div>")(scope);
