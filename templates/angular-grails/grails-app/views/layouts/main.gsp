@@ -28,12 +28,6 @@
         <div class="navbar-header">
             <g:link uri="/" class="navbar-brand">Angular Grails</g:link>
         </div>
-        <ul class="nav navbar-nav navbar-left">
-            <li><a ui-sref="home"><i class="fa fa-home"></i> Home</a></li>
-			<g:each var="c" in="${grailsApplication.controllerClasses.findAll{ it.logicalPropertyName != 'assets' }. sort { it.fullName } }">
-			<li><a ui-sref="${c.logicalPropertyName}.list"><i class="fa fa-database"></i> ${c.logicalPropertyName.capitalize()} List</a></li>
-			</g:each>
-        </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="https://github.com/craigburke/lazybones-angular-grails"><i class="fa fa-github"></i> Github</a></li>
         </ul>
@@ -45,9 +39,20 @@
 
         <div class="row">
             <div class="col-md-12">
+		    <div class="col-md-2">
+				<div>
+					<ul class="nav nav-pills nav-stacked">
+		            	<li><a ui-sref="home"><i class="fa fa-home"></i> Home</a></li>
+						<g:each var="c" in="${grailsApplication.controllerClasses.findAll{ it.logicalPropertyName != 'assets' }. sort { it.fullName } }">
+							<li><a ui-sref="${c.logicalPropertyName}.list"><i class="fa fa-database"></i> ${c.logicalPropertyName.capitalize()} List</a></li>
+						</g:each>
+					</ul>
+				</div>
+			</div>
 
-            <div class="animate-view" ui-view></div>
-            <g:layoutBody />
+			<div class="col-md-10">
+            	<div class="animate-view" ui-view></div>
+			</div>
         </div>
       </div>
     </div>
