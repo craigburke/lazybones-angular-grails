@@ -38,17 +38,18 @@ describe('${domainClassName} Routes: ', function() {
 			\$templateCache.put('/${modulePath}/list.html', 'list page');
 		}));
 		
+		it('should load the list page by default', function() { 
+			\$location.path('/${domainClassNameLowerCase}/'); 
+			\$rootScope.\$digest(); 
+			expect(\$state.current.name).toBe('${domainClassNameLowerCase}.list');
+		});
+		
 		it('should load the list page on successful load of /list', function() {
 			\$location.path('/${domainClassNameLowerCase}/list');
 			\$rootScope.\$digest();
 			expect(\$state.current.name).toBe('${domainClassNameLowerCase}.list');
 		});
 		
-		it('should redirect to the list page on non-existent route', function() { 
-			\$location.path('${domainClassNameLowerCase}/bogus/route/foo/bar'); 
-			\$rootScope.\$digest(); 
-			expect(\$state.current.name).toBe('${domainClassNameLowerCase}.list');
-		});
 	});
 
 	describe('Create route: ', function() {
@@ -69,9 +70,21 @@ describe('${domainClassName} Routes: ', function() {
 		}));
 		
 		it('should load the edit page on successful load of /edit', function() {
-			\$location.path('${domainClassNameLowerCase}/edit/1');
+			\$location.path('/${domainClassNameLowerCase}/edit/1');
 			\$rootScope.\$digest();
 			expect(\$state.current.name).toBe('${domainClassNameLowerCase}.edit');
+		});
+	});	
+	
+	describe('Show route: ', function() {
+		beforeEach(inject(function(\$templateCache) {
+			\$templateCache.put('/${modulePath}/show.html', 'show page');
+		}));
+		
+		it('should load the show page on successful load of /show', function() {
+			\$location.path('/${domainClassNameLowerCase}/show/1');
+			\$rootScope.\$digest();
+			expect(\$state.current.name).toBe('${domainClassNameLowerCase}.show');
 		});
 	});	
 	

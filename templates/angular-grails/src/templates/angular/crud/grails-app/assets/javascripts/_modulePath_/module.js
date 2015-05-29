@@ -18,7 +18,7 @@ angular.module('${fullModuleName}', [
 ])
 .value('defaultCrudResource', '${angularResource}')
 .config(function(\$stateProvider, \$urlRouterProvider) {
-    \$urlRouterProvider.when('/${domainClassNameLowerCase}', '/${domainClassNameLowerCase}/list');
+    \$urlRouterProvider.when('/${domainClassNameLowerCase}/', '/${domainClassNameLowerCase}/list');
 	
 	\$stateProvider
 		.state('${domainClassNameLowerCase}', {

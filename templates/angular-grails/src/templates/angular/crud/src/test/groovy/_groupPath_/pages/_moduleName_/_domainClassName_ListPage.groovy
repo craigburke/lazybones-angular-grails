@@ -5,7 +5,7 @@ import geb.Page
 
 class ${domainClassName}ListPage extends Page {
 
-    static url = "${moduleName}"
+    static url = "#/${moduleName}/list"
 
     static at = { \$('h2').text() == '${domainClassName} List' }
 

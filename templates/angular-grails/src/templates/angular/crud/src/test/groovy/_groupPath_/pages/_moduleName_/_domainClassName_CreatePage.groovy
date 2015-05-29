@@ -5,7 +5,7 @@ import geb.Page
 
 class ${domainClassName}CreatePage extends Page {
 
-    static url = "${moduleName}#/create"
+    static url = "#/${moduleName}/create"
 
     static at = { \$('h2').text() == 'Create ${domainClassName}' }
 

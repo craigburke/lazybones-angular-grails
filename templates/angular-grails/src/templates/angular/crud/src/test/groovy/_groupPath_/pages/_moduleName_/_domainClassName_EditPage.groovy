@@ -5,8 +5,6 @@ import geb.Page
 
 class ${domainClassName}EditPage extends Page {
 
-    static url = "${moduleName}#/create"
-
     static at = { \$('h2').text() == 'Edit ${domainClassName}' }
 
     static content = {
