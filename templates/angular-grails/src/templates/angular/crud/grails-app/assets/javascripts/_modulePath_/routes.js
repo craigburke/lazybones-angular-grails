@@ -1,7 +1,7 @@
 'use strict';<% def domainList = domainProperties.findAll{ it.domainClass }.collect { "${it.type.name - (group + '.')}" } %>
 <% def generateResolveProperty = { item -> """
-				${item[0].toLowerCase() + item.substring(1)}List: function(${item}Resource) {
-					return ${item}Resource.list();
+				${item[0].toLowerCase() + item.substring(1)}List: function(${item}Service) {
+					return ${item}Service.list();
 				}	
 """
 }
@@ -17,12 +17,12 @@ angular.module('${fullModuleName}')
 			template: '<div ui-view></div>'
 		})
 		.state('${domainClassNameLowerCase}.list', {
-			url:'/list',
+			url:'',
 			controller:'${domainClassName}ListCtrl as ctrl',
 			templateUrl:'/${modulePath}/list.html',
             resolve: {
-                ${moduleName}List: function(\$stateParams, ${angularResource}) {
-                    return ${angularResource}.list(\$stateParams);
+                ${moduleName}List: function(\$stateParams, ${domainClassName}Service) {
+                    return ${domainClassName}Service.list(\$stateParams);
                 }<%= (domainList ? ',' : '' ) + domainList.collect{ generateResolveProperty(it) }.join(', ') %> 
             }
 		})
@@ -31,8 +31,8 @@ angular.module('${fullModuleName}')
 			controller:'${domainClassName}CreateEditCtrl as ctrl',
 			templateUrl:'/${modulePath}/create-edit.html',
             resolve: {
-				${moduleName}: function(${angularResource}) {
-                	return ${angularResource}.create();
+				${moduleName}: function(${domainClassName}Service) {
+                	return ${domainClassName}Service.create();
             	}<%= (domainList ? ',' : '' ) + domainList.collect{ generateResolveProperty(it) }.join(', ') %>
 			}
 		})
@@ -41,8 +41,8 @@ angular.module('${fullModuleName}')
 			controller:'${domainClassName}CreateEditCtrl as ctrl',
 			templateUrl:'/${modulePath}/create-edit.html',
             resolve: { 
-				${moduleName}: function(\$stateParams, ${angularResource}) {
-					return ${angularResource}.get(\$stateParams.id);
+				${moduleName}: function(\$stateParams, ${domainClassName}Service) {
+					return ${domainClassName}Service.get(\$stateParams.id);
             	}<%= (domainList ? ',' : '' ) + domainList.collect{ generateResolveProperty(it) }.join(', ') %>
 			}
 		})
@@ -51,8 +51,8 @@ angular.module('${fullModuleName}')
 			controller:'${domainClassName}ShowCtrl as ctrl',
 			templateUrl:'/${modulePath}/show.html',
             resolve: { 
-				${moduleName}: function(\$stateParams, ${angularResource}) {
-					return ${angularResource}.get(\$stateParams.id);
+				${moduleName}: function(\$stateParams, ${domainClassName}Service) {
+					return ${domainClassName}Service.get(\$stateParams.id);
             	}<%= (domainList ? ',' : '' ) + domainList.collect{ generateResolveProperty(it) }.join(', ') %>
 			}
 		});

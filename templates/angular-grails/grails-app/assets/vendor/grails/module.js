@@ -1,16 +1,18 @@
 //= require /angular/angular
 //= require_tree /angular/modules
+//= require restangular.min
+//= require underscore.min
 //= require angular-ui-router.min
+//= require ui-bootstrap.min
 //= require directives/module
 //= require services/module
-//= require ui-bootstrap.min
 
 'use strict';
 
 angular.module('grails', [
-    'ui.router',
-    'ngResource',
 	'ngAnimate',
+    'restangular',
+    'ui.router',
     'ui.bootstrap',
     'grails.directives',
     'grails.services',

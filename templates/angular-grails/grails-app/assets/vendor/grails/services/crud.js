@@ -1,60 +1,19 @@
 'use strict';
 
-function CrudResourceFactory(rootUrl, $resource, $q, $http) {
+function CrudServiceFactory(rootUrl, Restangular, $q, $http) {
 
-    return function(restUrl, resourceName) {
+    return function(restUrl) {
         var crudResource = {};
         var baseUrl = (rootUrl + restUrl).replace('//', '/');
-
-        var resource = $resource(baseUrl + '/:id', {id: '@id'} ,
-            { 'update': { method: 'PUT'} }
-        );
-
-        var getResourcePromise = function(resourceMethod, successFn, errorFn) {
-            return chainPromise(resourceMethod.$promise, successFn, errorFn);
-        };
-
-        var chainPromise = function(promise, successFn, errorFn) {
-            if (successFn && errorFn) {
-                promise = promise.then(successFn, errorFn);
-            }
-            else if (successFn) {
-                promise = promise.then(successFn);
-            }
-
-            return promise;
-        };
+		var resource = Restangular.all(baseUrl);
 
         crudResource.list = function(params, successFn, errorFn) {
-            var deferred = $q.defer();
-			
-			if (params && params.filter) {
-	            angular.forEach(params.filter, function(value, key) {
-			     	params['filter.' + key ] = value;
-				});        	
-				delete params.filter;
-			}
-
-            resource.query(params, function(items, headers) {
-                var totalCount = headers('X-Item-Range').split('/')[1];
-                totalCount = parseInt(totalCount);
-
-                items.getTotalCount = function() {
-                    return totalCount;
-                };
-                deferred.resolve(items);
-            });
-
-            return chainPromise(deferred.promise, successFn, errorFn);
-        };
-
-        crudResource.getName = function() {
-            return resourceName;
+            return resource.getList();
         };
 
         crudResource.get = function(id, successFn, errorFn) {
-            return getResourcePromise(resource.get({id: id}, successFn, errorFn));
-        };
+        	return resource.get(id).then(successFn, errorFn);
+		};
 
         crudResource.create = function(successFn, errorFn) {
             var deferred = $q.defer();
@@ -67,15 +26,15 @@ function CrudResourceFactory(rootUrl, $resource, $q, $http) {
         };
 
         crudResource.delete = function(id, successFn, errorFn) {
-            return getResourcePromise(resource.delete({id: id}), successFn, errorFn);
+            //return getResourcePromise(resource.delete({id: id}), successFn, errorFn);
         };
 
         crudResource.save = function(data, successFn, errorFn) {
-            return getResourcePromise(resource.save(data), successFn, errorFn);
+            //return getResourcePromise(resource.save(data), successFn, errorFn);
         };
 
         crudResource.update = function(data, successFn, errorFn) {
-            return getResourcePromise(resource.update(data), successFn, errorFn);
+            //return getResourcePromise(resource.update(data), successFn, errorFn);
         };
 
 
@@ -83,5 +42,5 @@ function CrudResourceFactory(rootUrl, $resource, $q, $http) {
     };
 }
 
-angular.module('grails.services.crud', ['ngResource'])
-    .factory('CrudResourceFactory', CrudResourceFactory);
+angular.module('grails.services.crud', ['restangular'])
+    .factory('CrudServiceFactory', CrudServiceFactory);

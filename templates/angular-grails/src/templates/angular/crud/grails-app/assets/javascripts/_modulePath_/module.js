@@ -10,5 +10,4 @@ angular.module('${fullModuleName}', [
 	'grails', 
 	'${fullModuleName}.controllers', ${domainList ? '\n' : ''}<%= domainList.collect { "\t'${formatModuleName(rootModule + '.' + it)}.services'," }.join('\n') %>
 	'${fullModuleName}.services'
-])
-.value('defaultCrudResource', '${angularResource}');
+]);

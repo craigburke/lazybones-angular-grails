@@ -1,6 +1,6 @@
 'use strict';
 <% def domainList = domainProperties.findAll{ it.domainClass }.collect { "${it.name}List" } %>
-function ${domainClassName}ListCtrl(\$scope, ${angularResource}, ${moduleName}List<%= (domainList ? ', ' : '') + domainList.join(', ') %>, pageSize) {
+function ${domainClassName}ListCtrl(\$scope, ${domainClassName}Service, ${moduleName}List<%= (domainList ? ', ' : '') + domainList.join(', ') %>, pageSize) {
     var self = this;
     self.${moduleName}List = ${moduleName}List;
 	<%= domainList.collect{ "self.${it} = ${it};" }.join('\n') %>
@@ -22,7 +22,7 @@ function ${domainClassName}ListCtrl(\$scope, ${angularResource}, ${moduleName}Li
 			params.filter = self.filter
 		}
 
-        ${angularResource}.list(params).then(function(items) {
+        ${domainClassName}Service.list(params).then(function(items) {
             self.${moduleName}List = items;
         });
     };

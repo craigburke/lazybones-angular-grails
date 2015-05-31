@@ -1,4 +1,3 @@
-<div crud-breadcrumbs="{{ctrl.${moduleName}.id ? 'edit' : 'create'}}" url-prefix="/${domainClassNameLowerCase}/"></div>
 <h2>
     <span ng-hide="ctrl.${moduleName}.id">Create ${domainClassName}</span>
     <span ng-show="ctrl.${moduleName}.id">Edit ${domainClassName}</span>
@@ -8,7 +7,7 @@
 
 <form name="form" class="form-horizontal" role="form" novalidate> <% domainProperties.each { property -> %>
 	
-	<div field-container label="${property.label}" invalid="${'form.' + property.name + '\$invalid'}">
+	<div field-container label="${property.label}" invalid="${'form.' + property.name + '.\$invalid'}">
 		<%= renderInput(property, "ctrl.${moduleName}") %>
 	</div><% } %>
 
