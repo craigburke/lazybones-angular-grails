@@ -29,7 +29,7 @@ function crudButton($state, FlashService) {
             };
 
             var saveFn = function () {
-                var errorFunction = function (data) {
+                var errorFunction = function(data) {
                     var messages = [];
                     angular.forEach(data.data.errors, function (error) {
                         messages.push(error.message);
@@ -38,40 +38,37 @@ function crudButton($state, FlashService) {
                     FlashService.error(messages);
                 };
 
-                $scope.item.save($scope.item,
-                  	function (response) {
-                            $state.go('^.show', {id: response.id});
-                            if ($scope.afterAction) {
-                                $scope.afterAction();
-                            }
-							var message = 'Item was successfully updated';
-                            FlashService.success(message, {routeChange: true});
-                        },
-                        errorFunction)
-                
+                $scope.item.save().then(function(item) {
+					$state.go('^.show', {id: item.id});
+					if ($scope.afterAction) {
+                    	$scope.afterAction();
+					}
+					var message = 'Item was successfully updated';
+					FlashService.success(message, {routeChange: true});
+                 },errorFunction);
             };
 
             var deleteFn = function () {
-                var successFn = function () {
+                var successFn = function() {
 					var routeChange = (!$state.current.name.endsWith('.list'));
 					
 					if ($scope.afterAction) {
-                        $scope.afterAction();
-                    }
+                		$scope.afterAction();
+                	}
 					if (routeChange) {
 						$state.go('^.list');
 					}
 
 					var message = 'Item was successfully deleted';
-                    FlashService.success(message, {routeChange: routeChange});					
-                };
+                	FlashService.success(message, {routeChange: routeChange});					
+				};
 
-                var errorFn = function () {
+				var errorFn = function () {
 					var message = "Couldn't delete item";
-                    FlashService.error(message);
-                };
+                	FlashService.error(message);
+				};
 
-                $scope.item.delete(successFn, errorFn);
+				$scope.item.delete().then(successFn, errorFn);
             };
 
             $scope.onClick = function () {

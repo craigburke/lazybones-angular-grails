@@ -7,36 +7,35 @@ function CrudServiceFactory(rootUrl, Restangular, $q, $http) {
         var baseUrl = (rootUrl + restUrl).replace('//', '/');
 		var resource = Restangular.all(baseUrl);
 
+		var chainPromise = function(promise, successFn, errorFn) {
+			if (successFn && errorFn) {
+				promise = promise.then(successFn, errorFn);
+			}
+			else if (successFn) {
+				promise = promise.then(successFn);
+			}
+
+			return promise;
+		};
+
         crudResource.list = function(params, successFn, errorFn) {
-            return resource.getList();
+            return chainPromise(resource.getList(), successFn, errorFn);
         };
 
         crudResource.get = function(id, successFn, errorFn) {
-        	return resource.get(id).then(successFn, errorFn);
+        	return chainPromise(resource.get(id), successFn, errorFn);
 		};
 
         crudResource.create = function(successFn, errorFn) {
             var deferred = $q.defer();
 
             $http.get(baseUrl + "/create").success(function(data) {
-                deferred.resolve(data);
+				var item = Restangular.restangularizeElement(null, data, baseUrl);
+                deferred.resolve(item);
             });
 
             return chainPromise(deferred.promise, successFn, errorFn);
         };
-
-        crudResource.delete = function(id, successFn, errorFn) {
-            //return getResourcePromise(resource.delete({id: id}), successFn, errorFn);
-        };
-
-        crudResource.save = function(data, successFn, errorFn) {
-            //return getResourcePromise(resource.save(data), successFn, errorFn);
-        };
-
-        crudResource.update = function(data, successFn, errorFn) {
-            //return getResourcePromise(resource.update(data), successFn, errorFn);
-        };
-
 
         return crudResource;
     };
