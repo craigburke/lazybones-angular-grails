@@ -68,7 +68,7 @@ function crudButton($state, FlashService) {
                 	FlashService.error(message);
 				};
 
-				$scope.item.delete().then(successFn, errorFn);
+				$scope.item.remove().then(successFn, errorFn);
             };
 
             $scope.onClick = function () {
