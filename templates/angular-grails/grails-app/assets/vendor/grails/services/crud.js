@@ -2,10 +2,24 @@
 
 function CrudServiceFactory(rootUrl, Restangular, $q, $http) {
 
+	var CustomRestangular = Restangular.withConfig(function(RestangularConfigurer) { });
+	
+	CustomRestangular.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
+		if (operation === "getList") {
+		    var totalCount = response.headers('x-item-range').split('/')[1];
+		    totalCount = parseInt(totalCount);
+			
+		    data.getTotalCount = function() {
+		    	return totalCount;
+		    };
+		}
+		return data;
+	});
+	
     return function(restUrl) {
         var crudResource = {};
         var baseUrl = (rootUrl + restUrl).replace('//', '/');
-		var resource = Restangular.all(baseUrl);
+		var resource = CustomRestangular.all(baseUrl);
 
 		var chainPromise = function(promise, successFn, errorFn) {
 			if (successFn && errorFn) {

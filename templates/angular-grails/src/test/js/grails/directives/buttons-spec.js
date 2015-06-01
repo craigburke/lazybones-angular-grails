@@ -1,7 +1,7 @@
 describe('grails crudButton: ', function() {
 	
 	var _message = null;
-	var $rootScope, $compile, $location, $httpBackend, mockFlashService, DefaultResource;
+	var $rootScope, $compile, $location, $httpBackend, mockFlashService, currentState;
 	var item = {id: 1, name: 'Foo'};
 	var afterFn = jasmine.createSpy('afterFn');
 
@@ -19,19 +19,23 @@ describe('grails crudButton: ', function() {
 	             _message = {message: message};
 	         }
 	     };
-
+		 
+		 mockStateService = {
+			 go: function(route, params) {
+				 currentState = route;
+			 }
+		 };
+		 
 	     $provide.value('rootUrl', '/');
-	     $provide.value('DefaultResource', DefaultResource);
-	     $provide.value('defaultCrudResource', 'DefaultResource');
 	     $provide.value('FlashService', mockFlashService);
+		 $provide.value('$state', mockStateService);
 	}));
 
-	beforeEach(inject(function(_$rootScope_, _$compile_, _$httpBackend_, _$location_, CrudResourceFactory) {
+	beforeEach(inject(function(_$rootScope_, _$compile_, _$httpBackend_, _$location_) {
 	     $rootScope = _$rootScope_;
 	     $compile = _$compile_;
 	     $httpBackend = _$httpBackend_;
 	     $location = _$location_;
-	     DefaultResource = CrudResourceFactory('/api/foo', 'Foo');
 	     afterFn.calls.reset();
 	}));
    
@@ -54,7 +58,7 @@ describe('grails crudButton: ', function() {
         it('should be redirected to /create on click', function() {
             directiveScope.onClick();
             expect(afterFn.calls.count()).toBe(1);
-            expect($location.path()).toBe('/create');
+            expect(currentState).toBe('^.create');
         });
     });
 
@@ -77,10 +81,8 @@ describe('grails crudButton: ', function() {
         it('should be redirected to /edit on click', function() {
             directiveScope.onClick();
             expect(afterFn.calls.count()).toBe(1);
-            expect($location.path()).toBe('/edit/1');
+            expect(currentState).toBe('^.edit');
         });
     });
-	
-
 
 });

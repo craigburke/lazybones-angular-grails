@@ -17,7 +17,7 @@ angular.module('${fullModuleName}')
 			template: '<div ui-view></div>'
 		})
 		.state('${domainClassNameLowerCase}.list', {
-			url:'',
+			url:'/list',
 			controller:'${domainClassName}ListCtrl as ctrl',
 			templateUrl:'/${modulePath}/list.html',
             resolve: {

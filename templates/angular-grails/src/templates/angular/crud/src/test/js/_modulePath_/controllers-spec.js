@@ -67,7 +67,7 @@ describe('${domainClassName} Controllers: ', function() {
                 }
             };
 
-            \$provide.value('${domainClassName}Resource', mockCrudService);
+            \$provide.value('${domainClassName}Service', mockCrudService);
             \$provide.value('${moduleName}List', items);
 <%= domainProperties.take(4).findAll{ it.domainClass }.collect { "\t\t\t\$provide.value('${it.name}List', []);" }.join('\n') %>
             \$provide.value('pageSize', PAGE_SIZE);

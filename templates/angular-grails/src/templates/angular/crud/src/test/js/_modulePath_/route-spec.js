@@ -3,7 +3,7 @@ describe('${domainClassName} Routes: ', function() {
 	var \$location, \$state, \$rootScope, \$q;
 
 	beforeEach(module(function(\$provide) {          
-		var ResourceMock = {
+		var ServiceMock = {
 			list: function() {
 				var deferred = \$q.defer();
 				deferred.resolve([]);
@@ -20,8 +20,8 @@ describe('${domainClassName} Routes: ', function() {
 				return deferred.promise;
 			}
 		}
-		\$provide.value('${domainClassName}Resource', ResourceMock);				
-<%= domainProperties.take(4).findAll{ it.domainClass }.collect { "\t\t\$provide.value('${it.name.capitalize()}Resource', ResourceMock);" }.join('\n') %>	
+		\$provide.value('${domainClassName}Service', ServiceMock);				
+<%= domainProperties.take(4).findAll{ it.domainClass }.collect { "\t\t\$provide.value('${it.name.capitalize()}Service', ServiceMock);" }.join('\n') %>	
 	}));
 	
 	beforeEach(inject(
