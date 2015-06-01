@@ -19,7 +19,15 @@ function CrudServiceFactory(rootUrl, Restangular, $q, $http) {
 		};
 
         crudResource.list = function(params, successFn, errorFn) {
-            return chainPromise(resource.getList(), successFn, errorFn);
+			params = params || {};
+			var queryParams = angular.copy(params);
+			delete queryParams.filter;
+			
+			angular.forEach(params.filter, function(value, key) {
+				queryParams['filter.' + key] = value;
+			});
+			
+            return chainPromise(resource.getList(queryParams), successFn, errorFn);
         };
 
         crudResource.get = function(id, successFn, errorFn) {
