@@ -127,6 +127,9 @@ class GenerateAngularModule {
 				domainClass: it.propertyType.name.startsWith(group),
 				constraints: constraints[it.name] ?: [:]
 			] }
+			.sort { field ->
+				constraints.findIndexOf { it.key == field.name }
+			}
 	}
 	
 	

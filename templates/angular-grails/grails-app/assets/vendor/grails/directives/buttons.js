@@ -8,6 +8,7 @@ function crudButton($state, FlashService) {
         restrict: 'EA',
         replace: true,
         scope: {
+			label: '@',
             crudButton: '@',
             item: '=',
             isDisabled: '=',
