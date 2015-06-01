@@ -5,4 +5,7 @@
 
 angular.module('${baseModule}', [
 	'${baseModule}.home'
-]);
+])
+.run(function(\$rootScope, \$state) {
+	\$rootScope.\$state = \$state;
+});

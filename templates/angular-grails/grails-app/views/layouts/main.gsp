@@ -36,15 +36,14 @@
     </div>
 
     <div class="container-fluid">
-
         <div class="row">
             <div class="col-md-12">
 		    <div class="col-md-2">
 				<div>
 					<ul class="nav nav-pills nav-stacked">
-		            	<li><a ui-sref="home"><i class="fa fa-home"></i> Home</a></li>
+		            	<li ng-class="{ active: $state.current.name.startsWith('home') }"><a ui-sref="home"><i class="fa fa-home"></i> Home</a></li>
 						<g:each var="c" in="${grailsApplication.controllerClasses.findAll{ it.logicalPropertyName != 'assets' }. sort { it.fullName } }">
-							<li><a ui-sref="${c.logicalPropertyName}.list"><i class="fa fa-database"></i> ${c.logicalPropertyName.capitalize()} List</a></li>
+							<li ng-class="{ active: $state.current.name.startsWith('${c.logicalPropertyName}') }"><a ui-sref="${c.logicalPropertyName}.list" ><i class="fa fa-database"></i> ${c.logicalPropertyName.capitalize()}</a></li>
 						</g:each>
 					</ul>
 				</div>

@@ -184,11 +184,10 @@ class GenerateAngularModule {
 		String moduleDependency = "'${props.fullModuleName}'"
 		if (!applicationJsFile.text.contains(moduleDependency)) {
 			String originalModuleDefinition = (applicationJsFile.text =~ /(?s).*(angular\.module.*)/)[0][1]
-			String dependencyList = (originalModuleDefinition =~ /(?s).*\[(.*)\]/)[0][1]
-			moduleDependency += (dependencyList.trim()) ? ',' : ''
-			def moduleDefinitionMatcher = (originalModuleDefinition =~ /(?s)(.*)\[(.*)\].*/)
-			String newModuleDefinition = "${moduleDefinitionMatcher[0][1]}[\n\t${moduleDependency}${moduleDefinitionMatcher[0][2]}]);"
-			applicationJsFile.text = applicationJsFile.text.replace(originalModuleDefinition, newModuleDefinition)
+			String originalDependencyList = (originalModuleDefinition =~ /(?s).*\[(.*)\]/)[0][1]
+			String seperator = (originalDependencyList.trim()) ? ',' : ''
+			String newDependencyList = "\n\t${moduleDependency}${seperator}${originalDependencyList}"
+			applicationJsFile.text = applicationJsFile.text.replace(originalDependencyList, newDependencyList)
 		}
 
 	}
