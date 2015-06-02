@@ -1,6 +1,6 @@
 'use strict';
 
-function FlashService($rootScope) {
+function FlashService(\$rootScope) {
     var FlashService = {};
 
     var MESSAGE_TYPE = {
@@ -13,7 +13,7 @@ function FlashService($rootScope) {
 	var _message, _clearRequestCount, _routeChangePersist;
 
     var broadcastChange = function() {
-        $rootScope.$broadcast('flash:messageChange');
+        \$rootScope.\$broadcast('flash:messageChange');
     };
 	
 	var resetMessage = function() {
@@ -84,5 +84,5 @@ function FlashService($rootScope) {
     return FlashService;
 }
 
-angular.module('grails.services.flash', [])
+angular.module('${baseModule}.core.services.flash', [])
     .factory('FlashService', FlashService);

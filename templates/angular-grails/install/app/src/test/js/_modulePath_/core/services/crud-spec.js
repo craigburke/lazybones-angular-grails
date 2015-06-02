@@ -1,9 +1,9 @@
-describe('grails CrudResourceFactory: ', function() {
+describe('CrudResourceFactory: ', function() {
     var CrudServiceFactory;
 
-    beforeEach(module('grails.services.crud'));
-    beforeEach(module(function($provide) {
-        $provide.value('rootUrl', '/');
+    beforeEach(module('${baseModule}.core.services.crud'));
+    beforeEach(module(function(\$provide) {
+        \$provide.value('rootUrl', '/');
     }));
     beforeEach(inject(function(_CrudServiceFactory_) {
         CrudServiceFactory = _CrudServiceFactory_;
@@ -21,11 +21,11 @@ describe('grails CrudResourceFactory: ', function() {
             {id: 1, name: 'Foo1'},
             {id: 2, name: 'Foo2'}
         ];
-        var $httpBackend, listResponse;
+        var \$httpBackend, listResponse;
 
-        beforeEach(inject(function(_$httpBackend_) {
-            $httpBackend = _$httpBackend_;
-            $httpBackend.expectGET('/foo/api').respond(itemList, {'X-Item-Range': '1-2/10'});
+        beforeEach(inject(function(_\$httpBackend_) {
+           	\$httpBackend = _\$httpBackend_;
+            \$httpBackend.expectGET('/foo/api').respond(itemList, {'X-Item-Range': '1-2/10'});
         }));
 
         beforeEach(function(done) {
@@ -36,7 +36,7 @@ describe('grails CrudResourceFactory: ', function() {
                 done();
             });
 
-            $httpBackend.flush();
+            \$httpBackend.flush();
         });
 
         it('should return the items and set the totalCount correctly', function() {
@@ -52,12 +52,12 @@ describe('grails CrudResourceFactory: ', function() {
 
 
     describe('get method ', function() {
-        var $httpBackend, getResponse;
+        var \$httpBackend, getResponse;
         var item = {id: 1, name: 'Foo1'};
 
-        beforeEach(inject(function(_$httpBackend_) {
-            $httpBackend = _$httpBackend_;
-            $httpBackend.expectGET('/foo/api/' + item.id).respond(item);
+        beforeEach(inject(function(_\$httpBackend_) {
+            \$httpBackend = _\$httpBackend_;
+            \$httpBackend.expectGET('/foo/api/' + item.id).respond(item);
         }));
 
         beforeEach(function(done) {
@@ -67,7 +67,7 @@ describe('grails CrudResourceFactory: ', function() {
                getResponse = response;
                done();
             });
-            $httpBackend.flush();
+            \$httpBackend.flush();
         });
 
         it('should return the item correctly', function() {
@@ -77,12 +77,12 @@ describe('grails CrudResourceFactory: ', function() {
     });
 
     describe('create method ', function() {
-        var $httpBackend, createResponse;
+        var \$httpBackend, createResponse;
         var item = {id: 1, name: 'Foo1'};
 
-        beforeEach(inject(function(_$httpBackend_) {
-            $httpBackend = _$httpBackend_;
-            $httpBackend.expectGET('/foo/api/create').respond(item);
+        beforeEach(inject(function(_\$httpBackend_) {
+            \$httpBackend = _\$httpBackend_;
+            \$httpBackend.expectGET('/foo/api/create').respond(item);
         }));
 
         beforeEach(function(done) {
@@ -93,7 +93,7 @@ describe('grails CrudResourceFactory: ', function() {
                 done();
             });
 
-            $httpBackend.flush();
+            \$httpBackend.flush();
         });
 
         it('should return the item correctly', function() {

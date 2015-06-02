@@ -7,7 +7,7 @@
 'use strict';
 
 angular.module('${fullModuleName}', [
-	'grails', 
+	'${rootModule}.core',
 	'${fullModuleName}.controllers', ${domainList ? '\n' : ''}<%= domainList.collect { "\t'${formatModuleName(rootModule + '.' + it)}.services'," }.join('\n') %>
 	'${fullModuleName}.services'
 ]);

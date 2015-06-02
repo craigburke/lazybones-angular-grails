@@ -1,9 +1,9 @@
-describe('grails flashDirective: ', function() {
-    var $rootScope, mockFlashService, directiveScope;
+describe('core flash directives: ', function() {
+    var \$rootScope, mockFlashService, directiveScope;
     var message = {message: 'MESSAGE', type: 'error'};
 
-    beforeEach(module('grails.directives.flash'));
-    beforeEach(module(function($provide) {
+    beforeEach(module('${baseModule}.core.directives.flash'));
+    beforeEach(module(function(\$provide) {
         mockFlashService = {
             clear: function() {},
             getMessage: function() {
@@ -11,17 +11,17 @@ describe('grails flashDirective: ', function() {
             }
         };
 
-        $provide.value('FlashService', mockFlashService);
+        \$provide.value('FlashService', mockFlashService);
     }));
 
-    beforeEach(inject(function(_$rootScope_, $compile, $httpBackend) {
-        $rootScope = _$rootScope_;
-        $httpBackend.expectGET('/grails/directives/flash-message.html').respond("<div>{{message}}</div>");
+    beforeEach(inject(function(_\$rootScope_, \$compile, \$httpBackend) {
+        \$rootScope = _\$rootScope_;
+		\$httpBackend.expectGET('/${modulePath}/core/directives/flash-message.html').respond("<div>{{message}}</div>");
 
-        var scope = $rootScope.$new();
-        var element = $compile("<div flash-message></div>")(scope);
-        scope.$digest();
-        $httpBackend.flush();
+        var scope = \$rootScope.\$new();
+        var element = \$compile("<div flash-message></div>")(scope);
+        scope.\$digest();
+        \$httpBackend.flush();
 
         directiveScope = element.isolateScope();
     }));
@@ -30,7 +30,7 @@ describe('grails flashDirective: ', function() {
         spyOn(mockFlashService, 'clear');
         expect(mockFlashService.clear).not.toHaveBeenCalled();
 
-        directiveScope.$destroy();
+        directiveScope.\$destroy();
         expect(mockFlashService.clear).toHaveBeenCalled();
     });
 
@@ -38,8 +38,8 @@ describe('grails flashDirective: ', function() {
         spyOn(mockFlashService, 'getMessage').and.callThrough();
         expect(mockFlashService.getMessage).not.toHaveBeenCalled();
 
-        $rootScope.$broadcast('flash:messageChange');
-        $rootScope.$digest();
+        \$rootScope.\$broadcast('flash:messageChange');
+        \$rootScope.\$digest();
 
         expect(mockFlashService.getMessage).toHaveBeenCalled();
         expect(directiveScope.flash).toBe(message);

@@ -9,17 +9,17 @@
   		<asset:stylesheet src="application.css"/>
 
         <asset:script type="text/javascript">
-            angular.module('grails.constants')
-                .constant('rootUrl', '${grailsApplication.config.angular.rootUrl}')
-                .constant('pageSize', '${grailsApplication.config.angular.pageSize}')
-                .constant('dateFormat', '${grailsApplication.config.angular.dateFormat}');
+            angular.module('${baseModule}.core.constants')
+                .constant('rootUrl', '\${grailsApplication.config.angular.rootUrl}')
+                .constant('pageSize', '\${grailsApplication.config.angular.pageSize}')
+                .constant('dateFormat', '\${grailsApplication.config.angular.dateFormat}');
         </asset:script>
 
         <asset:javascript src="application.js"/>
         <asset:deferredScripts />
 		<g:layoutHead/>
 	</head>
-	<body id="ng-app" ng-app="${pageProperty(name: 'body.ng-app') ?: 'grails'}">
+	<body id="ng-app" ng-app="\${pageProperty(name: 'body.ng-app') ?: '${baseModule}'}">
 
     <div class="container-fluid">
 
@@ -41,9 +41,9 @@
 		    <div class="col-md-2">
 				<div>
 					<ul class="nav nav-pills nav-stacked">
-		            	<li ng-class="{ active: $state.current.name.startsWith('home') }"><a ui-sref="home"><i class="fa fa-home"></i> Home</a></li>
-						<g:each var="c" in="${grailsApplication.controllerClasses.findAll{ !(it.logicalPropertyName in ['assets', 'home']) }. sort { it.fullName } }">
-							<li ng-class="{ active: $state.current.name.startsWith('${c.logicalPropertyName}') }"><a ui-sref="${c.logicalPropertyName}.list" ><i class="fa fa-database"></i> ${c.logicalPropertyName.capitalize()}</a></li>
+		            	<li ng-class="{ active: \$state.current.name.startsWith('home') }"><a ui-sref="home"><i class="fa fa-home"></i> Home</a></li>
+						<g:each var="c" in="\${grailsApplication.controllerClasses.findAll{ !(it.logicalPropertyName in ['assets', 'home']) }. sort { it.fullName } }">
+							<li ng-class="{ active: \$state.current.name.startsWith('\${c.logicalPropertyName}') }"><a ui-sref="\${c.logicalPropertyName}.list" ><i class="fa fa-database"></i> \${c.logicalPropertyName.capitalize()}</a></li>
 						</g:each>
 					</ul>
 				</div>

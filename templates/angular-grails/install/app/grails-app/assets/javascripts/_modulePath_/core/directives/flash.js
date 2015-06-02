@@ -1,5 +1,5 @@
 //= require_self
-//= require_tree /grails/directives/templates
+//= require_tree /${modulePath}/core/directives/templates
 
 'use strict';
 
@@ -8,8 +8,8 @@ function flashMessage(FlashService) {
         restrict: 'EA',
         replace: true,
         scope: {},
-        link: function($scope) {
-            $scope.getMessageClass = function(type) {
+        link: function(\$scope) {
+            \$scope.getMessageClass = function(type) {
                 switch(type) {
                     case FlashService.TYPE.ERROR:
                         return "alert-danger";
@@ -20,25 +20,25 @@ function flashMessage(FlashService) {
                 }
             };
 
-            $scope.isList = function(message) {
+            \$scope.isList = function(message) {
                 return (message instanceof Array);
             };
 
             var loadMessage = function() {
-				$scope.flash = FlashService.getMessage();
+				\$scope.flash = FlashService.getMessage();
             };
 			
-		    $scope.$on('$destroy', function () {
+		    \$scope.\$on('\$destroy', function () {
 				FlashService.clear();
 			});
 
-            $scope.$on('flash:messageChange', loadMessage);
+            \$scope.\$on('flash:messageChange', loadMessage);
 			
 			loadMessage();
         },
-        templateUrl: '/grails/directives/flash-message.html'
+        templateUrl: '/${modulePath}/core/directives/flash-message.html'
     }
 }
 
-angular.module('grails.directives.flash', ['grails.services'])
+angular.module('${baseModule}.core.directives.flash', ['${baseModule}.core.services'])
     .directive('flashMessage', flashMessage);

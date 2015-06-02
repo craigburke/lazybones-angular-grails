@@ -1,9 +1,9 @@
 //= require_self
-//= require_tree /grails/directives/templates/buttons
+//= require_tree /${modulePath}/core/directives/templates/buttons
 
 'use strict';
 
-function crudButton($state, FlashService) {
+function crudButton(\$state, FlashService) {
     return {
         restrict: 'EA',
         replace: true,
@@ -14,18 +14,18 @@ function crudButton($state, FlashService) {
             isDisabled: '=',
             afterAction: '&'
         },
-        link: function($scope) {
+        link: function(\$scope) {
             var createFn = function () {
-				$state.go('^.create');
-                if ($scope.afterAction) {
-                    $scope.afterAction();
+				\$state.go('^.create');
+                if (\$scope.afterAction) {
+                    \$scope.afterAction();
                 }
             };
 
             var editFn = function () {
-				$state.go('^.edit', {id: $scope.item.id});
-                if ($scope.afterAction) {
-                    $scope.afterAction();
+				\$state.go('^.edit', {id: \$scope.item.id});
+                if (\$scope.afterAction) {
+                    \$scope.afterAction();
                 }
             };
 
@@ -39,10 +39,10 @@ function crudButton($state, FlashService) {
                     FlashService.error(messages);
                 };
 
-                $scope.item.save().then(function(item) {
-					$state.go('^.show', {id: item.id});
-					if ($scope.afterAction) {
-                    	$scope.afterAction();
+                \$scope.item.save().then(function(item) {
+					\$state.go('^.show', {id: item.id});
+					if (\$scope.afterAction) {
+                    	\$scope.afterAction();
 					}
 					var message = 'Item was successfully updated';
 					FlashService.success(message, {routeChange: true});
@@ -51,13 +51,13 @@ function crudButton($state, FlashService) {
 
             var deleteFn = function () {
                 var successFn = function() {
-					var routeChange = (!$state.current.name.endsWith('.list'));
+					var routeChange = (!\$state.current.name.endsWith('.list'));
 					
-					if ($scope.afterAction) {
-                		$scope.afterAction();
+					if (\$scope.afterAction) {
+                		\$scope.afterAction();
                 	}
 					if (routeChange) {
-						$state.go('^.list');
+						\$state.go('^.list');
 					}
 
 					var message = 'Item was successfully deleted';
@@ -69,11 +69,11 @@ function crudButton($state, FlashService) {
                 	FlashService.error(message);
 				};
 
-				$scope.item.remove().then(successFn, errorFn);
+				\$scope.item.remove().then(successFn, errorFn);
             };
 
-            $scope.onClick = function () {
-                switch ($scope.crudButton) {
+            \$scope.onClick = function () {
+                switch (\$scope.crudButton) {
                     case "create" :
                         createFn();
                         break;
@@ -92,19 +92,19 @@ function crudButton($state, FlashService) {
         templateUrl: function (element, attrs) {
             switch (attrs.crudButton) {
                 case "create":
-                    return "/grails/directives/buttons/create-button.html";
+                    return "/${modulePath}/core/directives/buttons/create-button.html";
                 case "edit":
-                    return "/grails/directives/buttons/edit-button.html";
+                    return "/${modulePath}/core/directives/buttons/edit-button.html";
                 case "delete":
-                    return "/grails/directives/buttons/delete-button.html";
+                    return "/${modulePath}/core/directives/buttons/delete-button.html";
                 case "save":
-                    return "/grails/directives/buttons/save-button.html";
+                    return "/${modulePath}/core/directives/buttons/save-button.html";
             }
 
         }
     }
 }
 
-angular.module('grails.directives.buttons', ['grails.services'])
+angular.module('${baseModule}.core.directives.buttons', ['${baseModule}.core.services'])
     .directive('crudButton', crudButton);
 

@@ -1,6 +1,6 @@
 'use strict';
 
-function CrudServiceFactory(rootUrl, Restangular, $q, $http) {
+function CrudServiceFactory(rootUrl, Restangular, \$q, \$http) {
 
 	var CustomRestangular = Restangular.withConfig(function(RestangularConfigurer) { });
 	
@@ -49,9 +49,9 @@ function CrudServiceFactory(rootUrl, Restangular, $q, $http) {
 		};
 
         crudResource.create = function(successFn, errorFn) {
-            var deferred = $q.defer();
+            var deferred = \$q.defer();
 
-            $http.get(baseUrl + "/create").success(function(data) {
+            \$http.get(baseUrl + "/create").success(function(data) {
 				var item = Restangular.restangularizeElement(null, data, baseUrl);
                 deferred.resolve(item);
             });
@@ -63,5 +63,5 @@ function CrudServiceFactory(rootUrl, Restangular, $q, $http) {
     };
 }
 
-angular.module('grails.services.crud', ['restangular'])
+angular.module('${baseModule}.core.services.crud', ['restangular'])
     .factory('CrudServiceFactory', CrudServiceFactory);

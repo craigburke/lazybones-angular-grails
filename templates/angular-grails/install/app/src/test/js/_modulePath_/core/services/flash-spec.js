@@ -1,10 +1,10 @@
-describe('grails FlashService: ', function() {
-    var $rootScope, FlashService;
+describe('core flash services: ', function() {
+    var \$rootScope, FlashService;
 
-    beforeEach(module('grails.services.flash'));
-    beforeEach(inject(function(_FlashService_, _$rootScope_) {
+    beforeEach(module('${baseModule}.core.services.flash'));
+    beforeEach(inject(function(_FlashService_, _\$rootScope_) {
         FlashService = _FlashService_;
-        $rootScope = _$rootScope_;
+        \$rootScope = _\$rootScope_;
     }));
 
     it('should be able to set a default message', function() {
@@ -64,11 +64,11 @@ describe('grails FlashService: ', function() {
 	})
 
     it('should fire the flash:messageChange event', function() {
-        spyOn($rootScope, '$broadcast');
-        expect($rootScope.$broadcast).not.toHaveBeenCalledWith('flash:messageChange');
+        spyOn(\$rootScope, '\$broadcast');
+        expect(\$rootScope.\$broadcast).not.toHaveBeenCalledWith('flash:messageChange');
 
         FlashService.setMessage("Foo");
-        expect($rootScope.$broadcast).toHaveBeenCalledWith('flash:messageChange');
+        expect(\$rootScope.\$broadcast).toHaveBeenCalledWith('flash:messageChange');
     });
 
 });

@@ -1,5 +1,5 @@
 //= require_self
-//= require_tree /grails/directives/templates/fields
+//= require_tree /${modulePath}/core/directives/fields
 
 'use strict';
 
@@ -12,11 +12,11 @@ function fieldContainer() {
             label: '@',
             invalid : '='
         },
-        link: function($scope, $element) {
-            var field = ($element.find('input').length > 0) ? $element.find('input') : $element.find('select');
+        link: function(\$scope, \$element) {
+            var field = (\$element.find('input').length > 0) ? \$element.find('input') : \$element.find('select');
             field.addClass('form-control');
         },
-        templateUrl: '/grails/directives/fields/field-container.html'
+        templateUrl: '/${modulePath}/core/directives/fields/field-container.html'
     }
 }
 
@@ -28,25 +28,25 @@ function displayField() {
             label: '@',
             value: '='
         },
-        templateUrl: '/grails/directives/fields/display-field.html'
+        templateUrl: '/${modulePath}/core/directives/fields/display-field.html'
     }
 }
 
 function dateField() {
     return {
         replace: true,
-        link: function($scope) {
+        link: function(\$scope) {
 
-            $scope.open = function() {
-                $scope.opened = true;
+            \$scope.open = function() {
+                \$scope.opened = true;
             };
 
         },
-        templateUrl: '/grails/directives/fields/date-field.html'
+        templateUrl: '/${modulePath}/core/directives/fields/date-field.html'
     }
 }
 
-angular.module('grails.directives.fields', ['ui.bootstrap'])
+angular.module('${baseModule}.core.directives.fields', ['ui.bootstrap'])
     .directive("fieldContainer", fieldContainer)
     .directive("displayField", displayField)
     .directive("dateField", dateField);
