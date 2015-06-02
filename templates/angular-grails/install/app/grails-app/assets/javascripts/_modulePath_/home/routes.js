@@ -5,6 +5,12 @@ angular.module('${baseModule}.home')
 	\$stateProvider
 		.state('home', {
 			url:'',
-			templateUrl:'/${modulePath}/home/index.html'
+			templateUrl:'/${modulePath}/home/index.html',
+			controller: 'HomeCtrl as ctrl',
+			resolve: {
+				info: function(HomeService) {
+					return HomeService.getInfo();
+				}
+			}
 		});
 });

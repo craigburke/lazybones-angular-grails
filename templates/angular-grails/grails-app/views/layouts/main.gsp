@@ -42,7 +42,7 @@
 				<div>
 					<ul class="nav nav-pills nav-stacked">
 		            	<li ng-class="{ active: $state.current.name.startsWith('home') }"><a ui-sref="home"><i class="fa fa-home"></i> Home</a></li>
-						<g:each var="c" in="${grailsApplication.controllerClasses.findAll{ it.logicalPropertyName != 'assets' }. sort { it.fullName } }">
+						<g:each var="c" in="${grailsApplication.controllerClasses.findAll{ !(it.logicalPropertyName in ['assets', 'home']) }. sort { it.fullName } }">
 							<li ng-class="{ active: $state.current.name.startsWith('${c.logicalPropertyName}') }"><a ui-sref="${c.logicalPropertyName}.list" ><i class="fa fa-database"></i> ${c.logicalPropertyName.capitalize()}</a></li>
 						</g:each>
 					</ul>
