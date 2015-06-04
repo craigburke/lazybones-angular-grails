@@ -3,7 +3,7 @@ set -e
 
 export PROJECT_ROOT=~/clone
 export TEST_APP_ROOT=$PROJECT_ROOT/test/apps
-export DEPLOY_APP_ROOT=$TEST_APP_ROOT/1.3
+export DEPLOY_APP_ROOT=$TEST_APP_ROOT/1.4
 
 install_lazybones() {
 	curl -s get.gvmtool.net | bash
