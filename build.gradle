@@ -32,7 +32,7 @@ task buildTestApps(dependsOn: 'installAllTemplates') << {
 		angularModule: project.testApp.angularModule,
 		archiveName : project.testApp.archiveName
 	]
-
+	
 	['1.2', '1.3', '1.4'].each { String angularVersion ->
 		properties.angularVersion = angularVersion
 		String projectDir = "${project.testApp.dir}/${angularVersion}"
@@ -58,7 +58,7 @@ task buildTestApps(dependsOn: 'installAllTemplates') << {
 			modules << [domainClass: domainClass, name: moduleName]
 		}
 
-		modules.each { module ->
+		modules.sort { it.name }.reverse().each { module ->
 			project.exec {
 				workingDir projectDir
 				commandLine './gradlew', 'generateAngularModule', "-PdomainClass=${module.domainClass}", "-PangularModule=${module.name}"

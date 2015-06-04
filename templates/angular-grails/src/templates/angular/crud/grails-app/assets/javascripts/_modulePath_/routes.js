@@ -1,4 +1,4 @@
-'use strict';<% def domainList = domainProperties.findAll{ it.domainClass }.collect { "${it.type.name - (group + '.')}" } %>
+'use strict';<% def domainList = domainProperties.findAll{ it.isDomainClass }.collect { "${it.type.name - (group + '.')}" } %>
 <% def generateResolveProperty = { item -> """
 				${item[0].toLowerCase() + item.substring(1)}List: function(${item}Service) {
 					return ${item}Service.list();

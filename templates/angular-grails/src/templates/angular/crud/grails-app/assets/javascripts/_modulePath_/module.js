@@ -1,4 +1,4 @@
-//= require_self <% def domainList = domainProperties.findAll{ it.domainClass }.collect { "${it.type.name - (group + '.')}" } %>
+//= require_self <% def domainList = domainProperties.findAll{ it.isDomainClass }.collect { "${it.type.name - (group + '.')}" } %>
 //= require routes
 //= require controllers
 //= require services <%= domainList.collect { '\n//= require /' + getModulePath(formatModuleName(rootModule + '.' + it)) + '/services' }.join("\n")  %>

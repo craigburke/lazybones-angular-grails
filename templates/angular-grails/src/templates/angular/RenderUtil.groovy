@@ -2,12 +2,18 @@ def util = [:]
 
 util.renderInput = { def property, String modelPrefix ->
 	String attrsString = ""
-	if (property.constraints.required || !property.constraints.nullable) {
+	if (property.constraints.required && !property.constraints.nullable) {
 		attrsString += " required "
 	}
+	if (property.isHasMany) {
+		attrsString += " multiple "
+	}
 	
-	if (property.domainClass) {
-		"""<select name="${property.name}" class="form-control" ng-model="${modelPrefix}.${property.name}"${attrsString} ng-options="item.toText for item in ctrl.${property.name}List track by item.id"  ></select>"""
+	if (property.isDomainClass) {
+		String className = property.type.name.tokenize('.').last()
+		String sourceList = className[0].toLowerCase() + className.substring(1) + 'List'
+	
+		"""<select name="${property.name}" class="form-control" ng-model="${modelPrefix}.${property.name}"${attrsString} ng-options="item.toText for item in ctrl.${sourceList} track by item.id"  ></select>"""
 	}
 	else {
 		String inputType = property.type in [Float, Integer] ? 'number' : 'text'
@@ -18,8 +24,13 @@ util.renderInput = { def property, String modelPrefix ->
 util.renderFilter = { def property ->
 	String attrsString = " ng-model-options=\"{ debounce: 300 }\" "
 	
-	if (property.domainClass) {
-		"""<select class="form-control" ng-model="ctrl.filter.${property.name}Id" ng-options="item.id as item.toText for item in ctrl.${property.name}List"${attrsString} ><option value="">-- Select ${property.label}--</option></select>"""
+	if (property.isDomainClass) {
+		String className = property.type.name.tokenize('.').last()
+		String sourceList = className[0].toLowerCase() + className.substring(1) + 'List'
+		
+		String name = property.isHasMany ? property.name : "${property.name}Id"
+		
+		"""<select class="form-control" ng-model="ctrl.filter.${name}" ng-options="item.id as item.toText for item in ctrl.${sourceList}"${attrsString} ><option value="">-- Select ${property.label}--</option></select>"""
 	}
 	else {
 		String inputType = property.type in [Float, Integer] ? 'number' : 'text'
@@ -41,7 +52,7 @@ util.renderDisplay = { def property, String modelPrefix ->
 			break
 	}	
 	String item = "${modelPrefix}.${property.name}"
-	if (property.domainClass) {
+	if (property.isDomainClass) {
 		item += ".toText"
 	}
 	

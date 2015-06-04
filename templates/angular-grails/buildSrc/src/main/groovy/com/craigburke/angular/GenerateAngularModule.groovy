@@ -118,15 +118,23 @@ class GenerateAngularModule {
 		def ignoreFields = ['id', 'version', 'metaClass', 'class', 'attached', 'dirty', 'dirtyPropertyNames',
 					'properties', 'errors']
 					
-    	propertyFetcher.propertyDescriptors
+		propertyFetcher.propertyDescriptors
 			.findAll { !(it.name in ignoreFields) }
-			.collect { [
-				name: it.name, 
-				label: it.name[0].toUpperCase() + it.name.substring(1).replaceAll(/([A-Z])/, / $1/),
-				type: it.propertyType, 
-				domainClass: it.propertyType.name.startsWith(group),
-				constraints: constraints[it.name] ?: [:]
-			] }
+			.collect { 
+				boolean isHasMany = Collection.isAssignableFrom(it.propertyType) && domainClass.hasMany[it.name]
+				Class propertyType = isHasMany ? domainClass.hasMany[it.name] : it.propertyType
+				boolean isDomainClass = (propertyType.name.startsWith(group) || isHasMany)
+				String label = it.name[0].toUpperCase() + it.name.substring(1).replaceAll(/([A-Z])/, / $1/)
+				
+				[ 	
+					name: it.name,
+					label: label,
+					type: propertyType,
+					isDomainClass: isDomainClass,
+					isHasMany: isHasMany,
+					constraints: constraints[it.name] ?: [:]
+				] 
+			}
 			.sort { field ->
 				constraints.findIndexOf { it.key == field.name }
 			}

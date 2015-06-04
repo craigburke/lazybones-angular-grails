@@ -1,5 +1,9 @@
 'use strict';
-<% def domainList = domainProperties.findAll{ it.domainClass }.collect { "${it.name}List" } %>
+<% def getDomainListName = { type -> 
+	String name = type - (group + '.')
+	name[0].toLowerCase() + name.substring(1) + 'List'
+}
+def domainList = domainProperties.findAll{ it.isDomainClass }.collect { getDomainListName(it.type.name) } %>
 function ${domainClassName}ListCtrl(\$scope, ${domainClassName}Service, ${moduleName}List<%= (domainList ? ', ' : '') + domainList.join(', ') %>, pageSize) {
     var self = this;
     self.${moduleName}List = ${moduleName}List;
