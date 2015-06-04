@@ -10,8 +10,7 @@ util.renderInput = { def property, String modelPrefix ->
 	}
 	
 	if (property.isDomainClass) {
-		String className = property.type.name.tokenize('.').last()
-		String sourceList = className[0].toLowerCase() + className.substring(1) + 'List'
+		String sourceList = property.classNameLowerCase + 'List'
 	
 		"""<select name="${property.name}" class="form-control" ng-model="${modelPrefix}.${property.name}"${attrsString} ng-options="item.toText for item in ctrl.${sourceList} track by item.id"  ></select>"""
 	}
@@ -25,9 +24,7 @@ util.renderFilter = { def property ->
 	String attrsString = " ng-model-options=\"{ debounce: 300 }\" "
 	
 	if (property.isDomainClass) {
-		String className = property.type.name.tokenize('.').last()
-		String sourceList = className[0].toLowerCase() + className.substring(1) + 'List'
-		
+		String sourceList = property.classNameLowerCase + 'List'		
 		String name = property.isHasMany ? property.name : "${property.name}Id"
 		
 		"""<select class="form-control" ng-model="ctrl.filter.${name}" ng-options="item.id as item.toText for item in ctrl.${sourceList}"${attrsString} ><option value="">-- Select ${property.label}--</option></select>"""

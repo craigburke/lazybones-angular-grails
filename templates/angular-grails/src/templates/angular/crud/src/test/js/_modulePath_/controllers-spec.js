@@ -3,6 +3,15 @@ describe('${domainClassName} Controllers: ', function() {
     var item = {'foo': 'bar', 'count': 100};
 
     beforeEach(module('${fullModuleName}.controllers'));
+    beforeEach(module(function(\$provide) {
+    	\$provide.value('${moduleName}', item);
+<%= 
+		domainProperties.take(4).findAll{ it.isDomainClass }.collect { 
+			"\t\t\$provide.value('${it.classNameLowerCase}List', []);" 
+		}.join('\n') 
+%>
+	}));
+	
 
     describe('${domainClassName}ShowCtrl: ', function() {
         var ctrl, scope;
@@ -26,10 +35,6 @@ describe('${domainClassName} Controllers: ', function() {
     describe('${domainClassName}CreateEditCtrl: ', function() {
         var ctrl, scope;
 
-        beforeEach(module(function(\$provide) {
-            \$provide.value('${moduleName}', item);
-<%= domainProperties.take(4).findAll{ it.domainClass }.collect { "\t\t\t\$provide.value('${it.name}List', []);" }.join('\n') %>
-        }));
 
         beforeEach(inject(
             function (\$controller, \$rootScope) {
@@ -69,7 +74,7 @@ describe('${domainClassName} Controllers: ', function() {
 
             \$provide.value('${domainClassName}Service', mockCrudService);
             \$provide.value('${moduleName}List', items);
-<%= domainProperties.take(4).findAll{ it.domainClass }.collect { "\t\t\t\$provide.value('${it.name}List', []);" }.join('\n') %>
+<%= domainProperties.take(4).findAll{ it.isDomainClass }.collect { "\t\t\t\$provide.value('${it.name}List', []);" }.join('\n') %>
             \$provide.value('pageSize', PAGE_SIZE);
         }));
 

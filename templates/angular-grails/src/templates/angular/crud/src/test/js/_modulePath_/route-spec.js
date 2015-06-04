@@ -21,7 +21,7 @@ describe('${domainClassName} Routes: ', function() {
 			}
 		}
 		\$provide.value('${domainClassName}Service', ServiceMock);				
-<%= domainProperties.take(4).findAll{ it.isDomainClass }.collect { "\t\t\$provide.value('${it.name.capitalize()}Service', ServiceMock);" }.join('\n') %>	
+<%= domainProperties.take(4).findAll{ it.isDomainClass }.collect { "\t\t\$provide.value('${it.classNameLowerCase.capitalize()}Service', ServiceMock);" }.join('\n') %>	
 	}));
 	
 	beforeEach(inject(

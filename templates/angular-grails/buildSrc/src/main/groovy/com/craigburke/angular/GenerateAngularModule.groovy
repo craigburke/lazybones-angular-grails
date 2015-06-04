@@ -125,11 +125,14 @@ class GenerateAngularModule {
 				Class propertyType = isHasMany ? domainClass.hasMany[it.name] : it.propertyType
 				boolean isDomainClass = (propertyType.name.startsWith(group) || isHasMany)
 				String label = it.name[0].toUpperCase() + it.name.substring(1).replaceAll(/([A-Z])/, / $1/)
+				String classNameLowerCase = propertyType.name.tokenize('.').last()
+				classNameLowerCase = classNameLowerCase[0].toLowerCase() + classNameLowerCase.substring(1)
 				
 				[ 	
 					name: it.name,
 					label: label,
 					type: propertyType,
+					classNameLowerCase: classNameLowerCase,
 					isDomainClass: isDomainClass,
 					isHasMany: isHasMany,
 					constraints: constraints[it.name] ?: [:]
