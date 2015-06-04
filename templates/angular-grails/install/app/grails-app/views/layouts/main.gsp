@@ -26,7 +26,7 @@
     <nav class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
         <div class="navbar-header">
-            <g:link uri="/" class="navbar-brand">Angular Grails</g:link>
+            <g:link uri="/" class="navbar-brand">Angular Grails Lazybones Template</g:link>
         </div>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="https://github.com/craigburke/lazybones-angular-grails"><i class="fa fa-github"></i> Github</a></li>
@@ -41,9 +41,9 @@
 		    <div class="col-md-2">
 				<div>
 					<ul class="nav nav-pills nav-stacked">
-		            	<li ng-class="{ active: \$state.current.name.startsWith('home') }"><a ui-sref="home"><i class="fa fa-home"></i> Home</a></li>
+		            	<li menu-item="{'home' : 'active'}"><a ui-sref="home"><i class="fa fa-home"></i> Home</a></li>
 						<g:each var="c" in="\${grailsApplication.controllerClasses.findAll{ !(it.logicalPropertyName in ['assets', 'home']) }. sort { it.fullName } }">
-							<li ng-class="{ active: \$state.current.name.startsWith('\${c.logicalPropertyName}') }"><a ui-sref="\${c.logicalPropertyName}.list" ><i class="fa fa-database"></i> \${c.logicalPropertyName.capitalize()}</a></li>
+							<li menu-item="{'\${c.logicalPropertyName}.*' : 'active'}"><a ui-sref="\${c.logicalPropertyName}.list" ><i class="fa fa-database"></i> \${c.logicalPropertyName.capitalize()}</a></li>
 						</g:each>
 					</ul>
 				</div>

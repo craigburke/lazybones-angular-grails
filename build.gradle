@@ -44,20 +44,24 @@ task buildTestApps(dependsOn: 'installAllTemplates') << {
 			commandLine createCmd
 		}
 	
+		File domainDirectory = new File("${projectDir}/grails-app/domain")
+	
 		project.copy {
 			from "test/domain"
-			into "${projectDir}/grails-app/domain"
+			into domainDirectory
 		}
-	
-		def modules = [
-			[name: 'author', domainClass: 'Author'],
-			[name: 'book', domainClass: 'Book']
-		]
-	
+
+		def modules = []
+		def domainClassFiles = domainDirectory.eachFileRecurse(groovy.io.FileType.FILES) { 
+			String domainClass = it.name - '.groovy'
+			String moduleName = domainClass[0].toLowerCase() + domainClass.substring(1)
+			modules << [domainClass: domainClass, name: moduleName]
+		}
+
 		modules.each { module ->
 			project.exec {
 				workingDir projectDir
-				commandLine './gradlew', 'generateAngularModule', "-PangularModule=${module.name}", "-PdomainClass=${module.domainClass}"
+				commandLine './gradlew', 'generateAngularModule', "-PdomainClass=${module.domainClass}", "-PangularModule=${module.name}"
 			}
 		}
 	} 

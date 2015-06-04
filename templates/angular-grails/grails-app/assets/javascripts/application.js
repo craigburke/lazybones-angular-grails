@@ -6,7 +6,4 @@
 angular.module('${baseModule}', [
 	'${baseModule}.core',
 	'${baseModule}.home'
-])
-.run(function(\$rootScope, \$state) {
-	\$rootScope.\$state = \$state;
-});
+]);
