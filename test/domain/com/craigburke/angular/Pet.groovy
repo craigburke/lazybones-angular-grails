@@ -21,4 +21,8 @@ class Pet {
 			}
 		}
 	}
+	
+	String toString() {
+		"${name}"
+	}
 }

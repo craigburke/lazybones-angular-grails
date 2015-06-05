@@ -14,4 +14,8 @@ class Visit {
 	static constraints = {
 		description blank:false
 	}
+	
+	String toString() {
+		"${pet} on ${date}"
+	}
 }

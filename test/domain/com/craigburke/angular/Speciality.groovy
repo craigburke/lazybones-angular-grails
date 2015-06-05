@@ -12,4 +12,8 @@ class Speciality {
 	static constraints = {
 		name blank: false, minSize: 3, maxSize: 20, unique: true
 	}
+
+	String toString() {
+		"${name}"
+	}
 }

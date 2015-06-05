@@ -18,4 +18,8 @@ class Owner extends Person {
 		city blank: false
 		telephone matches: /\d+/, blank: false
 	}
+	
+	String toString() {
+		"${firstName} ${lastName}"
+	}
 }
