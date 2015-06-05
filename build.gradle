@@ -57,8 +57,9 @@ task buildTestApps(dependsOn: 'installAllTemplates') << {
 			String moduleName = domainClass[0].toLowerCase() + domainClass.substring(1)
 			modules << [domainClass: domainClass, name: moduleName]
 		}
+		String[] exclusions = ['person']
 
-		modules.sort { it.name }.reverse().each { module ->
+		modules.findAll { !(it.name in exclusions) }.sort { it.name }.reverse().each { module ->
 			project.exec {
 				workingDir projectDir
 				commandLine './gradlew', 'generateAngularModule', "-PdomainClass=${module.domainClass}", "-PangularModule=${module.name}"

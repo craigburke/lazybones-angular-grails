@@ -49,7 +49,11 @@ util.renderDisplay = { def property, String modelPrefix ->
 			break
 	}	
 	String item = "${modelPrefix}.${property.name}"
-	if (property.isDomainClass) {
+	
+	if (property.isHasMany) {
+		displayFilter = " | domainClassList"
+	}
+	else if (property.isDomainClass) {
 		item += ".toText"
 	}
 	

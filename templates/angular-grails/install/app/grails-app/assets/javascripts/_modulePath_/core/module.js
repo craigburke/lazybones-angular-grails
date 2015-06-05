@@ -6,6 +6,7 @@
 //= require /ui-bootstrap.min
 //= require directives/module
 //= require services/module
+//= require filters
 
 'use strict';
 
@@ -16,6 +17,7 @@ angular.module('${baseModule}.core', [
     'ui.bootstrap',
     '${baseModule}.core.directives',
     '${baseModule}.core.services',
+    '${baseModule}.core.filters',
     '${baseModule}.core.constants'
 ]);
 
