@@ -76,7 +76,15 @@ class PagedRestfulController<T> extends RestfulController<T> {
 					break
                 
 				default:
-					criteria.eq(propertyName, propertyValue.asType(propertyClass))					
+					if (Collection.isAssignableFrom(propertyClass)) {
+						criteria."\${propertyName}" {
+							eq('id', propertyValue.toLong())
+						}
+					}
+					else {
+						criteria.eq(propertyName, propertyValue.asType(propertyClass))
+					}
+				
 			}			
 		}
     }
