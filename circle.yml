@@ -7,7 +7,7 @@ test:
     - ./bin/test.sh
 
 deployment:
-  production:
-    branches: master
-      commands:
-        - ./bin/deploy.sh
+  master:
+    branch: master
+    commands:
+      - ./bin/deploy.sh
