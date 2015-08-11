@@ -2,11 +2,7 @@
 source ./bin/common.sh
 
 install_lazybones
-cd $PROJECT_ROOT
-
-if [ ! -d "$TEST_APP_ROOT" ]; then
-	./gradlew buildTestApps
-fi
+./gradlew buildTestApps
 
 # Test Angular 1.2
 cd $TEST_APP_ROOT/1.2

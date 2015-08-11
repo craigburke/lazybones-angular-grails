@@ -1,6 +1,13 @@
 machine:
   java:
     version: oraclejdk8
+
 test:
   override:
     - ./bin/test.sh
+
+deployment:
+  production:
+    branches: master
+      commands:
+        - ./bin/deploy.sh
