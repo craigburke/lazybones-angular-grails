@@ -4,6 +4,6 @@
 'use strict';
 
 angular.module('${baseModule}', [
-	'${baseModule}.core',
-	'${baseModule}.home'
+    '${baseModule}.core',
+    '${baseModule}.home'
 ]);

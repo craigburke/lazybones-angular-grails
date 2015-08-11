@@ -14,9 +14,9 @@ params.version = ask('Define value for your application \'version\' [0.1]: ', '0
 params.archiveName = ask('Define the name of your archive files (JAR and WAR) [ROOT]: ', 'ROOT', 'archiveName')
 
 params.modulePath = { String moduleName ->
-	String path = moduleName.replace('.', '/')
- 	path = path.replaceAll(/([A-Z])/, /-$1/).toLowerCase().replaceAll(/^-/, '')
-	path.replaceAll(/\/-/, '/')
+    String path = moduleName.replace('.', '/')
+    path = path.replaceAll(/([A-Z])/, /-$1/).toLowerCase().replaceAll(/^-/, '')
+    path.replaceAll(/\/-/, '/')
 }(params.baseModule)
 
 processTemplates 'build.gradle', params
@@ -25,17 +25,16 @@ processTemplates "${installDirName}/app/**/*", params
 processTemplates 'grails-app/assets/javascripts/application.js', params
 
 def processFile = { File baseDirectory, File file ->
-	String relativePath = file.path - baseDirectory.path
-	String groupPath = params.group.replace('.', '/')		
-	String destinationPath = relativePath.replace("_groupPath_", groupPath)
-	destinationPath = destinationPath.replace("_modulePath_", params.modulePath)
-		
-	File destination = new File(templateDir, destinationPath)
-	FileUtils.copyFile(file, destination)
+    String relativePath = file.path - baseDirectory.path
+    String groupPath = params.group.replace('.', '/')
+    String destinationPath = relativePath.replace("_groupPath_", groupPath)
+    destinationPath = destinationPath.replace("_modulePath_", params.modulePath)
+
+    File destination = new File(templateDir, destinationPath)
+    FileUtils.copyFile(file, destination)
 }
 
-File appDirectory = new File(installDir, "app")	
+File appDirectory = new File(installDir, "app")
 appDirectory.eachFileRecurse(FILES) { processFile(appDirectory, it) }
 
-FileUtils.copyDirectory new File(installDir, "angular/${params.angularVersion}"), templateDir
 FileUtils.deleteDirectory(installDir)

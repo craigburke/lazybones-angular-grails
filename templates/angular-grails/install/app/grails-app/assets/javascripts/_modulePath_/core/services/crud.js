@@ -39,20 +39,20 @@ function CrudServiceFactory(rootUrl, Restangular, \$q, \$http) {
 			
 			angular.forEach(params.filter, function(value, key) {
 				queryParams['filter.' + key] = value;
-			});
-			
+            });
+
             return chainPromise(resource.getList(queryParams), successFn, errorFn);
         };
 
         crudResource.get = function(id, successFn, errorFn) {
         	return chainPromise(resource.get(id), successFn, errorFn);
-		};
+        };
 
         crudResource.create = function(successFn, errorFn) {
             var deferred = \$q.defer();
 
             \$http.get(baseUrl + "/create").success(function(data) {
-				var item = Restangular.restangularizeElement(null, data, baseUrl);
+                var item = Restangular.restangularizeElement(null, data, baseUrl);
                 deferred.resolve(item);
             });
 

@@ -1,9 +1,9 @@
-//= require /angular/angular
+//= require angular/angular
 //= require_full_tree /angular/modules
-//= require /restangular.min
-//= require /underscore.min
-//= require /angular-ui-router.min
-//= require /ui-bootstrap.min
+//= require restangular/restangular
+//= require lodash/lodash
+//= require ui-router/angular-ui-router
+//= require angular-bootstrap/ui-bootstrap-tpls
 //= require directives/module
 //= require services/module
 //= require filters
@@ -11,7 +11,7 @@
 'use strict';
 
 angular.module('${baseModule}.core', [
-	'ngAnimate',
+    'ngAnimate',
     'restangular',
     'ui.router',
     'ui.bootstrap',

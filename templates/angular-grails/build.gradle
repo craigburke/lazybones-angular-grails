@@ -11,12 +11,13 @@ buildscript {
         classpath 'com.bertramlabs.plugins:asset-pipeline-gradle:2.1.1'
         classpath 'com.craigburke.angular:angular-template-asset-pipeline:2.1.0'
         classpath 'com.craigburke.angular:angular-annotate-asset-pipeline:2.1.0'
-		classpath 'com.moowork.gradle:gradle-node-plugin:0.6'
     }
 }
 
 plugins {
-	id 'io.spring.dependency-management' version '0.4.0.RELEASE'
+    id 'io.spring.dependency-management' version '0.4.0.RELEASE'
+    id 'com.craigburke.bower-installer' version '2.1.1'
+    id 'com.craigburke.jasmine' version '1.1.3'
 }
 
 version '${version}'
@@ -29,71 +30,68 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.grails.grails-web'
 apply plugin: 'org.grails.grails-gsp'
-apply plugin: 'com.moowork.node'
 apply plugin: 'angularModule'
 
 ext {
     grailsVersion = project.grailsVersion
     gradleWrapperVersion = project.gradleWrapperVersion
-	jasmineDependencies = ['karma', 'karma-jasmine@2_0', 'karma-phantomjs-launcher']
-	karmaExec = file('node_modules/karma/bin/karma')
-	karmaConfig = 'src/test/js/karma.conf.js'
 }
 
 jar {
-	archiveName = '${archiveName}.jar'
+    archiveName = '${archiveName}.jar'
 }
 
 war {
-	archiveName = '${archiveName}.war'
+    archiveName = '${archiveName}.war'
 }
 
 angular {
-	baseModule = '${baseModule}'
-	moduleName = project.hasProperty('angularModule') ? project.angularModule : ''
-	domainClass = project.hasProperty('domainClass') ? project.domainClass : ''	
+    baseModule = '${baseModule}'
+    moduleName = project.hasProperty('angularModule') ? project.angularModule : ''
+    domainClass = project.hasProperty('domainClass') ? project.domainClass : ''
 }
 
 assets {
-    minifyJs = true
-    minifyCss = true
-
-	configOptions = [
-		angular : [
-	     	includePathInName: true
-	    ]
-	]
-	
+    excludes = ['**/*.spec.js']
 }
 
-node {
-	version = '0.11.13'
-	distBaseUrl = 'http://nodejs.org/dist'
-	download = true
-	workDir = file("<%='\$'%>{project.buildDir}/nodejs")
+bower {
+    installBase = 'grails-app/assets/bower'
+
+    dependencies {
+        'angular'('${angularVersion}.x')
+        'angular-animate'('${angularVersion}.x') {
+            source 'angular-animate.js' >> '/angular/modules'
+        }
+        'angular-mocks'('${angularVersion}.x') {
+            source 'angular-mocks.js' >> '/angular'
+        }
+        'font-awesome'('4.4.x') {
+            source 'css/font-awesome.css' >> 'css'
+            source 'fonts/**' >> 'fonts'
+        }
+        'ui-router'('0.2.x')
+        'animate.css'('3.3.x')
+        'bootstrap'('3.3.x') {
+            source 'dist/css/bootstrap.css' >> 'css'
+            source 'dist/css/bootstrap-theme.css' >> 'css'
+            excludes 'jquery'
+        }
+        'restangular'('1.5.x')
+        'angular-bootstrap'('${angularVersion == "1.2" ? "0.12.1" : "0.13.x"}')
+    }
 }
 
-task setupPhantomJS(type: NpmTask) {
-	outputs.dir file('node_modules')
-	args = ['install', 'phantomjs', '--loglevel', 'error']
+jasmine {
+    basePath = 'grails-app/assets'
+    files = [
+            'bower/angular/angular.js',
+            'bower/**/*.js',
+            '**/*.module.js',
+            '**/!(*.spec).js',
+            '**/*.spec.js'
+    ]
 }
-
-task setupJasmine(type: NpmTask) {
-	outputs.dir file('node_modules')
-	args = ['install'] + jasmineDependencies + ['--loglevel', 'error']
-}
-
-task jasmineRun(type: NodeTask, dependsOn: ['setupPhantomJS', 'setupJasmine']) {
-	script = karmaExec
-	args = ['start', karmaConfig, '--single-run']
-}
-
-task jasmineWatch(type: NodeTask, dependsOn: 'setupJasmine') {
-        script = karmaExec
-        args = ['start', karmaConfig]
-}
-
-test.dependsOn jasmineRun
 
 repositories {
     mavenLocal()
@@ -126,11 +124,11 @@ dependencies {
 
     testCompile 'org.grails:grails-plugin-testing'
     testCompile 'org.grails.plugins:geb'
-	
-	testCompile 'org.seleniumhq.selenium:selenium-support:2.43.1'
+
+    testCompile 'org.seleniumhq.selenium:selenium-support:2.43.1'
     testCompile('com.github.detro.ghostdriver:phantomjsdriver:1.1.0') {
-		transitive = false
-	}
+        transitive = false
+    }
 
     console 'org.grails:grails-console'
 }
@@ -138,3 +136,6 @@ dependencies {
 task wrapper(type: Wrapper) {
     gradleVersion = gradleWrapperVersion
 }
+
+[run, assetCompile, jasmineRun, jasmineWatch]*.dependsOn bowerInstall
+test.dependsOn jasmineRun
