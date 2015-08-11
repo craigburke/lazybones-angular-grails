@@ -1,5 +1,5 @@
 #/bin/sh
-source ./common.sh
+source ./bin/common.sh
 
 install_lazybones
 cd $PROJECT_ROOT

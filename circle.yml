@@ -3,5 +3,4 @@ machine:
     version: oraclejdk8
 test:
   override:
-    - cd bin
-    - ./test.sh
+    - ./bin/test.sh
