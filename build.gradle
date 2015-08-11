@@ -1,71 +1,71 @@
 plugins {
-	id 'uk.co.cacoethes.lazybones-templates' version '1.2.2'
+    id 'uk.co.cacoethes.lazybones-templates' version '1.2.2'
 }
 
 lazybones {
-	template 'angular-grails'
-	repositoryName = 'craigburke/lazybones'
-	repositoryUsername = project.hasProperty('bintrayUsername') ? project.bintrayUsername : ''
-	repositoryApiKey = project.hasProperty('bintrayApiKey') ? project.bintrayApiKey : ''
+    template 'angular-grails'
+    repositoryName = 'craigburke/lazybones'
+    repositoryUsername = project.hasProperty('bintrayUsername') ? project.bintrayUsername : ''
+    repositoryApiKey = project.hasProperty('bintrayApiKey') ? project.bintrayApiKey : ''
 }
 
 project.ext {
-	angularVersion = '1.3'
-	testApp = [
-		templateVersion: '2.0.0-SNAPSHOT',
-		dir: 'test/apps/',
-		name: 'angular-grails',
-		group: 'com.craigburke.angular',
-		version: '1.0',
-		angularModule: 'exampleApp',
-		archiveName: 'angular-grails'
-	]
+    angularVersion = '1.3'
+    testApp = [
+            templateVersion: '2.0.0-SNAPSHOT',
+            dir            : 'test/apps/',
+            name           : 'angular-grails',
+            group          : 'com.craigburke.angular',
+            version        : '1.0',
+            angularModule  : 'exampleApp',
+            archiveName    : 'angular-grails'
+    ]
 }
 
 task buildTestApps(dependsOn: 'installAllTemplates') << {
-	delete file(project.testApp.dir)
-	
-	def properties = [
-		appName: project.testApp.name,
-		group: project.testApp.group,
-		version: project.testApp.version,
-		angularModule: project.testApp.angularModule,
-		archiveName : project.testApp.archiveName
-	]
-	
-	['1.2', '1.3', '1.4'].each { String angularVersion ->
-		properties.angularVersion = angularVersion
-		String projectDir = "${project.testApp.dir}/${angularVersion}"
+    delete file(project.testApp.dir)
 
-		def createCmd = ['lazybones','create', 'angular-grails', project.testApp.templateVersion, projectDir]
-		properties.each { key, value -> createCmd << "-P${key}=${value}"}
-	
-		project.exec {
-			commandLine createCmd
-		}
-	
-		File domainDirectory = new File("${projectDir}/grails-app/domain")
-	
-		project.copy {
-			from "test/domain"
-			into domainDirectory
-		}
+    def properties = [
+            appName      : project.testApp.name,
+            group        : project.testApp.group,
+            version      : project.testApp.version,
+            angularModule: project.testApp.angularModule,
+            archiveName  : project.testApp.archiveName
+    ]
 
-		def modules = []
-		def domainClassFiles = domainDirectory.eachFileRecurse(groovy.io.FileType.FILES) { 
-			String domainClass = it.name - '.groovy'
-			String moduleName = domainClass[0].toLowerCase() + domainClass.substring(1)
-			modules << [domainClass: domainClass, name: moduleName]
-		}
-		String[] exclusions = ['person']
+    ['1.2', '1.3', '1.4'].each { String angularVersion ->
+        properties.angularVersion = angularVersion
+        String projectDir = "${project.testApp.dir}/${angularVersion}"
 
-		modules.findAll { !(it.name in exclusions) }.sort { it.name }.reverse().each { module ->
-			project.exec {
-				workingDir projectDir
-				commandLine './gradlew', 'generateAngularModule', "-PdomainClass=${module.domainClass}", "-PangularModule=${module.name}"
-			}
-		}
-	} 
+        def createCmd = ['lazybones', 'create', 'angular-grails', project.testApp.templateVersion, projectDir]
+        properties.each { key, value -> createCmd << "-P${key}=${value}" }
+
+        project.exec {
+            commandLine createCmd
+        }
+
+        File domainDirectory = new File("${projectDir}/grails-app/domain")
+
+        project.copy {
+            from "test/domain"
+            into domainDirectory
+        }
+
+        def modules = []
+        def domainClassFiles = domainDirectory.eachFileRecurse(groovy.io.FileType.FILES) {
+            String domainClass = it.name - '.groovy'
+            String moduleName = domainClass[0].toLowerCase() + domainClass.substring(1)
+            modules << [domainClass: domainClass, name: moduleName]
+        }
+        String[] exclusions = ['person']
+
+        modules.findAll { !(it.name in exclusions) }.sort { it.name }.reverse().each { module ->
+            project.exec {
+                workingDir projectDir
+                commandLine './gradlew', 'generateAngularModule', "-PdomainClass=${module.domainClass}", "-PangularModule=${module.name}"
+            }
+        }
+    }
 }
 
 task wrapper(type: Wrapper) {
