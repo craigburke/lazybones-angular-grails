@@ -1,8 +1,7 @@
 #/bin/sh
 set -e
 
-export PROJECT_ROOT=~/clone
-export TEST_APP_ROOT=$PROJECT_ROOT/test/apps
+export TEST_APP_ROOT=~/test/apps
 export DEPLOY_APP_ROOT=$TEST_APP_ROOT/1.4
 
 install_lazybones() {
