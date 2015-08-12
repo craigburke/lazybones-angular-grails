@@ -4,7 +4,7 @@ machine:
 
 test:
   override:
-    - ./bin/test.sh
+    - ./bin/test.sh:
       parallel: true
 
 deployment:
