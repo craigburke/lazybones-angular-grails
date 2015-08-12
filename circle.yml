@@ -5,6 +5,7 @@ machine:
 test:
   override:
     - ./bin/test.sh
+      parallel: true
 
 deployment:
   master:
