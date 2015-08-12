@@ -15,6 +15,7 @@ test_app() {
 }
 
 install_lazybones
+./gradlew buildTestApps
 
 case $CIRCLE_NODE_INDEX in 
     0) test_app "1.2" ;;

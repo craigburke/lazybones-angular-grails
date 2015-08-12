@@ -4,8 +4,6 @@ machine:
     
 test:
   override:
-    - ./gradlew buildTestApps:
-        parallel: true
     - ./bin/test.sh:
         parallel: true
         
