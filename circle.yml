@@ -1,12 +1,12 @@
 machine:
   java:
     version: oraclejdk8
-
+    
 test:
   override:
-    - ./bin/test.sh:
-      parallel: true
-
+    - "./bin/test.sh":
+        parallel: true
+        
 deployment:
   master:
     branch: master
